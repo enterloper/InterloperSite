@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Richard Boothe</title>
-</head>
-<body>
+<html ng-app='site'>
 
-</body>
+  <head>
+    <script src="https://code.angularjs.org/1.5.5/angular.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+
+  <body ng-controller="MainController">
+    <h1>{{message}}</h1>
+    <div>{{error}}</div>
+    <div>What's my name: {{user.name}}</div>
+    <div>Where I am: {{user.location}}</div>
+    <div>
+      <img ng-src="{{user.avatar_url}}" title="{{user.name}}">
+    </div>
+  </body>
+
 </html>
