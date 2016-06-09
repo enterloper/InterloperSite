@@ -46,7 +46,7 @@ Thumbs.db
 *.ico
 
 # Library and Modules #
-lib/**
+lib/
 
 
 
