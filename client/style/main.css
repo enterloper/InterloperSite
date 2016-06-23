@@ -3,7 +3,7 @@ GENERAL
 ***********************************/
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Avenir Next ', sans-serif;
 }
 
 #wrapper {
@@ -99,7 +99,7 @@ footer {
   text-align: center;
   clear: both;
   padding-top: 50px;
-  color: #ccc;
+  color: #faf8f2;
 }
 
 .social-icon {
@@ -125,14 +125,14 @@ PAGE: PORTFOLIO
   width: 28.3%;
   height: 23.6%;
   margin: 20% 2.5% 2.5%;
-  color: #bdc3c7;
+  color: #faf8f2;
 }
 
 #options li a p {
   margin: 0;
   padding: 5%;
   font-size: 0.75em;
-  color: #bdc3c7
+  color: #faf8f2
 }
 
 
@@ -194,30 +194,25 @@ body {
   color: #faf8f2;
 }
 
-/* green header */
-header {
-/*  background: #6ab47b;
-  border-color: #599a68;*/
-}
-
-/* nav background on mobile */
-/*nav {
-  background: #599a68;
-}*/
-
 /* logo text */
 h1, h2 {
-  color: #fff;
+  color:  #faf8f2;
 }
 
 /* links */
 a {
-  color: #6ab47b;
+  color:  #faf8f2;
+}
+
+.image-title {
+  font-family: 'Changa One', 'Avenir Next';
+  font-size: 2.25em;
+  text-align: center;
 }
 
 /* nav link */
 nav a, nav a:visited {
-  color: #fff;
+  color: #faf8f2;;
 }
 
 /* selected nav link */

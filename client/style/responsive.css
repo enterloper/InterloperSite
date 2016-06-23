@@ -78,7 +78,7 @@
   }
   
   header {
-    border-bottom: 5px solid #599a68;
+    border-bottom: 5px solid #faf8f2;
     margin-bottom: 60px;
   }
 
@@ -139,8 +139,8 @@
   }
   
   header {
-    border-bottom: 5px solid #599a68;
-    margin-bottom: 60px;
+    border-bottom: 2px solid #faf8f2;
+    margin-bottom: 30px;
   }
 }
 
