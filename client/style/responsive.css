@@ -5,7 +5,7 @@
   ***********************************/
   
   #primary {
-    width: 50%;@media screen and (min-width: 480px) {
+    width: 50%; @media screen and (min-width: 480px) {
   
   /**********************************
   TWO COLUMN LAYOUT
@@ -55,7 +55,7 @@
   nav {
     background: none;
     float: right;
-    font-size: 1.125em;
+    font-size: 1.125rem;
     margin-right: 5%;
     text-align: right;
     width: 45%;
@@ -69,17 +69,17 @@
   }
   
   h1 {
-    font-size: 2.5em;
+    font-size: 1.5rem;
   }
   
   h2 {
-    font-size: 0.825em;
-    margin-bottom: 20px;
+    font-size: 0.25rem;
+    margin-bottom: 1.25rem;
   }
   
   header {
-    border-bottom: 5px solid #faf8f2;
-    margin-bottom: 60px;
+    border-bottom: 3px solid #4c854c;
+    margin-bottom: 4rem;
   }
 
 }
@@ -130,16 +130,16 @@
   }
   
   h1 {
-    font-size: 2.5em;
+    font-size: 2.5rem;
   }
   
   h2 {
-    font-size: 0.825em;
-    margin-bottom: 20px;
+    font-size: 0.825rem;
+    margin-bottom: 1.25rem;
   }
   
   header {
-    border-bottom: 2px solid #faf8f2;
+    border-bottom: 2px solid #3a2121;
     margin-bottom: 30px;
   }
 }

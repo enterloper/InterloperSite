@@ -10,6 +10,7 @@
     <script src="lib/jquery-3.0.0.min.js"></script>
   </head>
   <body> 
+
     <header>
       <a href="index.html" id="logo">
         <h1>RICHARD BOOTHE</h1>
@@ -17,11 +18,10 @@
       </a>
       <nav>
         <ul>
-          <li id='home'><a href="/" class="selected">Home</a></li>
-          <li><a href="toyProblems.html">Toy Problems</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
-          <li><a href="about.html">About</a></li>
+          <li><a href="./index.html" class="selected">Home</a></li>
+          <li><a href="./pages/toyProblems.html">Toy Problems</a></li>
+          <li><a href="./pages/blog.html">Blog</a></li>
+          <li><a href="./pages/portfolio.html">Portfolio</a></li>
         </ul>
       </nav>
     </header>
@@ -30,18 +30,18 @@
         <ul id="options">
           <li>
             <p class="image-title">Toy Problems</p>
-            <a href="toyProblems.html">
+            <a href="./pages/toyProblems.html">
               <img src="img/toyProblems.jpg" alt="toy problems">
             </a>  
           </li>
           <li>
             <p class="image-title">Blog</p>
-            <a href="blog.html">
+            <a href="./pages/blog.html">
               <img src="img/blog.jpg" alt="blog">
             </a>  
           <li>
             <p class="image-title">Portfolio</p>
-            <a href="portfolio.html">
+            <a href="./pages/portfolio.html">
               <img src="img/portfolio.jpg" alt="portfolio">
             </a>  
           </li>
@@ -53,5 +53,12 @@
       <a href="http://facebook.com/richardjboothe"><img src="img/facebook2.png" alt="Facebook Logo" class="social-icon"></a>
       <p>&copy; 2016 Richard Boothe</p>
     </footer>
+        <script type="text/javascript">
+      $('.image-title').mouseenter(function(){
+        $(this).toggle(function(){
+          $(this).fadeOut('slow');
+        })
+      });
+    </script>
   </body>
 </html>
