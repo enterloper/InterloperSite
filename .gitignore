@@ -26,7 +26,7 @@
 *.log
 *.sql
 *.sqlite
-
+DS_Store
 # OS generated files #
 ######################
 .DS_Store
@@ -47,6 +47,7 @@ Thumbs.db
 
 # Library and Modules #
 lib/
+node_modules
 
 
 
