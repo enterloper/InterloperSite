@@ -1,3 +1,1 @@
-# InterloperSite
-A site I'm treating this as a sandbox to experiment with AngularJS and Node. I'll probably send my mom here the next time she asks what I do all day. 
-Built with Node, Express, AngularJS with custom directives/components, hot sauce (obviously Cholula... maybe Tapatio), and a little dab o' jQuery.
+HEY! Thanks for your interest in this Repo! This repo consists of all my personal website I'm treating as a sandbox to experiment with API construction, Database creation with PostgreSQL, jQuery, and Node. In addition, this site will also showcase blogs, and projects I've built independently as well as with groups. Built with Node, Express, jQuery, Handlebars, and SQL.
