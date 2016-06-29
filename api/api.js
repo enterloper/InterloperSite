@@ -23,36 +23,31 @@ blogRouter.param('id', function(req, res, next, id) {
   }
 });
 
-blogRouter.get('/', function(req, res){
-  res.json(blogs);
-});
+blogRouter.route('/') 
+  .get(function(req, res){
+    res.json(blogs);
+  })
+  .post(updateId, function(req, res) {
+    var blog = req.body;
 
-blogRouter.get('/:id', function(req, res){
-  var blog = req.blog;
-  res.json(blog || {});
-});
+    blogs.push(blog);
 
-blogRouter.post('/', updateId, function(req, res) {
-  var blog = req.body;
+    res.json(blog);
+  });
 
-  blogs.push(blog);
-
-  res.json(blog);
-});
-
-blogRouter.delete('/:id', function(req, res) {
+blogRouter.route('/:id')
+  .get(function(req, res){
+    var blog = req.blog;
+    res.json(blog || {});
+  }).delete(function(req, res) {
   var blog = _.findIndex(blogs, {id: req.params.id});
   blogs.splice(blog, 1);
-
   res.json(req.blog);
-});
-
-blogRouter.put('/:id', function(req, res) {
+}).put(function(req, res) {
   var update = req.body;
   if (update.id) {
     delete update.id
   }
-
   var blog = _.findIndex(blogs, {id: req.params.id});
   if (!blogs[blog]) {
     res.send();
