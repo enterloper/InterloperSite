@@ -1,4 +1,4 @@
-exports.seed = function(knesx, Promise) {
+exports.seed = function(knex, Promise) {
   return Promise.join(
     //Delete ALL existing entries
     knex('blogs').del(),

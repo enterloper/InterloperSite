@@ -21,4 +21,4 @@ module.exports = {
       database: 'dcloeb9qk3ch8h'
     }
   }
-}
+};

@@ -15,7 +15,7 @@ app.use("/lib", express.static(rootPath + '/lib'));
 app.use("/style", express.static(rootPath + '/style'));
 
 //middleware
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -31,4 +31,4 @@ app.use(function(err, req, res, next) {
 app.listen(config.port || 3000, function(){
   console.log('process.env.PORT', config.port);
 });
-  
+
