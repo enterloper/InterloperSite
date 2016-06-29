@@ -9,6 +9,7 @@ module.exports = {
     seeds: {
       directory: './seeds'
     }
+
   },
 
   production: {

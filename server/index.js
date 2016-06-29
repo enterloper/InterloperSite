@@ -3,9 +3,11 @@ var app             = express();
 var bodyParser      = require('body-parser');
 var _               = require('lodash');
 var morgan          = require('morgan');
-var config          = require('./config/config') 
-var blogRouter = require('../api/api');
+var config          = require('./config/config');
+var blogRouter      = require('./api/posts/posts');
 var Path            = require('path');
+var db              = require('./db');
+  
 //rootPath for path to app directory
 var rootPath = Path.normalize(__dirname + '../client');
 
@@ -15,7 +17,7 @@ app.use("/lib", express.static(rootPath + '/lib'));
 app.use("/style", express.static(rootPath + '/style'));
 
 //middleware
-app.use(morgan('dev'));
+app.use(morgan('dev'))
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -29,6 +31,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(config.port || 3000, function(){
-  console.log('process.env.PORT', config.port);
+  console.log('Listening on port:' , config.port);
 });
 
+module.exports=app;  
