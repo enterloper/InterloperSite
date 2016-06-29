@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon ./server/server.js",
+    "start": "nodemon ./server/index.js",
     "test": ""
   },
   "author": "",
@@ -12,7 +12,7 @@
   "dependencies": {
     "bluebird": "^3.3.5",
     "body-parser": "^1.13.2",
-    "colors": "^1.1.2", 
+    "colors": "^1.1.2",
     "express": "^4.13.1",
     "express-session": "^1.13.0",
     "knex": "^0.10.0",
@@ -23,6 +23,7 @@
     "passport-github2": "^0.1.10",
     "path": "^0.12.7",
     "pg": "^4.5.6",
+    "pg-promise": "^5.0.5",
     "request": "^2.72.0",
     "uuid": "^2.0.1"
   }
