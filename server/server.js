@@ -4,7 +4,7 @@ var app = express();
 var _ = require('lodash');
 var morgan = require('morgan');
 
-var blogRouter = require('./blogs');
+var blogRouter = require('../api/api');
 
 
 app.use(morgan('dev'))
@@ -12,7 +12,6 @@ app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use('/blogs', blogRouter);
-
 
 app.use(function(err, req, res, next) {
   if (err) {
