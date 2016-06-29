@@ -19,6 +19,7 @@ exports.up = function(knex, Promise) {
       table.text('toy_problem_description');
       table.text('toy_problem_body');
     })
+    
     .createTableIfNotExists('projects', function(table){
       table.increments('project_id').primary();
       table.string('project_title');
