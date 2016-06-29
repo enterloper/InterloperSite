@@ -3,7 +3,7 @@
 let knex = require('./db');
 
 knex.schema.createTableIfNotExists('blogs', function(table){
-  table.increments('blogs_id').primary();
+  table.increments('blog_id').primary();
   table.string('blog_title').unique();
   table.string('blog_category');
   table.string('blog_description');
@@ -15,15 +15,16 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('toy_problem_title');
   table.string('toy_problem_difficulty');
   table.boolean('blog_attached');
-  table.integer('affiliated_blog').references('id').inTable('blogs')
+  // table.foreign('affiliated_blog').references('id').inTable('blogs')
   table.string('toy_problem_description');
+  table.string('toy_problem_body');
 })
 .createTableIfNotExists('projects', function(table){
   table.increments('project_id').primary();
   table.string('project_title');
   table.string('project_description');
   table.boolean('blog_attached');
-  table.integer('affiliated_blog').references('id').inTable('blogs')
+  // table.integer('affiliated_blog').references('id').inTable('blogs')
 })
 .then(function(res){
   console.log('Success Applying Schema');

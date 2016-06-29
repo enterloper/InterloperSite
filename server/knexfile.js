@@ -2,15 +2,15 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      host: 'localhost',
+      host: '127.0.0.1',
       port: 5432,
       database: 'blogdb'
     },
-    // seeds: {
-    //   directory: './seeds'
-    // }
+    seeds: {
+      directory: './seeds'
+    }
   },
-  
+
   production: {
     client: 'pg',
     connection: {
