@@ -1,5 +1,27 @@
-// TODO: create a basic server with express
-// that will send back the index.html file on a GET request to '/'
-// it should then send back jsonData on a GET to /data
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+var _ = require('lodash');
+var morgan = require('morgan');
 
-var jsonData = {count: 12, message: 'hey'};
+var blogRouter = require('./blogs');
+
+
+app.use(morgan('dev'))
+app.use(express.static('client'));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use('/blogs', blogRouter);
+
+
+app.use(function(err, req, res, next) {
+  if (err) {
+    console.log(err.message);
+    res.status(500).send(err);
+  }
+});
+
+
+
+app.listen(3000);
+console.log('on port 3000');
