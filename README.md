@@ -1,4 +1,4 @@
-HEY! Thanks for your interest in this Repo! This repo consists of all my personal website I'm treating as a sandbox to experiment with API construction, Database creation with PostgreSQL, jQuery, and Node. In addition, this site will also showcase blogs, and projects I've built independently as well as with groups. Built with Node, Express, jQuery, Handlebars, and SQL.
+HEY! Thanks for your interest in this Repo! This repo consists of all that makes up my personal website which I'm treating as a sandbox to experiment with API construction, Database creation with PostgreSQL, jQuery, Express and Node. In addition, this site will also showcase blogs, and projects I've built independently as well as with groups. Built with Node, Express, jQuery, Handlebars, and SQL.
 
 <------------------start DB server------------------>
 postgres -D /usr/local/var/postgres
