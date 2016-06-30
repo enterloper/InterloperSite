@@ -1,25 +1,51 @@
+// Update with your config settings.
+
 module.exports = {
+
   development: {
     client: 'pg',
     connection: {
-      host: '127.0.0.1',
-      port: 5432,
+      host    : '127.0.0.1',
       database: 'blogdb'
     },
-    seeds: {
-      directory: './seeds'
+    migrations: {
+      tableName: 'migrations',
+      directory: './'
     }
+  },
 
+  staging: {
+    client: 'postgresql',
+    connection: {
+      database: 'blogdb',
+      user:     'username',
+      password: 'password'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'migrations',
+      directory: './'
+    }
   },
 
   production: {
-    client: 'pg',
+    client: 'postgresql',
     connection: {
-      host: 'ec2-50-16-230-234.compute-1.amazonaws.com',
-      user: process.env.PG_USER,
-      password: process.env.PG_PASSWORD,
-      port: 5432,
-      database: 'dcloeb9qk3ch8h'
+      database: 'blogdb',
+      user:     'username',
+      password: 'password'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'migrations',
+      directory: './'
     }
   }
+
 };
