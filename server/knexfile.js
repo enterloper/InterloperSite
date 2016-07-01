@@ -15,7 +15,7 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       database: 'blogdb',
       user:     'username',
