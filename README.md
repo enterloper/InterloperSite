@@ -17,7 +17,7 @@ knex seed:make shows_seed --env development
 knex seed:run knexfile.js
 
 <------------------migrations----------------->
-nex migrate:make blogs_toys
+knex migrate:make blogs_toys
 
 <------------------view data------------------>
 psql blogdb <-then-> SELECT * FROM (table-name)
