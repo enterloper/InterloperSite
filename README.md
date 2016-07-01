@@ -11,7 +11,13 @@ createdb blogdb
 node server/schema.js
 
 <------------------run seed data------------------>
+(if you need to template a seed, run first command and populate)
+knex seed:make shows_seed --env development 
+(command below will populate with seeds in seeds dir)
 knex seed:run knexfile.js
+
+<------------------migrations----------------->
+nex migrate:make blogs_toys
 
 <------------------view data------------------>
 psql blogdb <-then-> SELECT * FROM (table-name)

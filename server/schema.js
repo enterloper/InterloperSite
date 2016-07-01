@@ -1,6 +1,5 @@
 'use strict';
-//If a table or column needs to be added, you may put it in schema_todo.txt
-let knex = require('./db');
+var knex = require('./db');
 
 knex.schema.createTableIfNotExists('blogs', function(table){
   table.increments('blog_id').primary();
@@ -8,28 +7,30 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('blog_category');
   table.text('blog_description');
   table.text('blog_body');
+  table.boolean('toy_problem_attached').defaultTo(false);
+  table.foreign('toy_problem_id').references('toy_problems_id');
 })
 
 .createTableIfNotExists('toy_problems', function(table){
   table.increments('toy_problems_id').primary();
-  table.string('toy_problem_title');
-  table.string('toy_problem_difficulty');
-  table.boolean('blog_attached');
-  // table.foreign('affiliated_blog').references('id').inTable('blogs')
+  table.string('toy_problem_title').unique();
   table.text('toy_problem_description');
+  table.string('toy_problem_difficulty');
   table.text('toy_problem_body');
+  table.boolean('blog_attached').defaultTo(false);
+  table.foreign('blogs_id').references('blog_id');
 })
 .createTableIfNotExists('projects', function(table){
   table.increments('project_id').primary();
-  table.string('project_title');
+  table.string('project_title').unique();
   table.text('project_description');
-  table.boolean('blog_attached');
-  // table.integer('affiliated_blog').references('id').inTable('blogs')
+  table.boolean('blog_attached').defaultTo(false);
+  table.foreign('blogs_id').references('blog_id');
 })
 .then(function(res){
   console.log('Success Applying Schema');
   knex.destroy();
 })
 .catch(function(err){
-  console.log('[schema.js: 34] - error: ', err.message);
+  console.log('[schema.js: 35] - error: ', err.message);
 });

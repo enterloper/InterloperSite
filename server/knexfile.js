@@ -1,7 +1,5 @@
-// Update with your config settings.
-
 module.exports = {
-
+  
   development: {
     client: 'pg',
     connection: {
@@ -9,25 +7,10 @@ module.exports = {
       database: 'blogdb'
     },
     migrations: {
-      tableName: 'migrations',
       directory: './'
-    }
-  },
-
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'blogdb',
-      user:     'username',
-      password: 'password'
     },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'migrations',
-      directory: './'
+    seeds: {
+      directory: './seeds'
     }
   },
 
@@ -43,9 +26,10 @@ module.exports = {
       max: 10
     },
     migrations: {
-      tableName: 'migrations',
-      directory: './'
+      directory: './',
+    },
+    seeds: {
+      directory: './seeds'
     }
   }
-
 };
