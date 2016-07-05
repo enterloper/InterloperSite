@@ -4,7 +4,8 @@ var bodyParser      = require('body-parser');
 var _               = require('lodash');
 var morgan          = require('morgan');
 var config          = require('./config/config');
-var blogRouter      = require('./api/posts/posts');
+var Post            = require('./posts/posts_model');
+var ToyProb            = require('./toy_problems/toy_problems_model');
 var Path            = require('path');
 var db              = require('./db');
   
@@ -17,12 +18,12 @@ app.use("/lib", express.static(rootPath + '/lib'));
 app.use("/style", express.static(rootPath + '/style'));
 
 //middleware
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use('/blogs', blogRouter);
 
+app.use('/posts/', Post.getAll);
 app.use(function(err, req, res, next) {
   if (err) {
     console.log(err.message);

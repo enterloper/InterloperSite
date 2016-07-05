@@ -11,15 +11,16 @@ module.exports = {
     },
     seeds: {
       directory: './seeds'
-    }
+    },
+    debug: true
   },
 
   production: {
     client: 'pg',
     connection: {
       database: 'blogdb',
-      user:     'username',
-      password: 'password'
+      user:     'richardjboothe',
+      password: 'blogdb'
     },
     pool: {
       min: 2,
@@ -30,6 +31,7 @@ module.exports = {
     },
     seeds: {
       directory: './seeds'
-    }
+    },
+    debug: true
   }
 };

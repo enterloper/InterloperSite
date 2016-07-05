@@ -8,9 +8,8 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.text('blog_description');
   table.text('blog_body');
   table.boolean('toy_problem_attached').defaultTo(false);
-  table.foreign('toy_problem_id').references('toy_problems_id');
+  table.foreign('toy_problem_id').references('toy_problems_id').defaultTo(null);
 })
-
 .createTableIfNotExists('toy_problems', function(table){
   table.increments('toy_problems_id').primary();
   table.string('toy_problem_title').unique();
