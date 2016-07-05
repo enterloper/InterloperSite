@@ -1,4 +1,4 @@
-
+// var knex = require('./db');
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTableIfNotExists('blogs', function(table){

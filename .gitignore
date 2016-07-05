@@ -45,11 +45,11 @@ Thumbs.db
 *.svg
 *.ico
 
-# Library and Modules #
+# Specific Files, Library and Modules #
 lib/
 node_modules
-
-
+SQL_notes.md
+router_notes.md
 
 
 
