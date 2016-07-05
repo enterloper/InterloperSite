@@ -9,7 +9,7 @@ var config = {
 
 process.env.NODE_ENV = process.env.NODE_ENV || config.dev;
 config.env = process.env.NODE_ENV;
-
+// console.log('NODE_ENV:',process.env.NODE_ENV);
 var envConfig;
 
 try {

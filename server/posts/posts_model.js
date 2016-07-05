@@ -6,7 +6,7 @@ var Post = module.exports;
 getAll = function() {
   return db('blogs');
 };
-console.log(getAll());
+// console.log(getAll());
 
 Post.getPost = function() {};
 
