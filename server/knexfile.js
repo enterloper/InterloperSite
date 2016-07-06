@@ -8,7 +8,7 @@ module.exports = {
     },
     migrations: {
       tableName:'migrations',
-      directory: __dirname + '/migrations'
+      directory: './migrations'
     },
     seeds: {
       directory: './seeds'
