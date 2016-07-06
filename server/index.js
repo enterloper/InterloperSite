@@ -59,6 +59,16 @@ app.get('/posts', function(req, res) {
   });
 });
 
+
+app.get('/posts/:postID', function(req, res){
+  Posts.getPostByID(req.params.postID)
+  .then(function(data){
+    console.log(data);
+    res.send(data);
+  });
+});
+
+
 /************* TOY PROBLEM ENDPOINTS *************/
 
 app.get('/problems', function(req, res) {
@@ -68,6 +78,15 @@ app.get('/problems', function(req, res) {
     res.send(data);
   });
 });
+
+app.get('/problems/:toyProbID', function(req, res){
+  ToyProbs.getToyProbByID(req.params.toyProbID)
+  .then(function(data){
+    console.log(data);
+    res.send(data);
+  });
+});
+
 /************* PORTFOLIO ENDPOINTS *************/
 
 

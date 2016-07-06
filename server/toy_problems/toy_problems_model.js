@@ -9,10 +9,24 @@ ToyProbs.getAll = function() {
 };
 
 
-ToyProbs.getToyProb = function() {};
+ToyProbs.getToyProbByID = function(toyProbID) {
+  return db('toy_problems').where({
+    'toy_problems_id' : toyProbID
+  });
+};
 
-ToyProbs.getByTitle = function() {};
+ToyProbs.getToyProbByTitle = function(toyProbTitle) {
+  return db('toy_problems').where({
+    'toy_problem_title' : toyProbTitle
+  });
+};
 
-ToyProbs.getById = function() {};
+ToyProbs.getToyProbByDifficulty = function(level) {
+  return db('toy_problems').where({
+    'toy_problem_difficulty' : level
+  });
+};
 
-ToyProbs.getByDifficulty =function() {};
+ToyProbs.getAttachedBlog = function() {
+  
+};

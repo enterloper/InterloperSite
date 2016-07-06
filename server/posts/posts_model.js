@@ -9,19 +9,19 @@ var Posts = module.exports;
 
   Posts.getPostByID = function(postID) {
     return db('blogs').where({
-      'blog_id': postID
+      'blog_id' : postID
     });
   };
 
   Posts.getPostByTitle = function(postTitle) {
     return db('blogs').where({
-      'blog_title': postTitle
+      'blog_title' : postTitle
     });
   };
 
   Posts.getPostByCategory = function(postCategory) {
     return db('blogs').where({
-      'blog_category': postCategory
+      'blog_category' : postCategory
     });
   };
 
@@ -29,4 +29,3 @@ var Posts = module.exports;
     return db('blogs').where({})
   };
 
-  
