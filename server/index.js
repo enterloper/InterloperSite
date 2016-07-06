@@ -7,11 +7,10 @@ var morgan          = require('morgan');
 var config          = require('./config/config');
 var Post            = require('./posts/posts_model');
 var ToyProb         = require('./toy_problems/toy_problems_model');
-var Path            = require('path');
 var db              = require('./db');
 var router          = require('./routes/router');
 //rootPath for path to client directory => Interloper/client
-var rootPath = Path.normalize(__dirname + './../client');
+var rootPath = path.normalize(__dirname + './../client');
 //serve static files in client directory, without processing them.
 app.use("/pages", express.static(rootPath + '/pages'));
 app.use("/style", express.static(rootPath + '/style'));

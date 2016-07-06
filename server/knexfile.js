@@ -7,6 +7,7 @@ module.exports = {
       database: 'blogdb'
     },
     migrations: {
+      tableName: 'migrations',
       directory: './'
     },
     seeds: {
@@ -27,6 +28,7 @@ module.exports = {
       max: 10
     },
     migrations: {
+      tableName: 'migrations',
       directory: './',
     },
     seeds: {

@@ -18,6 +18,6 @@ knex seed:run knexfile.js
 
 <------------------migrations----------------->
 knex migrate:make blogs_toys
-
+  
 <------------------view data------------------>
 psql blogdb <-then-> SELECT * FROM (table-name)
