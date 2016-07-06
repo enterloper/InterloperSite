@@ -5,8 +5,8 @@ var _               = require('lodash');
 var path            = require('path'); 
 var morgan          = require('morgan');
 var config          = require('./config/config');
-var Post            = require('./posts/posts_model');
-var ToyProb         = require('./toy_problems/toy_problems_model');
+var Posts            = require('./posts/posts_model');
+var ToyProbs         = require('./toy_problems/toy_problems_model');
 var db              = require('./db');
 var router          = require('./routes/router');
 //rootPath for path to client directory => Interloper/client
@@ -48,6 +48,28 @@ app.get('/blog', function(req, res) {
 app.get('/portfolio', function(req, res) {
   res.sendFile(path.join(rootPath+'/pages/portfolio.html'));
 });
+
+/***************** BLOG ENDPOINTS *****************/
+
+app.get('/posts', function(req, res) {
+  Posts.getAll()
+  .then(function(data) {
+    console.log(data);
+    res.send(data);
+  });
+});
+
+/************* TOY PROBLEM ENDPOINTS *************/
+
+app.get('/problems', function(req, res) {
+  ToyProbs.getAll()
+  .then(function(data) {
+    console.log(data);
+    res.send(data);
+  });
+});
+/************* PORTFOLIO ENDPOINTS *************/
+
 
 app.listen(config.port || 3000, function(){
   console.log('Listening on port:' , config.port);

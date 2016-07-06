@@ -1,18 +1,18 @@
 var db = require('../db');
 var _ = require('lodash');
 var Promise = require('bluebird');
-var ToyProb = module.exports;
+var ToyProbs = module.exports;
 
 
-ToyProb.getAll = function() {
-  return db('blogs');
+ToyProbs.getAll = function() {
+  return db('toy_problems');
 };
 
 
-ToyProb.getToyProb = function() {};
+ToyProbs.getToyProb = function() {};
 
-ToyProb.getByTitle = function() {};
+ToyProbs.getByTitle = function() {};
 
-ToyProb.getById = function() {};
+ToyProbs.getById = function() {};
 
-ToyProb.getByDifficulty =function() {};
+ToyProbs.getByDifficulty =function() {};
