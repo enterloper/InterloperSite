@@ -11,8 +11,8 @@ var _               = require('lodash');
 var path            = require('path'); 
 var morgan          = require('morgan');
 var config          = require('./config/config');
-var Post            = require('./posts/posts_model');
-var ToyProb         = require('./toy_problems/toy_problems_model');
+var Posts            = require('./posts/posts_model');
+var ToyProbs         = require('./toy_problems/toy_problems_model');
 var db              = require('./db');
 var router          = require('./routes/router');
 //rootPath for path to client directory => Interloper/client
@@ -38,7 +38,7 @@ app.use(function(err, req, res, next) {
     res.status(500).send(err);
   }
 });
-
+//Site Routing
 app.get('/', function(req, res) {
     res.sendFile(path.join(rootPath+'/index.html'));
 });
@@ -55,6 +55,62 @@ app.get('/portfolio', function(req, res) {
   res.sendFile(path.join(rootPath+'/pages/portfolio.html'));
 });
 
+/***************** BLOG ENDPOINTS *****************/
+
+app.get('/posts', function(req, res) {
+  Posts.getAll()
+  .then(function(data) {
+    console.log(data);
+    res.send(data);
+  });
+});
+
+
+app.get('/posts/:postID', function(req, res){
+  Posts.getPostByID(req.params.postID)
+  .then(function(data){
+    console.log(data);
+    res.send(data);
+  });
+});
+
+app.get('/posts/category/:category', function(req, res) {
+  Posts.getPostByCategory(req.params.category)
+  .then(function(data) {
+    console.log(data);
+    res.send(data);
+  });
+});
+
+/************* TOY PROBLEM ENDPOINTS *************/
+
+app.get('/problems', function(req, res) {
+  ToyProbs.getAll()
+  .then(function(data) {
+    console.log(data);
+    res.send(data);
+  });
+});
+
+app.get('/problems/:toyProbID', function(req, res){
+  ToyProbs.getToyProbByID(req.params.toyProbID)
+  .then(function(data){
+    console.log(data);
+    res.send(data);
+  });
+});
+
+app.get('/problems/difficulty/:level', function(req, res) {
+  ToyProbs.getToyProbByDifficulty(req.params.level)
+  .then(function(data) {
+    console.log(data);
+    res.send(data);
+  });
+});
+
+/************* PORTFOLIO ENDPOINTS *************/
+//TODO - PORTOFOLIO ENDPOINTS.
+
 app.listen(config.port || 3000, function(){
   console.log('Listening on port:' , config.port);
 });
@@ -70,8 +126,8 @@ module.exports = {
       database: 'blogdb'
     },
     migrations: {
-      tableName: 'migrations',
-      directory: './'
+      tableName:'migrations',
+      directory: './migrations'
     },
     seeds: {
       directory: './seeds'
@@ -245,12 +301,13 @@ exports.seed = function(knex, Promise) {
 };
 
 
-var knex = require('./db');
+var knex = require('./../db');
+
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTableIfNotExists('blogs', function(table){
       table.increments('blog_id').primary();
-      table.string('blog_title').unique();
+      table.string('blog_title');
       table.string('blog_category');
       table.text('blog_description');
       table.text('blog_body');
