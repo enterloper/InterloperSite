@@ -1,9 +1,10 @@
-var knex = require('./db');
+var knex = require('./../db');
+
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTableIfNotExists('blogs', function(table){
       table.increments('blog_id').primary();
-      table.string('blog_title').unique();
+      table.string('blog_title');
       table.string('blog_category');
       table.text('blog_description');
       table.text('blog_body');

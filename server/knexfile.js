@@ -7,8 +7,8 @@ module.exports = {
       database: 'blogdb'
     },
     migrations: {
-      tableName: 'migrations',
-      directory: './'
+      tableName:'migrations',
+      directory: __dirname + '/migrations'
     },
     seeds: {
       directory: './seeds'
