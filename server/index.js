@@ -32,7 +32,7 @@ app.use(function(err, req, res, next) {
     res.status(500).send(err);
   }
 });
-
+//Site Routing
 app.get('/', function(req, res) {
     res.sendFile(path.join(rootPath+'/index.html'));
 });
