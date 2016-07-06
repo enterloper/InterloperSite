@@ -29,3 +29,7 @@ var Posts = module.exports;
     return db('blogs').where({})
   };
 
+/************* BLOG ENDPOINTS *************/
+// Get bound toyproblems if present
+// create insertion for BLOGS
+// create mods/push/put

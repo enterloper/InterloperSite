@@ -68,6 +68,13 @@ app.get('/posts/:postID', function(req, res){
   });
 });
 
+app.get('/posts/category/:category', function(req, res) {
+  Posts.getPostByCategory(req.params.category)
+  .then(function(data) {
+    console.log(data);
+    res.send(data);
+  });
+});
 
 /************* TOY PROBLEM ENDPOINTS *************/
 
@@ -87,8 +94,16 @@ app.get('/problems/:toyProbID', function(req, res){
   });
 });
 
-/************* PORTFOLIO ENDPOINTS *************/
+app.get('/problems/difficulty/:level', function(req, res) {
+  ToyProbs.getToyProbByDifficulty(req.params.level)
+  .then(function(data) {
+    console.log(data);
+    res.send(data);
+  });
+});
 
+/************* PORTFOLIO ENDPOINTS *************/
+//TODO - PORTOFOLIO ENDPOINTS.
 
 app.listen(config.port || 3000, function(){
   console.log('Listening on port:' , config.port);
