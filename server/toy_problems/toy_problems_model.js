@@ -27,7 +27,9 @@ ToyProbs.getToyProbByDifficulty = function(level) {
   });
 };
 
+ToyProbs.addNewToyProb = function(data) {
+  return db('toy_problems').insert(data);
+};
 /************* TODO ENDPOINTS *************/
 // Get bound blog if present
-// create insertion for toyProbs
 // create mods/push/put

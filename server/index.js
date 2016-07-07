@@ -60,7 +60,7 @@ app.get('/posts', function(req, res) {
 });
 
 
-app.get('/posts/:postID', function(req, res){
+app.get('/posts/id/:postID', function(req, res){
   Posts.getPostByID(req.params.postID)
   .then(function(data){
     console.log(data);
@@ -76,13 +76,26 @@ app.get('/posts/category/:category', function(req, res) {
   });
 });
 
+var newDummyBlog = {
+  "blog_title":"Express yourself",
+  "blog_category":"Server",
+  "blog_description":"This is a tale about Express, Node and Knex",
+  "blog_body":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+  "toy_problem_attached": false
+};
+app.post('/posts/add', function(req, res){
+  Posts.addNewBlogPost(newDummyBlog).then(function(data) {
+    console.log(data);
+    res.send(data);
+  });
+});
 /************* TOY PROBLEM ENDPOINTS *************/
 
 app.get('/problems', function(req, res) {
   ToyProbs.getAll()
-  .then(function(data) {
-    console.log(data);
-    res.send(data);
+  .then(function(resp) {
+    console.log(resp);
+    res.send(resp);
   });
 });
 
