@@ -75,7 +75,7 @@ app.get('/posts', function(req, res, next) {
   }).catch(next);
 });
 
-//Add a post by
+//Add a post
 app.post('/posts/', function(req, res, next) {
   Posts.addNewBlogPost(req.body)
   .then(function(resp) {
@@ -104,13 +104,15 @@ app.put('/posts/:id', function(req, res, next){
   console.log(req.params.id, req.body);
   Posts.editBlogPost(req.params.id, req.body)
   .then(function(resp) {
-    resp.status(200).json(resp);
+    console.log('resp',resp);
+    res.status(200).json(resp);
   })
   .catch(function(err){
     console.error(err.stack);
   });
 });
 
+//Delete a post
 app.delete('/posts/:id', function(req, res, next) {
   Posts.deletePost(req.params.id)
   .then(function(resp) {
@@ -120,12 +122,6 @@ app.delete('/posts/:id', function(req, res, next) {
     console.error(err.stack);
   });
 });
-
-var modBlog = {
-  "blog_id": 4,
-  "blog_body":"blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
-};
-
 
 //GET post by Title
 app.get('/posts/title:title', function(req, res, next){

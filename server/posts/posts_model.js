@@ -33,20 +33,55 @@ var Posts = module.exports;
     .where({});
   };
 
+
   Posts.addNewBlogPost = function(data) {
     return db('blogs')
     .insert(data);
   };
 
-  Posts.editBlogPost = function(id, modProps) {
-    console.log(modProps);
+
+// Users.updateExp = function(githubUsername){
+//   return db('users')
+//   .where({'github_username': githubUsername})
+//   .then(function(users){
+//     let user = users[0];
+//     let newExp = Character.getExpFromContribs(user.contributions) + Character.getExpFromHonor(user.honor)
+//     return db('users')
+//     .returning('*')
+//     .where({
+//       'id': user.id,
+//       'experience': newExp
+//     });
+//   });
+// };
+//Users.update: new database row for user => updated row for user
+// Users.update = function(obj){
+//   return db('users').where({
+//     passid: obj.id
+//   }).limit(1)
+//   .update(obj.form)  
+//   .then(function(data){
+//     return data;
+//   });
+// };
+//Edit a post
+  Posts.editBlogPost = function(id, data) {
+    console.log('id',id,'data',data);
     return db('blogs')
-    .where('blog_id', '=', id)
-    .update({
-      modProps
+    .where({
+      blog_id: id
+    }).limit(1)
+    .update(data)
+    .then(function(data) {
+      console.log(data);
+      return data;
+    })
+    .catch(function(err){
+      console.error(err);
     });
   };
 
+//Delete a post
   Posts.deletePost = function(id){ 
     return db('blogs')
     .where('blog_id', '=', id)
