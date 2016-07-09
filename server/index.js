@@ -19,19 +19,29 @@ app.use("/lib", express.static(rootPath + '/lib'));
 app.use("/src", express.static(rootPath + '/src'));
 app.use("/routes/router", router);
 
+//DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
+app.disable('x-powered-by');
 //middleware
 // app.use(morgan('dev'));
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// app.use('/blog/', Post.getAll);
-app.use(function(err, req, res, next) {
-  if (err) {
-    console.log(err.message);
-    res.status(500).send(err);
-  }
+//REQUEST HEADERS CHECK
+app.get('/headers', function(req, res) {
+  res.set('Content-Type', 'text/plain');
+  var s = '';
+  req.secure;
+  for(var name in req.headers) s += name + ': ' + req.headers[name] + '\n';
+    res.send(s);
 });
+
+//ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
+app.get('/error', function(req, res) {
+  //set status to 500 and render error page
+  res.status(500).render('error');
+});
+
 //Site Routing
 app.get('/', function(req, res) {
     res.sendFile(path.join(rootPath+'/index.html'));
@@ -50,7 +60,7 @@ app.get('/portfolio', function(req, res) {
 });
 
 /***************** BLOG ENDPOINTS *****************/
-
+//GET all posts
 app.get('/posts', function(req, res, next) {
   Posts.getAll()
   .then(function(data) {
@@ -59,15 +69,26 @@ app.get('/posts', function(req, res, next) {
   }).catch(next);
 });
 
-
+//GET post by ID
 app.get('/posts/id/:postID', function(req, res, next){
   Posts.getPostByID(req.params.postID)
   .then(function(data){
-    console.log(data);
+    console.log('[[PARAMS]] :',req.params.postID)
+    console.log('[[data]] : ',data);
     res.send(data);
   }).catch(next);
 });
 
+//GET post by Title
+app.get('/posts/title/:title', function(req, res, next){
+  Posts.getPostByTitle(req.params.title)
+  .then(function(data){
+    console.log(data);
+    res.send(data);
+  }).catch(next)
+});
+
+//GET post by Category
 app.get('/posts/category/:category', function(req, res, next) {
   Posts.getPostByCategory(req.params.category)
   .then(function(data) {
@@ -76,6 +97,7 @@ app.get('/posts/category/:category', function(req, res, next) {
   }).catch(next);
 });
 
+
 var newDummyBlog = {
   "blog_title":"Express yourself",
   "blog_category":"Server",
@@ -83,10 +105,12 @@ var newDummyBlog = {
   "blog_body":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   "toy_problem_attached": false
 };
+
+//Add a post by
 app.post('/posts/add', function(req, res, next){
   Posts.addNewBlogPost(newDummyBlog)
   .then(function(resp) {
-    console.log(resp);
+    console.log('resp IN app.post:',resp);
     res.send(resp);
   }).catch(next);
 });
@@ -96,7 +120,8 @@ var modBlog = {
   "blog_body":"blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
 };
 
-app.put('/posts/put', function(req,res, next){
+//Edit a post
+app.put('/posts/id/modify/:id', function(req,res, next){
   console.log('WE IN PUT')
   Posts.editBlogPost(modBlog)
   .then(function(resp) {
@@ -104,8 +129,10 @@ app.put('/posts/put', function(req,res, next){
     res.send(resp);
   }).catch(next);
 });
+
 /************* TOY PROBLEM ENDPOINTS *************/
 
+//GET ALL toy problems
 app.get('/problems', function(req, res, next) {
   ToyProbs.getAll()
   .then(function(resp) {
@@ -114,6 +141,7 @@ app.get('/problems', function(req, res, next) {
   }).catch(next);
 });
 
+//GET a toy problem by ID
 app.get('/problems/:toyProbID', function(req, res, next){
   ToyProbs.getToyProbByID(req.params.toyProbID)
   .then(function(data){
@@ -122,6 +150,7 @@ app.get('/problems/:toyProbID', function(req, res, next){
   }).catch(next);
 });
 
+//GET a toy problem by difficulty level
 app.get('/problems/difficulty/:level', function(req, res, next) {
   ToyProbs.getToyProbByDifficulty(req.params.level)
   .then(function(data) {
@@ -135,6 +164,15 @@ app.get('/problems/difficulty/:level', function(req, res, next) {
 
 app.listen(config.port || 3000, function(){
   console.log('Listening on port:' , config.port);
+});
+
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).render('/error');
+});
+
+app.use(function(req, res) {
+  res.status(404).render('not-found');
 });
 
 module.exports=app;  
