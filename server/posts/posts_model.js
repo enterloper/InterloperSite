@@ -38,14 +38,26 @@ var Posts = module.exports;
     .insert(data);
   };
 
-  Posts.editBlogPost = function() {
-    console.log();
+  Posts.editBlogPost = function(id, modProps) {
+    console.log(modProps);
     return db('blogs')
-    .where('blog_id', '=', 4)
+    .where('blog_id', '=', id)
     .update({
-      blog_body : "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
+      modProps
     });
   };
+
+  Posts.deletePost = function(id){ 
+    return db('blogs')
+    .where('blog_id', '=', id)
+    .del()
+    .then(function(data) {
+      console.log('Deleted '+data+' blog post.');
+    }).catch(function(error) {
+      console.error(error);
+    });
+  };
+
 /************* BLOG ENDPOINTS *************/
 // Get bound toyproblems if present
 // create mods/push/put

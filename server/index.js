@@ -40,8 +40,6 @@ app.get('/headers', function(req, res) {
     res.send(s);
 });
 
-
-
 //Site Routing
 // app.get('/', function(req, res) {
 //     res.sendFile(path.join(rootPath+'/index.html'));
@@ -63,32 +61,82 @@ app.get('/portfolio', function(req, res) {
 });
 
 /***************** BLOG ENDPOINTS *****************/
+app.param('id', function(req, res, next, id) {
+  req.params.id = Number(id);
+  next();
+});
+
 //GET all posts
 app.get('/posts', function(req, res, next) {
   Posts.getAll()
   .then(function(data) {
     console.log(data);
-    res.send(data);
+    res.status(200).json(data);
   }).catch(next);
 });
+
+//Add a post by
+app.post('/posts/', function(req, res, next) {
+  Posts.addNewBlogPost(req.body)
+  .then(function(resp) {
+    console.log('resp IN app.post:',resp);
+    res.status(201).json(resp);
+  }).catch(function(err) {
+    console.error(err.stack);
+    next();
+  });
+});
+
 
 //GET post by ID
-app.get('/posts/id/:postID', function(req, res, next){
+app.get('/posts/:postID', function(req, res, next){
   Posts.getPostByID(req.params.postID)
   .then(function(data){
-    console.log('[[PARAMS]] :',req.params.postID)
-    console.log('[[data]] : ',data);
-    res.send(data);
-  }).catch(next);
+    res.status(200).json(data);
+  }).catch(function(err) {
+    console.error(err.stack);
+    next();
+  });
 });
 
+//Edit a post
+app.put('/posts/:id', function(req, res, next){
+  console.log(req.params.id, req.body);
+  Posts.editBlogPost(req.params.id, req.body)
+  .then(function(resp) {
+    resp.status(200).json(resp);
+  })
+  .catch(function(err){
+    console.error(err.stack);
+  });
+});
+
+app.delete('/posts/:id', function(req, res, next) {
+  Posts.deletePost(req.params.id)
+  .then(function(resp) {
+    res.status(204).json(resp);
+  })
+  .catch(function(err){
+    console.error(err.stack);
+  });
+});
+
+var modBlog = {
+  "blog_id": 4,
+  "blog_body":"blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
+};
+
+
 //GET post by Title
-app.get('/posts/title/:title', function(req, res, next){
+app.get('/posts/title:title', function(req, res, next){
   Posts.getPostByTitle(req.params.title)
   .then(function(data){
     console.log(data);
-    res.send(data);
-  }).catch(next)
+    res.status(200).json(data);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 //GET post by Category
@@ -109,29 +157,7 @@ var newDummyBlog = {
   "toy_problem_attached": false
 };
 
-//Add a post by
-app.post('/posts/add', function(req, res, next){
-  Posts.addNewBlogPost(newDummyBlog)
-  .then(function(resp) {
-    console.log('resp IN app.post:',resp);
-    res.send(resp);
-  }).catch(next);
-});
 
-var modBlog = {
-  "blog_id": 4,
-  "blog_body":"blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
-};
-
-//Edit a post
-app.put('/posts/id/modify/:id', function(req,res, next){
-  console.log('WE IN PUT')
-  Posts.editBlogPost(modBlog)
-  .then(function(resp) {
-    console.log(resp);
-    res.send(resp);
-  }).catch(next);
-});
 
 /************* TOY PROBLEM ENDPOINTS *************/
 
