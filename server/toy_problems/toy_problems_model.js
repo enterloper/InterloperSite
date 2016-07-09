@@ -27,8 +27,9 @@ ToyProbs.getToyProbByDifficulty = function(level) {
   });
 };
 
-ToyProbs.addNewToyProb = function(data) {
-  return db('toy_problems').insert(data);
+ToyProbs.addNewToyProblem = function(data) {
+  return db('toy_problems')
+  .insert(data);
 };
 /************* TODO ENDPOINTS *************/
 // Get bound blog if present

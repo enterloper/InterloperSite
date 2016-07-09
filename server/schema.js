@@ -12,7 +12,7 @@ knex.schema.createTableIfNotExists('blogs', function(table){
 })
 .createTableIfNotExists('toy_problems', function(table){
   table.increments('toy_problems_id').primary();
-  table.string('toy_problem_title').unique();
+  table.string('toy_problem_title');
   table.text('toy_problem_description');
   table.string('toy_problem_difficulty');
   table.text('toy_problem_body');

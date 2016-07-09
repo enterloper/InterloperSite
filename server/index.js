@@ -166,6 +166,18 @@ app.get('/problems', function(req, res, next) {
   }).catch(next);
 });
 
+//Add a toy problems
+app.post('/problems/', function(req, res, next) {
+  ToyProbs.addNewToyProblem(req.body)
+  .then(function(resp) {
+    console.log('resp IN app.post:',resp);
+    res.status(201).json(resp);
+  }).catch(function(err) {
+    console.error(err.stack);
+    next();
+  });
+});
+
 //GET a toy problem by ID
 app.get('/problems/:toyProbID', function(req, res, next){
   ToyProbs.getToyProbByID(req.params.toyProbID)
