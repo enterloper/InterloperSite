@@ -8,15 +8,17 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.text('blog_description');
   table.text('blog_body');
   table.boolean('toy_problem_attached').defaultTo(false);
-  table.foreign('toy_problem_id').references('toy_problems_id').defaultTo(null);
+  table.timestamps();
+  table.foreign('toy_problem_id').references('toy_problem_id');
 })
 .createTableIfNotExists('toy_problems', function(table){
-  table.increments('toy_problems_id').primary();
+  table.increments('toy_problem_id').primary();
   table.string('toy_problem_title');
   table.text('toy_problem_description');
   table.string('toy_problem_difficulty');
   table.text('toy_problem_body');
   table.boolean('blog_attached').defaultTo(false);
+  table.timestamps();
   table.foreign('blogs_id').references('blog_id');
 })
 .createTableIfNotExists('projects', function(table){
@@ -24,6 +26,7 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('project_title');
   table.text('project_description');
   table.boolean('blog_attached').defaultTo(false);
+  table.timestamps();
   table.foreign('blogs_id').references('blog_id');
 })
 .then(function(res){

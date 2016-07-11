@@ -70,6 +70,9 @@ app.get('/portfolio', function(req, res) {
   res.render('portfolio');
 });
 
+app.get('/addContent', function(req, res) {
+  res.render('additional');
+});
 /***************** BLOG ENDPOINTS *****************/
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
