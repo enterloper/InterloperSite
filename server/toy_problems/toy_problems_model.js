@@ -51,6 +51,17 @@ ToyProbs.editToyProblem = function(id, data) {
     console.error(err.stack)
   });
 };
+
+ToyProbs.deleteToyProblem = function(id) {
+  return db('toy_problems')
+  .where({
+    toy_problems_id: id
+  })
+  .del()
+  .then(function(data) {
+    console.log('Deleted '+data+' blog post.')
+  });
+};
 /************* TODO ENDPOINTS *************/
 // Get bound blog if present
-// create mods/push/put
+// Get next and previous toy problem

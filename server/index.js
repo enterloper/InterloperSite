@@ -7,6 +7,7 @@ var morgan          = require('morgan');
 var config          = require('./config/config');
 var Posts           = require('./posts/posts_model');
 var ToyProbs        = require('./toy_problems/toy_problems_model');
+var Projects        = require('./projects/projects_model');
 var db              = require('./db');
 var router          = require('./routes/router');
 var handlebars      = require('express-handlebars').create({defaultLayout: 'main'});
@@ -173,13 +174,6 @@ app.get('/problems/:id', function(req, res, next){
   }).catch(next);
 });
 
-//GET a toy problem by difficulty level
-app.get('/problems/difficulty/:level', function(req, res, next) {
-  ToyProbs.getToyProbByDifficulty(req.params.level)
-  .then(function(data) {
-    res.send(data);
-  }).catch(next);
-});
 
 //Edit a Toy Problem
 app.put('/problems/:id', function(req, res, next) {
@@ -193,8 +187,110 @@ app.put('/problems/:id', function(req, res, next) {
     console.error(err.stack);
   });
 });
+
+//Delete a post
+app.delete('/problems/:id', function(req, res, next) {
+  ToyProbs.deleteToyProblem(req.params.id)
+  .then(function(resp) {
+    console.log("Deleted toy problem number "+req.params.id+":", res.req.body);
+    res.status(200).json(res.body);
+  })
+  .catch(function(err){
+    console.error(err.stack);
+  });
+});
+
+
+//GET toy problem by Title
+app.get('/problems/title:title', function(req, res, next){
+  ToyProbs.getToyProbByTitle(req.params.title)
+  .then(function(data){
+    console.log(data);
+    res.status(200).json(data);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
+});
+
+//GET a toy problem by difficulty level
+app.get('/problems/difficulty/:level', function(req, res, next) {
+  ToyProbs.getToyProbByDifficulty(req.params.level)
+  .then(function(data) {
+    res.send(data);
+  }).catch(next);
+});
+
 /************* PORTFOLIO ENDPOINTS *************/
-//TODO - PORTOFOLIO ENDPOINTS.
+
+
+//GET all projects
+app.get('/projects', function(req, res, next) {
+  Projects.getAll()
+  .then(function(data) {
+    console.log(data);
+    res.status(200).json(data);
+  }).catch(next);
+});
+
+//Add a post
+app.post('/projects/', function(req, res, next) {
+  Projects.addNewProject(req.body)
+  .then(function(resp) {
+    res.status(201).json(res.req.body);
+  }).catch(function(err) {
+    console.error(err.stack);
+    next();
+  });
+});
+
+
+//GET project by ID
+app.get('/projects/:id', function(req, res, next){
+  Projects.getProjectByID(req.params.id)
+  .then(function(data){
+    res.status(200).json(data);
+  }).catch(function(err) {
+    console.error(err.stack);
+    next();
+  });
+});
+
+//Edit a project
+app.put('/projects/:id', function(req, res, next){
+  Projects.editProject(req.params.id, req.body)
+  .then(function(resp) {
+    console.log("Modified on project number "+req.params.id+":", res.req.body);
+    res.status(200).json(res.req.body);
+  })
+  .catch(function(err){
+    console.error(err.stack);
+  });
+});
+
+//Delete a project
+app.delete('/projects/:id', function(req, res, next) {
+  Projects.deleteProject(req.params.id)
+  .then(function(resp) {
+    console.log("Deleted project number "+req.params.id+":", res.req.body);
+    res.status(200).json(resp);
+  })
+  .catch(function(err){
+    console.error(err.stack);
+  });
+});
+
+//GET project by Title
+app.get('/projects/title:title', function(req, res, next){
+  Projects.getProjectByTitle(req.params.title)
+  .then(function(data){
+    console.log(data);
+    res.status(200).json(data);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
+});
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.get('/error', function(req, res) {

@@ -95,7 +95,7 @@ var Posts = module.exports;
     });
   };
 
-/************* BLOG ENDPOINTS *************/
+/************* BLOG TODO ENDPOINTS *************/
 // Get bound toyproblems if present
 
 // min.min(column) 
