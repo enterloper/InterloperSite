@@ -10,7 +10,16 @@ var ToyProbs        = require('./toy_problems/toy_problems_model');
 var Projects        = require('./projects/projects_model');
 var db              = require('./db');
 var router          = require('./routes/router');
-var handlebars      = require('express-handlebars').create({defaultLayout: 'main'});
+var handlebars      = require('express-handlebars').create({
+                                                            defaultLayout: 'main',
+                                                            helpers: {
+                                                              section: function(name, options){
+                                                                if(!this._sections) this._sections = {};
+                                                                this._sections[name] = options.fn(this);
+                                                                return null;
+                                                              }
+                                                            }
+                                                          });
 //rootPath for path to client directory => Interloper/client
 var rootPath = path.normalize(__dirname + './../client');
 // Set up Handlebars engine
