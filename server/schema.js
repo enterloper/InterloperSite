@@ -8,7 +8,8 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.text('blog_description');
   table.text('blog_body');
   table.boolean('toy_problem_attached').defaultTo(false);
-  table.timestamps();
+  table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
+  table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   table.foreign('toy_problem_id').references('toy_problem_id');
 })
 .createTableIfNotExists('toy_problems', function(table){
@@ -18,7 +19,8 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('toy_problem_difficulty');
   table.text('toy_problem_body');
   table.boolean('blog_attached').defaultTo(false);
-  table.timestamps();
+  table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
+  table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   table.foreign('blogs_id').references('blog_id');
 })
 .createTableIfNotExists('projects', function(table){
@@ -26,7 +28,8 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('project_title');
   table.text('project_description');
   table.boolean('blog_attached').defaultTo(false);
-  table.timestamps();
+  table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
+  table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   table.foreign('blogs_id').references('blog_id');
 })
 .then(function(res){

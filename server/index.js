@@ -304,14 +304,12 @@ app.get('/projects/title:title', function(req, res, next){
   });
 });
 
-//ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
-app.get('/error', function(req, res) {
-  //set status to 500 and render error page
-  res.status(500).render('error');
-});
 
-app.listen(config.port || 3000, function(){
-  console.log('Listening on port:' , config.port);
+//ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
+app.get('/error', function(err, req, res, next) {
+  //set status to 500 and render error page
+  console.error(err.message);
+  res.status(500).render('500');
 });
 
 app.use(function(err, req, res, next) {
@@ -321,6 +319,11 @@ app.use(function(err, req, res, next) {
 
 app.use(function(req, res) {
   res.status(404).render('404');
+});
+
+
+app.listen(config.port || 3000, function(){
+  console.log('Listening on port:' , config.port);
 });
 
 module.exports=app;  
