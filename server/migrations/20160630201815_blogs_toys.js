@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
       table.text('blog_description');
       table.text('blog_body');
       table.boolean('toy_problem_attached').defaultTo(false);
-      table.foreign('toy_problem_id').references('toy_problems_id');
+      table.foreign('toy_problems_id').references('toy_problems_id');
     }),
 
     knex.schema.createTableIfNotExists('toy_problems', function(table){
@@ -27,7 +27,7 @@ exports.up = function(knex, Promise) {
       table.string('project_title');
       table.text('project_description');
       table.boolean('blog_attached').defaultTo(false);
-      table.foreign('blogs_id').references('blog_id') ;
+      table.foreign('blogs_id').references('blogs_id') ;
     })
   ]);
 };

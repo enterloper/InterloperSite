@@ -3,7 +3,7 @@ var knex = require('./db');
 
 knex.schema.createTableIfNotExists('blogs', function(table){
   table.increments('blog_id').primary();
-  table.string('blog_title').unique();
+  table.string('blog_title');
   table.string('blog_category');
   table.text('blog_description');
   table.text('blog_body');
@@ -21,7 +21,7 @@ knex.schema.createTableIfNotExists('blogs', function(table){
 })
 .createTableIfNotExists('projects', function(table){
   table.increments('project_id').primary();
-  table.string('project_title').unique();
+  table.string('project_title');
   table.text('project_description');
   table.boolean('blog_attached').defaultTo(false);
   table.foreign('blogs_id').references('blog_id');

@@ -4,7 +4,8 @@ var Promise = require('bluebird');
 var Posts = module.exports;
 
   Posts.getAll = function() {
-    return db('blogs');
+    return db('blogs')
+    .orderBy('blog_id', 'desc');
   };
 
   Posts.getPostByID = function(postID) {
@@ -13,6 +14,38 @@ var Posts = module.exports;
       'blog_id' : postID
     });
   };
+  /*
+  <-----------TODO: SET UP NEXT AND PREVIOUS QUERIES FOR BUTTONS--------------->
+  SELECT
+    DISTINCT i.id AS id,
+    i.userid AS userid,
+    i.itemname AS itemname,
+    COALESCE(LEAD(i.id)        OVER (ORDER BY i.created DESC)
+            ,FIRST_VALUE(i.id) OVER (ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS nextitemid,
+    COALESCE(LAG(i.id)         OVER (ORDER BY i.created DESC)
+            ,LAST_VALUE(i.id)  OVER (ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS previtemid,
+    COALESCE(LEAD(i.id)        OVER (PARTITION BY i.userid ORDER BY i.created DESC)
+            ,FIRST_VALUE(i.id) OVER (PARTITION BY i.userid ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS nextuseritemid,
+    COALESCE(LAG(i.id)         OVER (PARTITION BY i.userid ORDER BY i.created DESC)
+            ,LAST_VALUE(i.id)  OVER (PARTITION BY i.userid ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS prevuseritemid,
+    i.created AS created
+  FROM items i
+    LEFT JOIN users u
+    ON i.userid = u.id
+  ORDER BY i.created DESC;
+  
+  Posts.getPreviousPost = function() {
+    console.log(db('blogs'));
+    return db('blogs')
+    .where({ })
+  };
+
+  Posts.getNextPost = function() {
+    console.log(db('blogs'));
+    return db('blogs')
+    .where({ })
+  }
+  */
 
   Posts.getPostByTitle = function(postTitle) {
     return db('blogs')
@@ -28,56 +61,25 @@ var Posts = module.exports;
     });
   };
 
-  Posts.getByDescription = function(keyword) {
-    return db('blogs')
-    .where({});
-  };
-
-
   Posts.addNewBlogPost = function(data) {
     return db('blogs')
     .insert(data);
   };
 
-
-// Users.updateExp = function(githubUsername){
-//   return db('users')
-//   .where({'github_username': githubUsername})
-//   .then(function(users){
-//     let user = users[0];
-//     let newExp = Character.getExpFromContribs(user.contributions) + Character.getExpFromHonor(user.honor)
-//     return db('users')
-//     .returning('*')
-//     .where({
-//       'id': user.id,
-//       'experience': newExp
-//     });
-//   });
-// };
-//Users.update: new database row for user => updated row for user
-// Users.update = function(obj){
-//   return db('users').where({
-//     passid: obj.id
-//   }).limit(1)
-//   .update(obj.form)  
-//   .then(function(data){
-//     return data;
-//   });
-// };
-//Edit a post
   Posts.editBlogPost = function(id, data) {
     console.log('id',id,'data',data);
     return db('blogs')
     .where({
       blog_id: id
-    }).limit(1)
+    })
+    .limit(1)
     .update(data)
     .then(function(data) {
       console.log(data);
       return data;
     })
     .catch(function(err){
-      console.error(err);
+      console.error(err.stack);
     });
   };
 
@@ -95,18 +97,6 @@ var Posts = module.exports;
 
 /************* BLOG ENDPOINTS *************/
 // Get bound toyproblems if present
-// create mods/push/put
-
-// del / delete.del() 
-// Aliased to del as delete is a reserved word in javascript, this method deletes one or more rows, based on other conditions specified in the query. Resolves the promise / fulfills the callback with the number of affected rows for the query.
-
-// knex('accounts')
-//   .where('activated', false)
-//   .del()
-
-
-// Outputs:
-// delete from "accounts" where "activated" = 'false'
 
 // min.min(column) 
 // Gets the minimum value for the specified column.

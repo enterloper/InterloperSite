@@ -79,8 +79,7 @@ app.get('/posts', function(req, res, next) {
 app.post('/posts/', function(req, res, next) {
   Posts.addNewBlogPost(req.body)
   .then(function(resp) {
-    console.log('resp IN app.post:',resp);
-    res.status(201).json(resp);
+    res.status(201).json(res.req.body);
   }).catch(function(err) {
     console.error(err.stack);
     next();
@@ -89,8 +88,8 @@ app.post('/posts/', function(req, res, next) {
 
 
 //GET post by ID
-app.get('/posts/:postID', function(req, res, next){
-  Posts.getPostByID(req.params.postID)
+app.get('/posts/:id', function(req, res, next){
+  Posts.getPostByID(req.params.id)
   .then(function(data){
     res.status(200).json(data);
   }).catch(function(err) {
@@ -101,11 +100,10 @@ app.get('/posts/:postID', function(req, res, next){
 
 //Edit a post
 app.put('/posts/:id', function(req, res, next){
-  console.log(req.params.id, req.body);
   Posts.editBlogPost(req.params.id, req.body)
   .then(function(resp) {
-    console.log('resp',resp);
-    res.status(200).json(resp);
+    console.log("Modified on blog number "+req.params.id+":", res.req.body);
+    res.status(200).json(res.req.body);
   })
   .catch(function(err){
     console.error(err.stack);
@@ -116,7 +114,8 @@ app.put('/posts/:id', function(req, res, next){
 app.delete('/posts/:id', function(req, res, next) {
   Posts.deletePost(req.params.id)
   .then(function(resp) {
-    res.status(204).json(resp);
+    console.log("Deleted blog number "+req.params.id+":", res.req.body);
+    res.status(200).json(resp);
   })
   .catch(function(err){
     console.error(err.stack);
@@ -144,17 +143,6 @@ app.get('/posts/category/:category', function(req, res, next) {
   }).catch(next);
 });
 
-
-var newDummyBlog = {
-  "blog_title":"Express yourself",
-  "blog_category":"Server",
-  "blog_description":"This is a tale about Express, Node and Knex",
-  "blog_body":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  "toy_problem_attached": false
-};
-
-
-
 /************* TOY PROBLEM ENDPOINTS *************/
 
 //GET ALL toy problems
@@ -167,11 +155,10 @@ app.get('/problems', function(req, res, next) {
 });
 
 //Add a toy problems
-app.post('/problems/', function(req, res, next) {
+app.post('/problems', function(req, res, next) {
   ToyProbs.addNewToyProblem(req.body)
   .then(function(resp) {
-    console.log('resp IN app.post:',resp);
-    res.status(201).json(resp);
+    res.status(201).json(res.req.body);
   }).catch(function(err) {
     console.error(err.stack);
     next();
@@ -179,10 +166,9 @@ app.post('/problems/', function(req, res, next) {
 });
 
 //GET a toy problem by ID
-app.get('/problems/:toyProbID', function(req, res, next){
-  ToyProbs.getToyProbByID(req.params.toyProbID)
+app.get('/problems/:id', function(req, res, next){
+  ToyProbs.getToyProbByID(req.params.id)
   .then(function(data){
-    console.log(data);
     res.send(data);
   }).catch(next);
 });
@@ -191,11 +177,22 @@ app.get('/problems/:toyProbID', function(req, res, next){
 app.get('/problems/difficulty/:level', function(req, res, next) {
   ToyProbs.getToyProbByDifficulty(req.params.level)
   .then(function(data) {
-    console.log(data);
     res.send(data);
   }).catch(next);
 });
 
+//Edit a Toy Problem
+app.put('/problems/:id', function(req, res, next) {
+  console.log(req.params.id);
+  ToyProbs.editToyProblem(req.params.id, req.body)
+  .then(function(resp) {
+    console.log("Modified on toy problem number "+req.params.id+":", res.req.body);
+    res.status(200).json(res.req.body);
+  })
+  .catch(function(err){
+    console.error(err.stack);
+  });
+});
 /************* PORTFOLIO ENDPOINTS *************/
 //TODO - PORTOFOLIO ENDPOINTS.
 
