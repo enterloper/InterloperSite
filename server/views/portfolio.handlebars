@@ -1,1 +1,12 @@
-<h1>This is where projects will go!</h1>
+<div id="portfolioMainContainer">
+  <h1 class="portfolioHeader">Blog</h1>
+  {{#each projects}}  
+      <div class="projectContainer">
+        <div class="projectPhoto"></div>
+          <div class="projectInnerContainer">  
+            <h3 class="projectTitle">{{title}}</h3>
+            <p class="projectDescription">{{description}}</p>
+          </div>
+      </div>
+  {{/each}}
+</div>

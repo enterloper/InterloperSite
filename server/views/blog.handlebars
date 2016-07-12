@@ -3,10 +3,13 @@
   {{#each posts}}  
       <div class="postContainer">
         <div class="postPhoto"></div>
-          <div class="postInnerContainer">  
-            <h3 class="postTitle">{{title}}</h3>
-            <p class="postDescription">{{description}}</p>
-          </div>
+          <a href="blog/{{id}}"> 
+            <div class="postInnerContainer">
+              <h3 class="postTitle">{{title}}</h3>
+              <p class="postDescription">{{description}}</p>
+            </div>
+          </a>
       </div>
   {{/each}}
 </div>
+

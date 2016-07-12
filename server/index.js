@@ -58,14 +58,17 @@ app.get('/', function(req, res){
   res.render('home');
 });
 
+/***************** TOY PROBLEM ROUTING *****************/
 app.get('/toy-problems', function(req, res) {
   var toy_problems; 
-  ToyProbs.getAll().then(function(data) {
+  ToyProbs.getAll()
+  .then(function(data) {
     toy_problems = data;
   }).then(function(data) {
       var context = {
         toy_problems: toy_problems.map(function(toy_problem) {
           return {
+            id: toy_problem.toy_problem_id,
             title: toy_problem.toy_problem_title,
             description: toy_problem.toy_problem_description
           };
@@ -73,9 +76,19 @@ app.get('/toy-problems', function(req, res) {
       };
       return context;
     }).then(function(value){
+      console.log("value:",value);
       res.render('toyProblems', value);
     });
 });
+
+// app.get('/toy-problems/:id', function(req, res) {
+//   ToyProbs.getToyProbByID(Number(req.params.id))
+//   .then(function(data){
+//     console.log('DAAAATAAAAA',data);
+//   })
+// });
+
+/***************** BLOG ROUTING *****************/
 
 app.get('/blog', function(req, res) {
     var posts; 
@@ -85,6 +98,7 @@ app.get('/blog', function(req, res) {
       var context = {
         posts: posts.map(function(post) {
           return {
+            id: post.blog_id,
             title: post.blog_title,
             description: post.blog_description
           };
@@ -96,10 +110,50 @@ app.get('/blog', function(req, res) {
     });
 });
 
-app.get('/portfolio', function(req, res) {
-  res.render('portfolio');
+app.get('/blog/:id', function(req, res) {
+  Posts.getPostByID(req.params.id)
+  .then(function(post){
+    var context = {
+      post: post.map(function(data) {
+        return {
+          id: data.blog_id,
+          title: data.blog_title,
+          description: data.blog_description,
+          category: data.blog_category,
+          body: data.blog_body,
+          toy_problem: data.toy_problem_attached,
+          created_at: data.created_at,
+          updated_at: data.updated_at
+        };
+      })
+    };
+    return context;
+  }).then(function(value){
+    res.render('singleBlog', value);
+  });
 });
 
+app.get('/portfolio', function(req, res) {
+  var projects; 
+  Projects.getAll()
+  .then(function(data) {
+    projects = data;
+  }).then(function(data) {
+      var context = {
+        projects: projects.map(function(project) {
+          return {
+            id: project.project_id,
+            title: project.project_title,
+            description: project.project_description
+          };
+        })
+      };
+      return context;
+    }).then(function(value){
+      console.log("value:",value);
+      res.render('portfolio', value);
+    });
+});
 app.get('/add-content', function(req, res) {
   res.render('additional');
 });
