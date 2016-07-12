@@ -81,12 +81,12 @@ app.get('/blog', function(req, res) {
     var posts; 
   Posts.getAll().then(function(data) {
     posts = data;
-  }).then(function(data) {
+    }).then(function(data) {
       var context = {
         posts: posts.map(function(post) {
           return {
-            title: post.post_title,
-            description: post.post_description
+            title: post.blog_title,
+            description: post.blog_description
           };
         })
       };
@@ -350,7 +350,6 @@ app.get('/api/projects/title:title', function(req, res, next){
     next();
   });
 });
-
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.get('/error', function(err, req, res, next) {
