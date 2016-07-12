@@ -1,12 +1,18 @@
-<div id="portfolioMainContainer">
-  <h1 class="portfolioHeader">Blog</h1>
-  {{#each projects}}  
-      <div class="projectContainer">
-        <div class="projectPhoto"></div>
-          <div class="projectInnerContainer">  
-            <h3 class="projectTitle">{{title}}</h3>
-            <p class="projectDescription">{{description}}</p>
-          </div>
-      </div>
-  {{/each}}
+ <div id="portfolioMainContainer">
+  <h1 class="portfolioHeader">Portfolio</h1>
+  {{#if projects}}  
+    {{#each projects}}  
+        <div class="projectContainer">
+          <a href="blog/{{title}}">
+            <div class="projectPhoto">
+              <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
+            </div>
+            <div class="projectInnerContainer">
+              <h3 class="projectTitle">{{title}}</h3>
+              <p class="projectDescription">{{description}}</p>
+            </div>
+          </a>
+        </div>
+    {{/each}}
+  {{/if}}
 </div>

@@ -20,12 +20,14 @@ var handlebars      = require('express-handlebars').create({
                                                               }
                                                             }
                                                           });
+var Handlebars      = require('handlebars');
 //rootPath for path to client directory => Interloper/client
 var rootPath = path.normalize(__dirname + './../client');
 // Set up Handlebars engine
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 //serve static files in client directory, without processing them.
+app.use(express.static('client'));
 app.use("/pages", express.static(rootPath + '/pages'));
 app.use("/style", express.static(rootPath + '/style'));
 app.use("/img", express.static(rootPath + '/img'));
@@ -37,7 +39,6 @@ app.use("/routes/router", router);
 app.disable('x-powered-by');
 //middleware
 app.use(morgan('dev'));
-app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
@@ -76,7 +77,6 @@ app.get('/toy-problems', function(req, res) {
       };
       return context;
     }).then(function(value){
-      console.log("value:",value);
       res.render('toyProblems', value);
     });
 });
@@ -100,7 +100,8 @@ app.get('/blog', function(req, res) {
           return {
             id: post.blog_id,
             title: post.blog_title,
-            description: post.blog_description
+            description: post.blog_description,
+            image: post.image_source
           };
         })
       };
@@ -110,8 +111,9 @@ app.get('/blog', function(req, res) {
     });
 });
 
-app.get('/blog/:id', function(req, res) {
-  Posts.getPostByID(req.params.id)
+app.get('/blog/:title', function(req, res, title) {
+  console.log('PARAAAAAAAAMS:',req.params);
+  Posts.getPostByTitle(req.params.title)
   .then(function(post){
     var context = {
       post: post.map(function(data) {
@@ -129,6 +131,7 @@ app.get('/blog/:id', function(req, res) {
     };
     return context;
   }).then(function(value){
+    console.log('valueeeeeeeeeeee:',value);
     res.render('singleBlog', value);
   });
 });
@@ -150,7 +153,6 @@ app.get('/portfolio', function(req, res) {
       };
       return context;
     }).then(function(value){
-      console.log("value:",value);
       res.render('portfolio', value);
     });
 });

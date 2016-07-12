@@ -1,12 +1,19 @@
-<div id="tpMainContainer">
-  <h1 class="tpHeader">Toy Problems</h1>
-  {{#each toy_problems}}  
-      <div class="tpContainer">
-        <div class="tpPhoto"></div>
-          <div class="tpInnerContainer">  
-            <h3 class="tpTitle">{{title}}</h3>
-            <p class="tpDescription">{{description}}</p>
-          </div>
-      </div>
-  {{/each}}
+<div id="toyProblemMainContainer">
+  <h1 class="toyProblemHeader">Toy Problem</h1>
+  {{#if toy_problems}}  
+    {{#each toy_problems}}  
+        <div class="toy_problem_Container">
+          <a href="toy-problems/{{title}}">
+            <div class="toy_problem_Photo">
+              <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
+            </div>
+            <div class="toy_problem_InnerContainer">
+              <h3 class="toy_problem_Title">{{title}}</h3>
+              <p class="toy_problem_Description">{{description}}</p>
+            </div>
+          </a>
+        </div>
+    {{/each}}
+  {{/if}}
 </div>
+

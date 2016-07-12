@@ -1,11 +1,14 @@
-<div id="postMainContainer">
-  <h1 class="postHeader">{{title}}</h1>
-      <div class="postContainer">
-        <div class="postPhoto"></div>
-            <div class="postInnerContainer">
-              <p class="postDescription">{{body}}</p>
-            </div>
-          </a>
-      </div>
-  {{/each}}
-</div>
+{{#if}}
+  <div id="postMainContainer">
+    <h1 class="postHeader">{{post.title}}</h1>
+    {{#with post}} 
+        <div class="postContainer">
+          <div class="postPhoto"></div>
+              <div class="postInnerContainer">
+                <p class="postDescription">{{post.description}}</p>
+              </div>
+            </a>
+        </div>
+    {{/with}}
+  </div>
+{{/if}}

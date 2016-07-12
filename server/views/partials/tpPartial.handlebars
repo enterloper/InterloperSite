@@ -1,9 +1,23 @@
-<div class='tpWidget'>
+{{!-- <div class='tpWidget'>
   {{#each partials.toyProblemContext.problems}}
     <div class="problemListing">
       <h3>{{toy_problem_title}}</h3>
       {{!-- <a href="{{toy_problem_title}}" --}}
-      <p>Discription: {{toy_problem_description}}</p>
+     {{!--  <p>Discription: {{toy_problem_description}}</p>
       <p>{{toy_problem_body}}</p>
     </div>
-</div>
+</div> --}}
+
+{{#if}}
+  <div id="postWidget">
+    <h1 class="postHeader">{{toy_problem.title}}</h1>
+    {{#with toy_problem}} 
+        <div class="toy_problem_Container">
+          <div class="toy_problem_Photo"></div>
+              <div class="toy_problem_InnerContainer">
+                <p class="toy_problem_Description">{{toy_problem.body}}</p>
+              </div>
+        </div>
+    {{/with}}
+  </div>
+{{/if}}
