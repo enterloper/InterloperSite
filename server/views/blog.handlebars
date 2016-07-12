@@ -1,1 +1,12 @@
-<h1>This is where the blog posts will go!</h1>
+<div id="postMainContainer">
+  <h1 class="postHeader">Blog</h1>
+  {{#each posts}}  
+      <div class="postContainer">
+        <div class="postPhoto"></div>
+          <div class="postInnerContainer">  
+            <h3 class="postTitle">{{title}}</h3>
+            <p class="postDescription">{{description}}</p>
+          </div>
+      </div>
+  {{/each}}
+</div>

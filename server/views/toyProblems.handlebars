@@ -1,2 +1,12 @@
-<h1>This is where the Toy Problems will go!</h1>
-{{!-- {{>tpPartial}} --}}
+<div id="tpMainContainer">
+  <h1 class="tpHeader">Toy Problems</h1>
+  {{#each toy_problems}}  
+      <div class="tpContainer">
+        <div class="tpPhoto"></div>
+          <div class="tpInnerContainer">  
+            <h3 class="tpTitle">{{title}}</h3>
+            <p class="tpDescription">{{description}}</p>
+          </div>
+      </div>
+  {{/each}}
+</div>

@@ -58,19 +58,49 @@ app.get('/', function(req, res){
   res.render('home');
 });
 
-app.get('/toyProblems', function(req, res) {
-    res.render('toyProblems');
+app.get('/toy-problems', function(req, res) {
+  var toy_problems; 
+  ToyProbs.getAll().then(function(data) {
+    toy_problems = data;
+  }).then(function(data) {
+      var context = {
+        toy_problems: toy_problems.map(function(toy_problem) {
+          return {
+            title: toy_problem.toy_problem_title,
+            description: toy_problem.toy_problem_description
+          };
+        })
+      };
+      return context;
+    }).then(function(value){
+      res.render('toyProblems', value);
+    });
 });
 
 app.get('/blog', function(req, res) {
-  res.render('blog');
+    var posts; 
+  Posts.getAll().then(function(data) {
+    posts = data;
+  }).then(function(data) {
+      var context = {
+        posts: posts.map(function(post) {
+          return {
+            title: post.post_title,
+            description: post.post_description
+          };
+        })
+      };
+      return context;
+    }).then(function(value){
+      res.render('blog', value);
+    });
 });
 
 app.get('/portfolio', function(req, res) {
   res.render('portfolio');
 });
 
-app.get('/addContent', function(req, res) {
+app.get('/add-content', function(req, res) {
   res.render('additional');
 });
 /***************** BLOG ENDPOINTS *****************/
@@ -80,7 +110,7 @@ app.param('id', function(req, res, next, id) {
 });
 
 //GET all posts
-app.get('/posts', function(req, res, next) {
+app.get('/api/posts', function(req, res, next) {
   Posts.getAll()
   .then(function(data) {
     console.log(data);
@@ -89,7 +119,7 @@ app.get('/posts', function(req, res, next) {
 });
 
 //Add a post
-app.post('/posts/', function(req, res, next) {
+app.post('/api/posts/', function(req, res, next) {
   Posts.addNewBlogPost(req.body)
   .then(function(resp) {
     res.status(201).json(res.req.body);
@@ -101,7 +131,7 @@ app.post('/posts/', function(req, res, next) {
 
 
 //GET post by ID
-app.get('/posts/:id', function(req, res, next){
+app.get('/api/posts/:id', function(req, res, next) {
   Posts.getPostByID(req.params.id)
   .then(function(data){
     res.status(200).json(data);
@@ -112,7 +142,7 @@ app.get('/posts/:id', function(req, res, next){
 });
 
 //Edit a post
-app.put('/posts/:id', function(req, res, next){
+app.put('/api/posts/:id', function(req, res, next){
   Posts.editBlogPost(req.params.id, req.body)
   .then(function(resp) {
     console.log("Modified on blog number "+req.params.id+":", res.req.body);
@@ -120,11 +150,12 @@ app.put('/posts/:id', function(req, res, next){
   })
   .catch(function(err){
     console.error(err.stack);
+    next();
   });
 });
 
 //Delete a post
-app.delete('/posts/:id', function(req, res, next) {
+app.delete('/api/posts/:id', function(req, res, next) {
   Posts.deletePost(req.params.id)
   .then(function(resp) {
     console.log("Deleted blog number "+req.params.id+":", res.req.body);
@@ -132,11 +163,12 @@ app.delete('/posts/:id', function(req, res, next) {
   })
   .catch(function(err){
     console.error(err.stack);
+    next();
   });
 });
 
 //GET post by Title
-app.get('/posts/title:title', function(req, res, next){
+app.get('/api/posts/title:title', function(req, res, next){
   Posts.getPostByTitle(req.params.title)
   .then(function(data){
     console.log(data);
@@ -148,27 +180,33 @@ app.get('/posts/title:title', function(req, res, next){
 });
 
 //GET post by Category
-app.get('/posts/category/:category', function(req, res, next) {
+app.get('/api/posts/category/:category', function(req, res, next) {
   Posts.getPostByCategory(req.params.category)
   .then(function(data) {
     console.log(data);
     res.send(data);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 /************* TOY PROBLEM ENDPOINTS *************/
 
 //GET ALL toy problems
-app.get('/problems', function(req, res, next) {
+app.get('/api/problems', function(req, res, next) {
   ToyProbs.getAll()
   .then(function(resp) {
     console.log(resp);
     res.send(resp);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 //Add a toy problems
-app.post('/problems', function(req, res, next) {
+app.post('/api/problems', function(req, res, next) {
   ToyProbs.addNewToyProblem(req.body)
   .then(function(resp) {
     res.status(201).json(res.req.body);
@@ -179,16 +217,19 @@ app.post('/problems', function(req, res, next) {
 });
 
 //GET a toy problem by ID
-app.get('/problems/:id', function(req, res, next){
+app.get('/api/problems/:id', function(req, res, next){
   ToyProbs.getToyProbByID(req.params.id)
   .then(function(data){
     res.send(data);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 
 //Edit a Toy Problem
-app.put('/problems/:id', function(req, res, next) {
+app.put('/api/problems/:id', function(req, res, next) {
   console.log(req.params.id);
   ToyProbs.editToyProblem(req.params.id, req.body)
   .then(function(resp) {
@@ -201,7 +242,7 @@ app.put('/problems/:id', function(req, res, next) {
 });
 
 //Delete a post
-app.delete('/problems/:id', function(req, res, next) {
+app.delete('/api/problems/:id', function(req, res, next) {
   ToyProbs.deleteToyProblem(req.params.id)
   .then(function(resp) {
     console.log("Deleted toy problem number "+req.params.id+":", res.req.body);
@@ -214,7 +255,7 @@ app.delete('/problems/:id', function(req, res, next) {
 
 
 //GET toy problem by Title
-app.get('/problems/title:title', function(req, res, next){
+app.get('/api/problems/title:title', function(req, res, next){
   ToyProbs.getToyProbByTitle(req.params.title)
   .then(function(data){
     console.log(data);
@@ -226,27 +267,33 @@ app.get('/problems/title:title', function(req, res, next){
 });
 
 //GET a toy problem by difficulty level
-app.get('/problems/difficulty/:level', function(req, res, next) {
+app.get('/api/problems/difficulty/:level', function(req, res, next) {
   ToyProbs.getToyProbByDifficulty(req.params.level)
   .then(function(data) {
     res.send(data);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 /************* PORTFOLIO ENDPOINTS *************/
 
 
 //GET all projects
-app.get('/projects', function(req, res, next) {
+app.get('/api/projects', function(req, res, next) {
   Projects.getAll()
   .then(function(data) {
     console.log(data);
     res.status(200).json(data);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 //Add a post
-app.post('/projects/', function(req, res, next) {
+app.post('/api/projects/', function(req, res, next) {
   Projects.addNewProject(req.body)
   .then(function(resp) {
     res.status(201).json(res.req.body);
@@ -258,7 +305,7 @@ app.post('/projects/', function(req, res, next) {
 
 
 //GET project by ID
-app.get('/projects/:id', function(req, res, next){
+app.get('/api/projects/:id', function(req, res, next){
   Projects.getProjectByID(req.params.id)
   .then(function(data){
     res.status(200).json(data);
@@ -269,7 +316,7 @@ app.get('/projects/:id', function(req, res, next){
 });
 
 //Edit a project
-app.put('/projects/:id', function(req, res, next){
+app.put('/api/projects/:id', function(req, res, next){
   Projects.editProject(req.params.id, req.body)
   .then(function(resp) {
     console.log("Modified on project number "+req.params.id+":", res.req.body);
@@ -281,7 +328,7 @@ app.put('/projects/:id', function(req, res, next){
 });
 
 //Delete a project
-app.delete('/projects/:id', function(req, res, next) {
+app.delete('/api/projects/:id', function(req, res, next) {
   Projects.deleteProject(req.params.id)
   .then(function(resp) {
     console.log("Deleted project number "+req.params.id+":", res.req.body);
@@ -293,7 +340,7 @@ app.delete('/projects/:id', function(req, res, next) {
 });
 
 //GET project by Title
-app.get('/projects/title:title', function(req, res, next){
+app.get('/api/projects/title:title', function(req, res, next){
   Projects.getProjectByTitle(req.params.title)
   .then(function(data){
     console.log(data);
@@ -327,3 +374,7 @@ app.listen(config.port || 3000, function(){
 });
 
 module.exports=app;  
+
+
+
+
