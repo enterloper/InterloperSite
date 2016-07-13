@@ -1,9 +1,8 @@
- <div id="portfolioMainContainer">
+<div id="portfolioMainContainer">
   <h1 class="portfolioHeader">Portfolio</h1>
-  {{#if projects}}  
     {{#each projects}}  
         <div class="projectContainer">
-          <a href="blog/{{title}}">
+          <a href="projects/{{title}}">
             <div class="projectPhoto">
               <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
             </div>
@@ -14,5 +13,4 @@
           </a>
         </div>
     {{/each}}
-  {{/if}}
 </div>
