@@ -16,6 +16,7 @@ var ToyProbs        = require('./toy_problems/toy_problems_model');
 var Projects        = require('./projects/projects_model');
 var db              = require('./db');
 var router          = require('./routes/router');
+var Handlebars      = require('handlebars');
 var handlebars      = require('express-handlebars').create({
                                                             defaultLayout: 'main',
                                                             helpers: {
@@ -26,12 +27,27 @@ var handlebars      = require('express-handlebars').create({
                                                               }
                                                             }
                                                           });
+
+Handlebars.registerHelper("debug", function(optionalValue) {
+  console.log("Current Context");
+  console.log("====================");
+  console.log(this);
+  console.log(this.exphbs)
+ 
+  if (optionalValue) {
+    console.log("Value");
+    console.log("====================");
+    console.log(optionalValue);
+  }
+});
+
 //rootPath for path to client directory => Interloper/client
 var rootPath = path.normalize(__dirname + './../client');
 // Set up Handlebars engine
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 //serve static files in client directory, without processing them.
+app.use(express.static('client'));
 app.use("/pages", express.static(rootPath + '/pages'));
 app.use("/style", express.static(rootPath + '/style'));
 app.use("/img", express.static(rootPath + '/img'));
@@ -43,7 +59,6 @@ app.use("/routes/router", router);
 app.disable('x-powered-by');
 //middleware
 app.use(morgan('dev'));
-app.use(express.static('client'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
@@ -64,33 +79,131 @@ app.get('/', function(req, res){
   res.render('home');
 });
 
+/***************** TOY PROBLEM ROUTING *****************/
 app.get('/toy-problems', function(req, res) {
   var toy_problems; 
-  ToyProbs.getAll().then(function(data) {
+  ToyProbs.getAll()
+  .then(function(data) {
     toy_problems = data;
+    return toy_problems;
   }).then(function(data) {
       var context = {
         toy_problems: toy_problems.map(function(toy_problem) {
           return {
+            id: toy_problem.toy_problem_id,
             title: toy_problem.toy_problem_title,
             description: toy_problem.toy_problem_description
           };
         })
       };
+      console.log('{{{{{{CONTEXT1:',context);
       return context;
     }).then(function(value){
       res.render('toyProblems', value);
     });
 });
 
+    // console.log('DAAAAAAAAAAATTTTTTAAAAAAA:', data);
+// app.get('/toy-problems/:id', function(req, res) {
+//   ToyProbs.getToyProbByID(Number(req.params.id))
+//   .then(function(data){
+//     console.log('DAAAATAAAAA',data);
+//   })
+// });
+
+app.get('/toy-problems/:title', function(req, res, title) {
+  var toy_problem;
+  ToyProbs.getToyProbByTitle(req.params.title)
+  .then(function(data) {
+    toy_problem = data;
+    return toy_problem;
+  }).then(function(toy_problem) {
+    console.log('TOOOOOOY PRRRRRRRROBLEM',toy_problem)
+    var context = {
+      id: toy_problem[0].toy_problem_id,
+      title: toy_problem[0].toy_problem_title,
+      description: toy_problem[0].toy_problem_description,
+      body: toy_problem[0].toy_problem_body,
+      blog_attached: toy_problem[0].blog_attached,
+      created_at: toy_problem[0].created_at
+    }
+    console.log('{{{{{{CONTEXT2:',context);
+    return context;
+  })
+  .then(function(value){
+    console.log('valueeeeeeeeeeee:',value);
+    res.render('layouts/singleToyProblem', value);
+  });
+});
+
+/***************** BLOG ROUTING *****************/
+
 app.get('/blog', function(req, res) {
-  res.render('blog');
+    var posts; 
+  Posts.getAll().then(function(data) {
+    posts = data;
+    }).then(function(data) {
+      var context = {
+        posts: posts.map(function(post) {
+          return {
+            id: post.blog_id,
+            title: post.blog_title,
+            description: post.blog_description,
+            image: post.image_source
+          };
+        })
+      };
+      return context;
+    }).then(function(value){
+      res.render('blog', value);
+    });
+});
+
+app.get('/blog/:title', function(req, res, title) {
+  console.log('PARAAAAAAAAMS:',req.params);
+  Posts.getPostByTitle(req.params.title)
+  .then(function(post){
+    var context = {
+      post: post.map(function(data) {
+        return {
+          id: data.blog_id,
+          title: data.blog_title,
+          description: data.blog_description,
+          category: data.blog_category,
+          body: data.blog_body,
+          toy_problem: data.toy_problem_attached,
+          created_at: data.created_at,
+          updated_at: data.updated_at
+        };
+      })
+    };
+    return context;
+  }).then(function(value){
+    console.log('valueeeeeeeeeeee:',value);
+    res.render('singleBlog', value);
+  });
 });
 
 app.get('/portfolio', function(req, res) {
-  res.render('portfolio');
+  var projects; 
+  Projects.getAll()
+  .then(function(data) {
+    projects = data;
+  }).then(function(data) {
+      var context = {
+        projects: projects.map(function(project) {
+          return {
+            id: project.project_id,
+            title: project.project_title,
+            description: project.project_description
+          };
+        })
+      };
+      return context;
+    }).then(function(value){
+      res.render('portfolio', value);
+    });
 });
-
 app.get('/add-content', function(req, res) {
   res.render('additional');
 });
@@ -141,6 +254,7 @@ app.put('/api/posts/:id', function(req, res, next){
   })
   .catch(function(err){
     console.error(err.stack);
+    next();
   });
 });
 
@@ -153,6 +267,7 @@ app.delete('/api/posts/:id', function(req, res, next) {
   })
   .catch(function(err){
     console.error(err.stack);
+    next();
   });
 });
 
@@ -174,7 +289,10 @@ app.get('/api/posts/category/:category', function(req, res, next) {
   .then(function(data) {
     console.log(data);
     res.send(data);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 /************* TOY PROBLEM ENDPOINTS *************/
@@ -185,7 +303,10 @@ app.get('/api/problems', function(req, res, next) {
   .then(function(resp) {
     console.log(resp);
     res.send(resp);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 //Add a toy problems
@@ -204,7 +325,10 @@ app.get('/api/problems/:id', function(req, res, next){
   ToyProbs.getToyProbByID(req.params.id)
   .then(function(data){
     res.send(data);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 
@@ -251,7 +375,10 @@ app.get('/api/problems/difficulty/:level', function(req, res, next) {
   ToyProbs.getToyProbByDifficulty(req.params.level)
   .then(function(data) {
     res.send(data);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 /************* PORTFOLIO ENDPOINTS *************/
@@ -263,7 +390,10 @@ app.get('/api/projects', function(req, res, next) {
   .then(function(data) {
     console.log(data);
     res.status(200).json(data);
-  }).catch(next);
+  }).catch(function(err){
+    console.error(err.stack);
+    next();
+  });
 });
 
 //Add a post
@@ -324,7 +454,6 @@ app.get('/api/projects/title:title', function(req, res, next){
     next();
   });
 });
-
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.get('/error', function(err, req, res, next) {
@@ -446,6 +575,7 @@ var config = {
 
 process.env.NODE_ENV = process.env.NODE_ENV || config.dev;
 config.env = process.env.NODE_ENV;
+// console.log('NODE_ENV:',process.env.NODE_ENV);
 var envConfig;
 
 try {
