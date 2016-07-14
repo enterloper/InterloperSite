@@ -1,10 +1,10 @@
+ 
  <div id="postMainContainer">
   <h1 class="postHeader">Blog</h1>
-  {{#if posts}}  
     {{#each posts}}  
         <div class="postContainer">
           <a href="blog/{{title}}">
-            <div class="postPhoto">
+            <div class="postPhoto_small">
               <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
             </div>
             <div class="postInnerContainer">
@@ -14,13 +14,5 @@
           </a>
         </div>
     {{/each}}
-  {{/if}}
 </div>
   
-
-{{!-- <div id="comments">
-  {{#each posts}}
-  <h2><a href="/posts/{{title}}">{{title}}</a></h2>
-  <div>{{body}}</div>
-  {{/each}}
-</div> --}}
