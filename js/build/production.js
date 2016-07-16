@@ -160,25 +160,25 @@ app.get('/blog', function(req, res) {
 });
 
 app.get('/blog/:title', function(req, res, title) {
-  console.log('PARAAAAAAAAMS:',req.params);
+  var post;
   Posts.getPostByTitle(req.params.title)
-  .then(function(post){
+  .then(function(data) {
+    post = data;
+    return post;
+  }).then(function(post) {
+    console.log('TOOOOOOY PRRRRRRRROBLEM',post)
     var context = {
-      post: post.map(function(data) {
-        return {
-          id: data.blog_id,
-          title: data.blog_title,
-          description: data.blog_description,
-          category: data.blog_category,
-          body: data.blog_body,
-          toy_problem: data.toy_problem_attached,
-          created_at: data.created_at,
-          updated_at: data.updated_at
-        };
-      })
-    };
+      id: post[0].blog_id,
+      title: post[0].blog_title,
+      description: post[0].blog_description,
+      body: post[0].blog_body,
+      blog_attached: post[0].toy_problem_attached,
+      created_at: post[0].created_at
+    }
+    console.log('{{{{{{CONTEXT2:',context);
     return context;
-  }).then(function(value){
+  })
+  .then(function(value){
     console.log('valueeeeeeeeeeee:',value);
     res.render('singleBlog', value);
   });
@@ -204,10 +204,13 @@ app.get('/portfolio', function(req, res) {
       res.render('portfolio', value);
     });
 });
+
 app.get('/add-content', function(req, res) {
   res.render('additional');
 });
+
 /***************** BLOG ENDPOINTS *****************/
+
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
   next();

@@ -202,7 +202,9 @@ app.get('/portfolio', function(req, res) {
 app.get('/add-content', function(req, res) {
   res.render('additional');
 });
+
 /***************** BLOG ENDPOINTS *****************/
+
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
   next();
