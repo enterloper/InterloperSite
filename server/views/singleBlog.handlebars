@@ -1,9 +1,15 @@
-<div id="postMainContainer">
-  <h1 class="postHeader">{{post.title}}</h1>
-  <div class="postContainer">
-     <div class="postPhoto"></div>
-      <div class="postInnerContainer">
-        <p class="postDescription">{{post.description}}</p>
-      </div>
+<div id="blogWidget">
+  <div class="post_Photo_large">
+    <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
+  </div>
+  <div class="post_title_description">
+    <h1 class="postHeader">{{title}}</h1>
+    <p>{{description}}</p>
+  </div>
+  <div class="post_Container">
+        <div class="post_InnerContainer">
+          <p class="post_Description">{{body}}</p>
+        </div>
   </div>
 </div>
+
