@@ -11,22 +11,13 @@ var Projects        = require('./projects/projects_model');
 var db              = require('./db');
 var router          = require('./routes/router');
 var Handlebars      = require('handlebars');
-var handlebars      = require('express-handlebars').create({
-                                                            defaultLayout: 'main',
-                                                            helpers: {
-                                                              section: function(name, options){
-                                                                if(!this._sections) this._sections = {};
-                                                                this._sections[name] = options.fn(this);
-                                                                return null;
-                                                              }
-                                                            }
-                                                          });
+var exphbs  = require('express-handlebars');
 
 Handlebars.registerHelper("debug", function(optionalValue) {
   console.log("Current Context");
   console.log("====================");
   console.log(this);
-  console.log(this.exphbs)
+  console.log(this.exphbs);
  
   if (optionalValue) {
     console.log("Value");
@@ -35,13 +26,14 @@ Handlebars.registerHelper("debug", function(optionalValue) {
   }
 });
 
-//rootPath for path to client directory => Interloper/client
-var rootPath = path.normalize(__dirname + './../client');
+//rootPath for path to public directory => Interloper/public
+var rootPath = path.normalize(__dirname + './../public');
 // Set up Handlebars engine
-app.engine('handlebars', handlebars.engine);
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-//serve static files in client directory, without processing them.
-app.use(express.static('client'));
+app.enable('view cache');
+//serve static files in public directory, without processing them.
+app.use(express.static('public'));
 app.use("/pages", express.static(rootPath + '/pages'));
 app.use("/style", express.static(rootPath + '/style'));
 app.use("/img", express.static(rootPath + '/img'));
