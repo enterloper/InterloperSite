@@ -47,6 +47,7 @@ app.enable('view cache');
 
 //serve static files in public directory, without processing them.
 app.use(express.static('public'));
+console.log("(((({{{ROOTPATH}}})))))):", rootPath);
 app.use("/pages", express.static(rootPath + '/pages'));
 app.use("/style", express.static(rootPath + '/style'));
 app.use("/img", express.static(rootPath + '/img'));
