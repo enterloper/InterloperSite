@@ -30,34 +30,39 @@ Handlebars.registerHelper("debug", function(optionalValue) {
 //rootPath for path to public directory => Interloper/public
 var rootPath = path.normalize(__dirname + './../public');
 
-// Set up Handlebars engine
-app.engine('handlebars', exphbs({defaultLayout: 'main',
-                                 partialsDir: "views/partials/",
-                                 layoutsDir:  "views/layouts/"
-                               }));
-app.set('view engine', 'handlebars');
-app.enable('view cache');
-
 //serve static files in public directory, without processing them.
-app.use(express.static('public'));
+app.use("/routes/router", router);
+app.use("/public", express.static(rootPath));
 app.use("/style", express.static(rootPath + '/style'));
 app.use("/img", express.static(rootPath + '/img'));
 app.use("/lib", express.static(rootPath + '/lib'));
 app.use("/src", express.static(rootPath + '/src'));
-app.use("/routes/router", router);
-
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
 app.disable('x-powered-by');
 //middleware
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.set('views', __dirname + '/views');
 
+// Set up Handlebars engine
+var hbs = exphbs.create({
+  defaultLayout: 'main',
+  partialsDir: [
+    'shared/templates',
+    'views/partials/'
+  ],
+  layoutsDir:  'views/layouts/'
+});
 
-//Site Routing
-// app.get('/', function(req, res) {
-//     res.sendFile(path.join(rootPath+'/index.html'));
-// });
+// Register `hbs` as our view engine using its bound `engine()` function.
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+app.enable('view cache');
+app.set('view cache', true);
+
+/***************** HOME PAGE ROUTING *****************/
+
 app.get('/', function(req, res){
   res.render('home');
 });
@@ -87,7 +92,12 @@ app.get('/toy-problems', function(req, res) {
 });
 
 app.get('/toy-problems/:title', function(req, res, title) {
+  var options = {
+    root: path.normalize(__dirname+'./../public/')
+  };
+  app.use("/style", express.static(options.root + '/style'));
   var toy_problem;
+  console.log("DIRNAME!!!!!!!!", __dirname, options.root);
   ToyProbs.getToyProbByTitle(req.params.title)
   .then(function(data) {
     toy_problem = data;
