@@ -36,7 +36,6 @@ ToyProbs.addNewToyProblem = function(data) {
 };
 
 ToyProbs.editToyProblem = function(id, data) {
-  console.log('id',id, 'data',data);
   return db('toy_problems')
   .where({
     toy_problem_id: id
