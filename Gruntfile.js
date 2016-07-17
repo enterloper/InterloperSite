@@ -5,56 +5,80 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         concat: {   
-            dist: {
+            build: {
                 src: [
-                'client/libs/*.js', // All JS in the libs folder
-                'src/app.js',  // This specific file
+                'public/libs/*.js', // All JS in the libs folder
+                'public/src/*.js', 
                 'server/*.js',
                 'server/config/*.js',
+                'server/migrations/*.js',
                 '/server/posts/*.js',
-                '/server/toy_problems/*.js',                      '/server/toy_problems/*.js',
+                '/server/projects/*.js',
                 '/server/routes/*.js',
                 'server/seeds/*.js',
-                'server/migrations/*.js'
+                '/server/toy_problems/*.js',
+                '/server/views/*.js',
+                '/server/views/layouts*.js',
+                '/server/views/partials*.js',
+                '/server/views/shared*.js'
                 ],
-                dest: 'js/build/production.js',
+                dest: 'public/src/build/production.js'
             }
         },
         uglify: {
             build: {
-                src: 'js/build/production.js',
-                dest: 'js/build/production.min.js'
+                src: 'public/js/build/production.js',
+                dest: 'public/js/build/production.min.js'
+            }
+        },
+        cssmin: {
+            minify: {
+                expand: true,
+                cwd: "public/style",
+                src: ["*.css", "!*.min.css"],
+                dest: "public/style",
+                ext: ".min.css"
             }
         },
         imagemin: {
+            options: {
+                progressive: true
+            },
             dynamic: {
                 files: [{
                     expand: true,
-                    cwd: 'client/img/',
+                    cwd: 'public/img/',
                     src: ['**/*.{png,jpg,gif}'],
-                    dest: 'images/build/'
+                    dest: 'public/img/'
                 }]
             }
         },
         watch: {
             scripts: {
                 files: [ 
-                'client/libs/*.js', // All JS in the libs folder
-                'src/app.js',  // This specific file
+                'public/lib/*.js', // All JS in the libs folder
+                'public/src/*.js', 
                 'server/*.js',
                 'server/config/*.js',
                 '/server/posts/*.js',
-                '/server/toy_problems/*.js',                      '/server/toy_problems/*.js',
+                '/server/projects/*.js',
+                '/server/toy_problems/*.js',
                 '/server/routes/*.js',
                 'server/seeds/*.js',
-                'server/migrations/*.js'
+                'server/migrations/*.js',
+                '/server/views/*.js',
+                '/server/views/layouts*.js',
+                '/server/views/partials*.js',
+                '/server/views/shared*.js'
                 ],
                 tasks: ['concat', 'uglify'],
                 options: {
                     spawn: false,
+                    watch: true
                 },
             } 
         }
+
     });
 
     // 3. Where we tell Grunt we plan to use this plug-in.
@@ -62,7 +86,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks("grunt-contrib-cssmin");
+    grunt.loadNpmTasks("grunt-contrib-handlebars");
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-    grunt.registerTask('default', ['concat', 'uglify', 'imagemin', 'watch']);
+    grunt.registerTask('default', ['concat', 'uglify', 'imagemin', 'watch', 'cssmin', 'handlebars']);
 
 };
