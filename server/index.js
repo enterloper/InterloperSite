@@ -13,6 +13,7 @@ var router          = require('./routes/router');
 var Handlebars      = require('handlebars');
 var exphbs  = require('express-handlebars');
 
+//if debugging, use {{debug}} at the top of the view
 Handlebars.registerHelper("debug", function(optionalValue) {
   console.log("Current Context");
   console.log("====================");
@@ -28,10 +29,16 @@ Handlebars.registerHelper("debug", function(optionalValue) {
 
 //rootPath for path to public directory => Interloper/public
 var rootPath = path.normalize(__dirname + './../public');
+
 // Set up Handlebars engine
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({defaultLayout: 'main',
+                                 partialsDir: [
+                                  "views/partials/" 
+                                 ]
+                               }));
 app.set('view engine', 'handlebars');
 app.enable('view cache');
+
 //serve static files in public directory, without processing them.
 app.use(express.static('public'));
 app.use("/pages", express.static(rootPath + '/pages'));
@@ -54,6 +61,7 @@ app.get('/headers', function(req, res) {
   var s = '';
   req.secure;
   for(var name in req.headers) s += name + ': ' + req.headers[name] + '\n';
+    console.log('THIS IS s::::::::',s);
     res.send(s);
 });
 
@@ -82,20 +90,11 @@ app.get('/toy-problems', function(req, res) {
           };
         })
       };
-      console.log('{{{{{{CONTEXT1:',context);
       return context;
     }).then(function(value){
       res.render('toyProblems', value);
     });
 });
-
-    // console.log('DAAAAAAAAAAATTTTTTAAAAAAA:', data);
-// app.get('/toy-problems/:id', function(req, res) {
-//   ToyProbs.getToyProbByID(Number(req.params.id))
-//   .then(function(data){
-//     console.log('DAAAATAAAAA',data);
-//   })
-// });
 
 app.get('/toy-problems/:title', function(req, res, title) {
   var toy_problem;
@@ -104,7 +103,6 @@ app.get('/toy-problems/:title', function(req, res, title) {
     toy_problem = data;
     return toy_problem;
   }).then(function(toy_problem) {
-    console.log('TOOOOOOY PRRRRRRRROBLEM',toy_problem)
     var context = {
       id: toy_problem[0].toy_problem_id,
       title: toy_problem[0].toy_problem_title,
@@ -113,12 +111,10 @@ app.get('/toy-problems/:title', function(req, res, title) {
       blog_attached: toy_problem[0].blog_attached,
       created_at: toy_problem[0].created_at
     }
-    console.log('{{{{{{CONTEXT2:',context);
     return context;
   })
   .then(function(value){
-    console.log('valueeeeeeeeeeee:',value);
-    res.render('layouts/singleToyProblem', value);
+    res.render('singleToyProblem', value);
   });
 });
 
@@ -152,7 +148,6 @@ app.get('/blog/:title', function(req, res, title) {
     post = data;
     return post;
   }).then(function(post) {
-    console.log('TOOOOOOY PRRRRRRRROBLEM',post)
     var context = {
       id: post[0].blog_id,
       title: post[0].blog_title,
@@ -161,11 +156,9 @@ app.get('/blog/:title', function(req, res, title) {
       blog_attached: post[0].toy_problem_attached,
       created_at: post[0].created_at
     }
-    console.log('{{{{{{CONTEXT2:',context);
     return context;
   })
   .then(function(value){
-    console.log('valueeeeeeeeeeee:',value);
     res.render('singleBlog', value);
   });
 });
@@ -206,7 +199,6 @@ app.param('id', function(req, res, next, id) {
 app.get('/api/posts', function(req, res, next) {
   Posts.getAll()
   .then(function(data) {
-    console.log(data);
     res.status(200).json(data);
   }).catch(next);
 });
@@ -264,7 +256,6 @@ app.delete('/api/posts/:id', function(req, res, next) {
 app.get('/api/posts/title:title', function(req, res, next){
   Posts.getPostByTitle(req.params.title)
   .then(function(data){
-    console.log(data);
     res.status(200).json(data);
   }).catch(function(err){
     console.error(err.stack);
@@ -276,7 +267,6 @@ app.get('/api/posts/title:title', function(req, res, next){
 app.get('/api/posts/category/:category', function(req, res, next) {
   Posts.getPostByCategory(req.params.category)
   .then(function(data) {
-    console.log(data);
     res.send(data);
   }).catch(function(err){
     console.error(err.stack);
@@ -290,7 +280,6 @@ app.get('/api/posts/category/:category', function(req, res, next) {
 app.get('/api/problems', function(req, res, next) {
   ToyProbs.getAll()
   .then(function(resp) {
-    console.log(resp);
     res.send(resp);
   }).catch(function(err){
     console.error(err.stack);
@@ -323,7 +312,6 @@ app.get('/api/problems/:id', function(req, res, next){
 
 //Edit a Toy Problem
 app.put('/api/problems/:id', function(req, res, next) {
-  console.log(req.params.id);
   ToyProbs.editToyProblem(req.params.id, req.body)
   .then(function(resp) {
     console.log("Modified on toy problem number "+req.params.id+":", res.req.body);
@@ -351,7 +339,6 @@ app.delete('/api/problems/:id', function(req, res, next) {
 app.get('/api/problems/title:title', function(req, res, next){
   ToyProbs.getToyProbByTitle(req.params.title)
   .then(function(data){
-    console.log(data);
     res.status(200).json(data);
   }).catch(function(err){
     console.error(err.stack);
@@ -377,7 +364,6 @@ app.get('/api/problems/difficulty/:level', function(req, res, next) {
 app.get('/api/projects', function(req, res, next) {
   Projects.getAll()
   .then(function(data) {
-    console.log(data);
     res.status(200).json(data);
   }).catch(function(err){
     console.error(err.stack);
@@ -436,7 +422,6 @@ app.delete('/api/projects/:id', function(req, res, next) {
 app.get('/api/projects/title:title', function(req, res, next){
   Projects.getProjectByTitle(req.params.title)
   .then(function(data){
-    console.log(data);
     res.status(200).json(data);
   }).catch(function(err){
     console.error(err.stack);

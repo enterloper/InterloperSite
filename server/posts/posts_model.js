@@ -67,7 +67,6 @@ var Posts = module.exports;
   };
 
   Posts.editBlogPost = function(id, data) {
-    console.log('id',id,'data',data);
     return db('blogs')
     .where({
       blog_id: id
