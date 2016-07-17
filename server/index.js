@@ -55,15 +55,6 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-//REQUEST HEADERS CHECK
-app.get('/headers', function(req, res) {
-  res.set('Content-Type', 'text/plain');
-  var s = '';
-  req.secure;
-  for(var name in req.headers) s += name + ': ' + req.headers[name] + '\n';
-    console.log('THIS IS s::::::::',s);
-    res.send(s);
-});
 
 //Site Routing
 // app.get('/', function(req, res) {
@@ -74,6 +65,7 @@ app.get('/', function(req, res){
 });
 
 /***************** TOY PROBLEM ROUTING *****************/
+
 app.get('/toy-problems', function(req, res) {
   var toy_problems; 
   ToyProbs.getAll()
@@ -163,6 +155,8 @@ app.get('/blog/:title', function(req, res, title) {
   });
 });
 
+/***************** PORTFOLIO ROUTING *****************/
+
 app.get('/portfolio', function(req, res) {
   var projects; 
   Projects.getAll()
@@ -186,6 +180,16 @@ app.get('/portfolio', function(req, res) {
 
 app.get('/add-content', function(req, res) {
   res.render('additional');
+});
+
+/***************** API HEADER CHECK *****************/
+app.get('/api/headers', function(req, res) {
+  res.set('Content-Type', 'text/plain');
+  var s = '';
+  req.secure;
+  for(var name in req.headers) s += name + ': ' + req.headers[name] + '\n';
+    console.log('THIS IS s::::::::',s);
+    res.send(s);
 });
 
 /***************** BLOG ENDPOINTS *****************/
