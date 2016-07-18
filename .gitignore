@@ -49,10 +49,12 @@ Thumbs.db
 lib/
 node_modules
 migrations
+seeds
 SQL_notes.md
 router_notes.md
 knexfile.js
 schema.js
+db.js
 
 
 
