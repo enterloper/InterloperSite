@@ -9,11 +9,10 @@ var Posts           = require('./posts/posts_model');
 var ToyProbs        = require('./toy_problems/toy_problems_model');
 var Projects        = require('./projects/projects_model');
 var db              = require('./db');
-var TPRouter        = express.Router();
 var Handlebars      = require('handlebars');
 var exphbs          = require('express-handlebars');
-var blogRouter      = express.Router();
-var TPRouter        = express.Router();
+var BlogRouter      = require('./routes/BlogRouter')
+var TPRouter        = require('./routes/TPRouter');
 
 //if debugging, use {{debug}} at the top of the view
 Handlebars.registerHelper("debug", function(optionalValue) {
@@ -41,8 +40,11 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/views');
+
 //ROUTERS
 app.use("/toy-problems", TPRouter);
+app.use("/blog", BlogRouter);
+
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
@@ -63,104 +65,6 @@ app.set('view cache', true);
 
 app.get('/', function(req, res){
   res.render('home');
-});
-
-/***************** TOY PROBLEM ROUTING *****************/
-TPRouter.route('/')
-  .get(function(req, res) {
-    var toy_problems; 
-    ToyProbs.getAll()
-    .then(function(data) {
-      toy_problems = data;
-      return toy_problems;
-    }).then(function(data) {
-        var context = {
-          toy_problems: toy_problems.map(function(toy_problem) {
-            return {
-              id: toy_problem.toy_problem_id,
-              title: toy_problem.toy_problem_title,
-              description: toy_problem.toy_problem_description
-            };
-          })
-        };
-        return context;
-      }).then(function(value){
-        res.render('toyProblems', value);
-      });
-  });
-
-TPRouter.route('/:title') 
-  .get(function(req, res, title) {
-    var options = {
-      root: path.normalize(__dirname+'./../public/style/main.css')
-    };
-    app.use("/style", express.static(options.root + '/style'));
-    var toy_problem;
-    console.log("DIRNAME!!!!!!!!", __dirname, options.root);
-    ToyProbs.getToyProbByTitle(req.params.title)
-    .then(function(data) {
-      toy_problem = data;
-      return toy_problem;
-    }).then(function(toy_problem) {
-      var context = {
-        id: toy_problem[0].toy_problem_id,
-        title: toy_problem[0].toy_problem_title,
-        description: toy_problem[0].toy_problem_description,
-        body: toy_problem[0].toy_problem_body,
-        blog_attached: toy_problem[0].blog_attached,
-        created_at: toy_problem[0].created_at
-      }
-      return context;
-    })
-    .then(function(value){
-      // res.send(value);
-      res.render('singleToyProblem', value);
-    });
-  });
-
-/***************** BLOG ROUTING *****************/
-
-app.get('/blog', function(req, res) {
-    var posts; 
-  Posts.getAll().then(function(data) {
-    posts = data;
-    }).then(function(data) {
-      var context = {
-        posts: posts.map(function(post) {
-          return {
-            id: post.blog_id,
-            title: post.blog_title,
-            description: post.blog_description,
-            image: post.image_source
-          };
-        })
-      };
-      return context;
-    }).then(function(value){
-      res.render('blog', value);
-    });
-});
-
-app.get('/blog/:title', function(req, res, title) {
-  var post;
-  Posts.getPostByTitle(req.params.title)
-  .then(function(data) {
-    post = data;
-    return post;
-  }).then(function(post) {
-    var context = {
-      id: post[0].blog_id,
-      title: post[0].blog_title,
-      description: post[0].blog_description,
-      body: post[0].blog_body,
-      blog_attached: post[0].toy_problem_attached,
-      created_at: post[0].created_at
-    }
-    return context;
-  })
-  .then(function(value){
-    res.render('singleBlog', value);
-  });
 });
 
 /***************** PORTFOLIO ROUTING *****************/
