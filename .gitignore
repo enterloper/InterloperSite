@@ -48,8 +48,11 @@ Thumbs.db
 # Specific Files, Library and Modules #
 lib/
 node_modules
+migrations
 SQL_notes.md
 router_notes.md
+knexfile.js
+schema.js
 
 
 
