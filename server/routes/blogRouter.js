@@ -11,7 +11,7 @@ BlogRouter.use( express.static(assetFolder) );
 
 BlogRouter.route('/') 
   .get(function(req, res) {
-      var posts; 
+    var posts; 
     Posts.getAll()
     .then(function(data) {
       posts = data;

@@ -11,9 +11,9 @@ var Projects        = require('./projects/projects_model');
 var db              = require('./db');
 var Handlebars      = require('handlebars');
 var exphbs          = require('express-handlebars');
-var BlogRouter      = require('./routes/BlogRouter')
+var BlogRouter      = require('./routes/BlogRouter');
 var TPRouter        = require('./routes/TPRouter');
-
+var ProjectsRouter  = require('./routes/ProjectsRouter');
 //if debugging, use {{debug}} at the top of the view
 Handlebars.registerHelper("debug", function(optionalValue) {
   console.log("Current Context");
@@ -44,6 +44,7 @@ app.set('views', __dirname + '/views');
 //ROUTERS
 app.use("/toy-problems", TPRouter);
 app.use("/blog", BlogRouter);
+app.use("/portfolio", ProjectsRouter);
 
 // Set up Handlebars engine
 var hbs = exphbs.create({
@@ -65,29 +66,6 @@ app.set('view cache', true);
 
 app.get('/', function(req, res){
   res.render('home');
-});
-
-/***************** PORTFOLIO ROUTING *****************/
-
-app.get('/portfolio', function(req, res) {
-  var projects; 
-  Projects.getAll()
-  .then(function(data) {
-    projects = data;
-  }).then(function(data) {
-      var context = {
-        projects: projects.map(function(project) {
-          return {
-            id: project.project_id,
-            title: project.project_title,
-            description: project.project_description
-          };
-        })
-      };
-      return context;
-    }).then(function(value){
-      res.render('portfolio', value);
-    });
 });
 
 app.get('/add-content', function(req, res) {
