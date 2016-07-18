@@ -1,14 +1,14 @@
-<div id="toyProblemMainContainer">
-  <h1 class="toyProblemHeader">Toy Problem</h1> 
+<div id="contentMainContainer">
+  <h1 class="contentHeader">Toy Problem</h1> 
     {{#each toy_problems}}  
-        <div class="toy_problem_Container">
+        <div class="contentContainer">
           <a href="/toy-problems/{{title}}">
-            <div class="toy_problem_Photo_small">
+            <div class="contentPhoto">
               <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
             </div>
-            <div class="toy_problem_InnerContainer">
-              <h3 class="toy_problem_Title">{{title}}</h3>
-              <p class="toy_problem_Description">{{description}}</p>
+            <div class="contentInnerContainer">
+              <h3 class="contentTitle">{{title}}</h3>
+              <p class="contentDescription">{{description}}</p>
             </div>
           </a> 
         </div>

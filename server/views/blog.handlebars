@@ -1,14 +1,14 @@
-<div id="postMainContainer">
-  <h1 class="postHeader">Blog</h1>
+<div id="contentMainContainer">
+  <h1 class="contentHeader">Blog</h1>
     {{#each posts}}  
-        <div class="postContainer">
+        <div class="contentContainer">
           <a href="/blog/{{title}}">
-            <div class="postPhoto_small">
+            <div class="contentPhoto">
               <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
             </div>
-            <div class="postInnerContainer">
-              <h3 class="postTitle">{{title}}</h3>
-              <p class="postDescription">{{description}}</p>
+            <div class="contentInnerContainer">
+              <h3 class="contentTitle">{{title}}</h3>
+              <p class="contentDescription">{{description}}</p>
             </div>
           </a>
         </div>

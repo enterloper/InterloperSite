@@ -1,14 +1,14 @@
-<div id="portfolioMainContainer">
-  <h1 class="portfolioHeader">Portfolio</h1>
+<div id="contentMainContainer">
+  <h1 class="contentHeader">Portfolio</h1>
     {{#each projects}}  
-        <div class="projectContainer">
+        <div class="contentContainer">
           <a href="projects/{{title}}">
-            <div class="projectPhoto">
+            <div class="contentPhoto">
               <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
             </div>
-            <div class="projectInnerContainer">
-              <h3 class="projectTitle">{{title}}</h3>
-              <p class="projectDescription">{{description}}</p>
+            <div class="contentInnerContainer">
+              <h3 class="contentTitle">{{title}}</h3>
+              <p class="contentDescription">{{description}}</p>
             </div>
           </a>
         </div>
