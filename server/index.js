@@ -9,9 +9,11 @@ var Posts           = require('./posts/posts_model');
 var ToyProbs        = require('./toy_problems/toy_problems_model');
 var Projects        = require('./projects/projects_model');
 var db              = require('./db');
-var router          = require('./routes/router');
+var TPRouter        = express.Router();
 var Handlebars      = require('handlebars');
-var exphbs  = require('express-handlebars');
+var exphbs          = require('express-handlebars');
+var blogRouter      = express.Router();
+var TPRouter        = express.Router();
 
 //if debugging, use {{debug}} at the top of the view
 Handlebars.registerHelper("debug", function(optionalValue) {
@@ -31,12 +33,7 @@ Handlebars.registerHelper("debug", function(optionalValue) {
 var rootPath = path.normalize(__dirname + './../public');
 
 //serve static files in public directory, without processing them.
-app.use("/routes/router", router);
-app.use("/public", express.static(rootPath));
-app.use("/style", express.static(rootPath + '/style'));
-app.use("/img", express.static(rootPath + '/img'));
-app.use("/lib", express.static(rootPath + '/lib'));
-app.use("/src", express.static(rootPath + '/src'));
+app.use(express.static('public'));
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
 app.disable('x-powered-by');
 //middleware
@@ -44,15 +41,16 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/views');
-
+//ROUTERS
+app.use("/toy-problems", TPRouter);
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
   partialsDir: [
-    'shared/templates',
-    'views/partials/'
+    'server/views/shared/templates',
+    'server/views/partials/'
   ],
-  layoutsDir:  'views/layouts/'
+  layoutsDir: 'server/views/layouts/'
 });
 
 // Register `hbs` as our view engine using its bound `engine()` function.
@@ -68,55 +66,57 @@ app.get('/', function(req, res){
 });
 
 /***************** TOY PROBLEM ROUTING *****************/
-
-app.get('/toy-problems', function(req, res) {
-  var toy_problems; 
-  ToyProbs.getAll()
-  .then(function(data) {
-    toy_problems = data;
-    return toy_problems;
-  }).then(function(data) {
-      var context = {
-        toy_problems: toy_problems.map(function(toy_problem) {
-          return {
-            id: toy_problem.toy_problem_id,
-            title: toy_problem.toy_problem_title,
-            description: toy_problem.toy_problem_description
-          };
-        })
-      };
-      return context;
-    }).then(function(value){
-      res.render('toyProblems', value);
-    });
-});
-
-app.get('/toy-problems/:title', function(req, res, title) {
-  var options = {
-    root: path.normalize(__dirname+'./../public/')
-  };
-  app.use("/style", express.static(options.root + '/style'));
-  var toy_problem;
-  console.log("DIRNAME!!!!!!!!", __dirname, options.root);
-  ToyProbs.getToyProbByTitle(req.params.title)
-  .then(function(data) {
-    toy_problem = data;
-    return toy_problem;
-  }).then(function(toy_problem) {
-    var context = {
-      id: toy_problem[0].toy_problem_id,
-      title: toy_problem[0].toy_problem_title,
-      description: toy_problem[0].toy_problem_description,
-      body: toy_problem[0].toy_problem_body,
-      blog_attached: toy_problem[0].blog_attached,
-      created_at: toy_problem[0].created_at
-    }
-    return context;
-  })
-  .then(function(value){
-    res.render('singleToyProblem', value);
+TPRouter.route('/')
+  .get(function(req, res) {
+    var toy_problems; 
+    ToyProbs.getAll()
+    .then(function(data) {
+      toy_problems = data;
+      return toy_problems;
+    }).then(function(data) {
+        var context = {
+          toy_problems: toy_problems.map(function(toy_problem) {
+            return {
+              id: toy_problem.toy_problem_id,
+              title: toy_problem.toy_problem_title,
+              description: toy_problem.toy_problem_description
+            };
+          })
+        };
+        return context;
+      }).then(function(value){
+        res.render('toyProblems', value);
+      });
   });
-});
+
+TPRouter.route('/:title') 
+  .get(function(req, res, title) {
+    var options = {
+      root: path.normalize(__dirname+'./../public/style/main.css')
+    };
+    app.use("/style", express.static(options.root + '/style'));
+    var toy_problem;
+    console.log("DIRNAME!!!!!!!!", __dirname, options.root);
+    ToyProbs.getToyProbByTitle(req.params.title)
+    .then(function(data) {
+      toy_problem = data;
+      return toy_problem;
+    }).then(function(toy_problem) {
+      var context = {
+        id: toy_problem[0].toy_problem_id,
+        title: toy_problem[0].toy_problem_title,
+        description: toy_problem[0].toy_problem_description,
+        body: toy_problem[0].toy_problem_body,
+        blog_attached: toy_problem[0].blog_attached,
+        created_at: toy_problem[0].created_at
+      }
+      return context;
+    })
+    .then(function(value){
+      // res.send(value);
+      res.render('singleToyProblem', value);
+    });
+  });
 
 /***************** BLOG ROUTING *****************/
 
@@ -370,26 +370,26 @@ app.get('/api/problems/difficulty/:level', function(req, res, next) {
 
 
 //GET all projects
-app.get('/api/projects', function(req, res, next) {
-  Projects.getAll()
-  .then(function(data) {
-    res.status(200).json(data);
-  }).catch(function(err){
-    console.error(err.stack);
-    next();
+app.route('/api/projects') 
+  .get(function(req, res, next) {
+    Projects.getAll()
+    .then(function(data) {
+      res.status(200).json(data);
+    }).catch(function(err){
+      console.error(err.stack);
+      next();
+    });
+  })
+  //Add a post
+  .post(function(req, res, next) {
+    Projects.addNewProject(req.body)
+    .then(function(resp) {
+      res.status(201).json(res.req.body);
+    }).catch(function(err) {
+      console.error(err.stack);
+      next();
+    });
   });
-});
-
-//Add a post
-app.post('/api/projects/', function(req, res, next) {
-  Projects.addNewProject(req.body)
-  .then(function(resp) {
-    res.status(201).json(res.req.body);
-  }).catch(function(err) {
-    console.error(err.stack);
-    next();
-  });
-});
 
 
 //GET project by ID
