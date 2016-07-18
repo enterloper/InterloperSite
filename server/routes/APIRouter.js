@@ -257,6 +257,5 @@ APIRouter.route('/projects/title/:title')
     });
   });
 
-  module.exports = APIRouter;
+module.exports = APIRouter;
 
-  
