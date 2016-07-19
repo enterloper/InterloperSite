@@ -1,8 +1,10 @@
 var express       = require('express');
 var ProjectsRouter    = express.Router();
 var Projects      = require('./../projects/projects_model');
-var Path          = require('path');
+var path          = require('path');
 /***************** PORTFOLIO ROUTING *****************/
+
+var assetFolder = path.resolve(__dirname, '../../public');
 
 ProjectsRouter.route('/')
   .get(function(req, res) {

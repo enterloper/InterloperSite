@@ -3,10 +3,10 @@ var APIRouter = express.Router();
 var Posts      = require('./../posts/posts_model');
 var Projects   = require('./../projects/projects_model');
 var ToyProbs   = require('./../toy_problems/toy_problems_model');
-var Path       = require('path');
+var path       = require('path');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
-var assetFolder = Path.resolve(__dirname, '../../public');
+var assetFolder = path.resolve(__dirname, '../../public');
 
 /***************** BLOG ROUTING *****************/
 APIRouter.use( express.static(assetFolder) );

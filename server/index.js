@@ -32,7 +32,7 @@ Handlebars.registerHelper("debug", function(optionalValue) {
 
 //rootPath for path to public directory => Interloper/public
 var rootPath = path.normalize(__dirname + './../public');
-
+var assetFolder = path.resolve(__dirname, '../../public');
 //serve static files in public directory, without processing them.
 app.use(express.static('public'));
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By

@@ -1,10 +1,10 @@
 var express    = require('express');
 var BlogRouter = express.Router();
 var Posts      = require('./../posts/posts_model');
-var Path       = require('path');
+var path       = require('path');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
-var assetFolder = Path.resolve(__dirname, '../../public');
+var assetFolder = path.resolve(__dirname, '../../public');
 
 /***************** BLOG ROUTING *****************/
 BlogRouter.use( express.static(assetFolder) );

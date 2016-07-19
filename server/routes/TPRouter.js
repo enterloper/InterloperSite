@@ -1,10 +1,10 @@
 var express  = require('express');
 var TPRouter = express.Router();
 var ToyProbs = require('./../toy_problems/toy_problems_model');
-var Path     = require('path');
+var path     = require('path');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
-var assetFolder = Path.resolve(__dirname, '../../public');
+var assetFolder = path.resolve(__dirname, '../../public');
 
 /***************** TOY PROBLEM ROUTING *****************/
 TPRouter.use( express.static(assetFolder) );
