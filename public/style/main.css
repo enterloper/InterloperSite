@@ -161,19 +161,42 @@ HOME PAGE CONTENT
 BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 ***********************************/
 .contentMainContainer{
-
+  width: 80%;
+  margin: 0 auto;
 }
 
 .contentHeader {
   text-align: center;
-  padding: .4em 0;
+  padding: .4em 0 .65em;
   font-size: 3em;
 }
 
 .contentContainer {
-  
+    padding: .8em;
+    border: 3px solid #1B9AAA;
+    border-radius: 10px;
+    background-color: #F5F1E3;
+    margin-bottom: 2em;
 }
 
+.contentPhoto {
+  display: inline-block;
+  margin: 1em .5em;
+}
+
+.contentInnerContainer {
+    display: inline-block;
+    width: 82%;
+    margin: 1em;
+}
+
+.contentTitle {
+  text-align: center;
+}
+
+.contentDescription {
+  margin: 0;
+}
 /**********************************
 PAGE: ABOUT
 ***********************************/

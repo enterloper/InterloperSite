@@ -2,17 +2,19 @@
   <div class ="contentMainContainer">
     <h1 class ="contentHeader">Toy Problems</h1> 
       {{#each toy_problems}}  
-          <div class="contentContainer">
-            <a href="/toy-problems/{{title}}">
+          <a href="/toy-problems/{{title}}">
+            <div class="contentContainer">
+              <span class="contentTitle">
+                <h3>{{title}}</h3>
+              </span>
               <div class="contentPhoto">
                 <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
               </div>
               <div class="contentInnerContainer">
-                <h3 class="contentTitle">{{title}}</h3>
                 <p class="contentDescription">{{description}}</p>
               </div>
-            </a> 
-          </div>
+            </div>
+          </a> 
       {{/each}}
   </div>
 </div>
