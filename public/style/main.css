@@ -63,8 +63,9 @@ header {
   float: left;
   width: 100%;
   /*border-bottom: 2px solid #F5F1E3;*/
-  padding: 1.5em 0 0 0;
+  padding: 1.5em 0 1.5em 0;
   background: #F5F1E3;
+  margin: 0 0 1em 0;
 }
 
 #logo {
@@ -93,7 +94,7 @@ nav {
   margin-right: 5%;
   text-align: right;
   width: 45%;
-  padding: .1em 0 0 0;
+  padding: .5em 0 0 0;
 }
 
 nav ul {
@@ -160,14 +161,14 @@ HOME PAGE CONTENT
 /**********************************
 BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 ***********************************/
-.contentMainContainer{
+.contentMainContainer {
   width: 80%;
   margin: 0 auto;
 }
 
 .contentHeader {
   text-align: center;
-  padding: .4em 0 .65em;
+  padding: .4em 0 .4em;
   font-size: 3em;
 }
 
@@ -187,8 +188,7 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 
 .contentInnerContainer {
     display: inline-block;
-    width: 80%;
-    padding: .8em;
+    width: inherit;
     margin: auto 0;
 }
 

@@ -19,7 +19,9 @@ ProjectsRouter.route('/')
           return {
             id: project.project_id,
             title: project.project_title,
-            description: project.project_description
+            description: project.project_description,
+            image: project.project_image,
+            url: project.project_url
           };
         })
       };
