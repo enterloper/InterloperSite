@@ -189,7 +189,7 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 .contentInnerContainer {
     display: inline-block;
     width: inherit;
-    margin: auto 0;
+    margin: auto auto auto 1em;
 }
 
 .contentTitle {
