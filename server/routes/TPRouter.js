@@ -16,7 +16,8 @@ TPRouter.route('/')
     .then(function(data) {
       toy_problems = data;
       return toy_problems;
-    }).then(function(data) {
+    })
+    .then(function(data) {
         var context = {
           toy_problems: toy_problems.map(function(toy_problem) {
             return {
@@ -27,7 +28,8 @@ TPRouter.route('/')
           })
         };
         return context;
-      }).then(function(value){
+      })
+    .then(function(value){
         res.render('toyProblems', value);
       });
   });
@@ -39,7 +41,8 @@ TPRouter.route('/:title')
     .then(function(data) {
       toy_problem = data;
       return toy_problem;
-    }).then(function(toy_problem) {
+    })
+    .then(function(toy_problem) {
       var context = {
         id: toy_problem[0].toy_problem_id,
         title: toy_problem[0].toy_problem_title,

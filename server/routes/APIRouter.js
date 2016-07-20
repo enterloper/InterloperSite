@@ -33,14 +33,16 @@ APIRouter.route('/posts')
     Posts.getAll()
     .then(function(data) {
       res.status(200).json(data);
-    }).catch(next);
+    })
+    .catch(next);
   })
 //Add a post
   .post(function(req, res, next) {
     Posts.addNewBlogPost(req.body)
     .then(function(resp) {
       res.status(201).json(res.req.body);
-    }).catch(function(err) {
+    })
+    .catch(function(err) {
       console.error(err.stack);
       next();
     });
@@ -88,7 +90,8 @@ APIRouter.route('/posts/title/:title')
     Posts.getPostByTitle(req.params.title)
     .then(function(data){
       res.status(200).json(data);
-    }).catch(function(err){
+    })
+    .catch(function(err){
       console.error(err.stack);
       next();
     });
@@ -100,7 +103,8 @@ APIRouter.route('/posts/category/:category')
     Posts.getPostByCategory(req.params.category)
     .then(function(data) {
       res.send(data);
-    }).catch(function(err){
+    })
+    .catch(function(err){
       console.error(err.stack);
       next();
     });
@@ -113,7 +117,8 @@ APIRouter.route('/problems')
       ToyProbs.getAll()
       .then(function(resp) {
         res.send(resp);
-      }).catch(function(err){
+      })
+      .catch(function(err){
         console.error(err.stack);
         next();
       });
@@ -123,7 +128,8 @@ APIRouter.route('/problems')
       ToyProbs.addNewToyProblem(req.body)
       .then(function(resp) {
         res.status(201).json(res.req.body);
-      }).catch(function(err) {
+      })
+      .catch(function(err) {
         console.error(err.stack);
         next();
       });
@@ -135,7 +141,8 @@ APIRouter.route('/problems/:id')
       ToyProbs.getToyProbByID(req.params.id)
       .then(function(data){
         res.send(data);
-      }).catch(function(err){
+      })
+      .catch(function(err){
         console.error(err.stack);
         next();
       });
@@ -169,7 +176,8 @@ APIRouter.route('/problems/title/:title')
     ToyProbs.getToyProbByTitle(req.params.title)
     .then(function(data){
       res.status(200).json(data);
-    }).catch(function(err){
+    })
+    .catch(function(err){
       console.error(err.stack);
       next();
     });
@@ -181,7 +189,8 @@ APIRouter.route('/problems/difficulty/:level')
     ToyProbs.getToyProbByDifficulty(req.params.level)
     .then(function(data) {
       res.send(data);
-    }).catch(function(err){
+    })
+    .catch(function(err){
       console.error(err.stack);
       next();
     });
@@ -194,7 +203,8 @@ APIRouter.route('/projects')
     Projects.getAll()
     .then(function(data) {
       res.status(200).json(data);
-    }).catch(function(err){
+    })
+    .catch(function(err){
       console.error(err.stack);
       next();
     });
@@ -204,7 +214,8 @@ APIRouter.route('/projects')
     Projects.addNewProject(req.body)
     .then(function(resp) {
       res.status(201).json(res.req.body);
-    }).catch(function(err) {
+    })
+    .catch(function(err) {
       console.error(err.stack);
       next();
     });
@@ -217,7 +228,8 @@ APIRouter.route('/projects/:id')
     Projects.getProjectByID(req.params.id)
     .then(function(data){
       res.status(200).json(data);
-    }).catch(function(err) {
+    })
+    .catch(function(err) {
       console.error(err.stack);
       next();
     });
@@ -251,7 +263,8 @@ APIRouter.route('/projects/title/:title')
     Projects.getProjectByTitle(req.params.title)
     .then(function(data){
       res.status(200).json(data);
-    }).catch(function(err){
+    })
+    .catch(function(err){
       console.error(err.stack);
       next();
     });

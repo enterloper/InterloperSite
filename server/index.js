@@ -33,6 +33,8 @@ Handlebars.registerHelper("debug", function(optionalValue) {
 //rootPath for path to public directory => Interloper/public
 var rootPath = path.normalize(__dirname + './../public');
 var assetFolder = path.resolve(__dirname, '../../public');
+app.use( express.static(assetFolder) );
+
 //serve static files in public directory, without processing them.
 app.use(express.static('public'));
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
@@ -90,7 +92,6 @@ app.use(function(err, req, res, next) {
 app.use(function(req, res) {
   res.status(404).render('404');
 });
-
 
 app.listen(config.port || 3000, function(){
   console.log('Listening on port:' , config.port);

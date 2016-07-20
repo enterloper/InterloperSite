@@ -1,7 +1,7 @@
 /**********************************
 GENERAL
 ***********************************/
-/*(1B9AAA(LIGHT SEA GREEN),DDDBCB(bone),F5F1E3(alabaster),FFFFFF(white)*/
+/*(050505(RICH BLACK), 1B9AAA(LIGHT SEA GREEN), DDDBCB(bone), F5F1E3(alabaster), FFFFFF(white)*/
 body {
   font-family: 'Avenir Next ', sans-serif;
   background-color: #050505;
@@ -42,7 +42,7 @@ h2 {
 }
 
 h3 {
-  margin: 0 0 1em 0;
+  margin: 0;
 }
 
 h4 {
@@ -176,27 +176,27 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
     border: 3px solid #1B9AAA;
     border-radius: 10px;
     background-color: #F5F1E3;
-    margin-bottom: 2em;
+    margin: 0 auto 2em;
+    width: 72%;
 }
 
 .contentPhoto {
   display: inline-block;
-  margin: 1em .5em;
+  margin: auto .8em;
 }
 
 .contentInnerContainer {
     display: inline-block;
-    width: 82%;
-    margin: 1em;
+    width: 80%;
+    padding: .8em;
+    margin: auto 0;
 }
 
 .contentTitle {
   text-align: center;
+  margin:0;
 }
 
-.contentDescription {
-  margin: 0;
-}
 /**********************************
 PAGE: ABOUT
 ***********************************/

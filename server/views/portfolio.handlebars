@@ -1,17 +1,19 @@
 <div class="wrapper">
-  <div class="contentMainContainer">
+  <div id="contentMainContainer">
     <h1 class="contentHeader">Portfolio</h1>
       {{#each projects}}  
           <a href="/projects/{{title}}">
             <div class="contentContainer">
               <span class="contentTitle">
-                <h3>{{title}}</h3>
+                  <h3>{{title}}</h3>
               </span>
               <div class="contentPhoto">
                 <img alt="{{title}} photo" src="{{image}}" height="96" width="96"/> 
               </div>
               <div class="contentInnerContainer">
-                <p class="contentDescription">{{description}}</p>
+                <span class="contentDescription"> 
+                  <p>{{description}}</p>
+                </span>
               </div>
             </div>
           </a>

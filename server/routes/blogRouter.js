@@ -15,7 +15,8 @@ BlogRouter.route('/')
     Posts.getAll()
     .then(function(data) {
       posts = data;
-      }).then(function(data) {
+      })
+    .then(function(data) {
         var context = {
           posts: posts.map(function(post) {
             return {
@@ -27,7 +28,8 @@ BlogRouter.route('/')
           })
         };
         return context;
-      }).then(function(value){
+      })
+    .then(function(value){
         res.render('blog', value);
       });
   });
@@ -39,7 +41,8 @@ BlogRouter.route('/:title')
     .then(function(data) {
       post = data;
       return post;
-    }).then(function(post) {
+    })
+    .then(function(post) {
       var context = {
         id: post[0].blog_id,
         title: post[0].blog_title,
