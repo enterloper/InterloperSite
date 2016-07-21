@@ -181,9 +181,19 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
     width: 78%;
 }
 
+.singleContentContainer {
+    padding: 1em 2em;
+    border: 3px solid #1B9AAA;
+    border-radius: 10px;
+    background-color: #F5F1E3;
+    margin: 0 auto 2em;
+    width: 85%;
+}
+
 .contentPhoto {
     display: inline-block;
     margin: auto .7em auto auto;
+    background-color: #050505;
 }
 
 .contentInnerContainer {
