@@ -48,7 +48,6 @@ Thumbs.db
 # Specific Files, Library and Modules #
 lib/
 node_modules
-migrations
 seeds
 SQL_notes.md
 router_notes.md
