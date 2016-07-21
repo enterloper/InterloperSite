@@ -23,9 +23,12 @@ a {
 img {
   max-width: 100%;
   max-height: 100%;
-  opacity: .95;
 }
 
+a img {
+  opacity: .95;
+  border-radius: 10px;
+}
 h1 {
   font-family: 'Changa One', sans-serif;
   color:  #1B9AAA;
