@@ -178,9 +178,7 @@ var config = {
 
 process.env.NODE_ENV = process.env.NODE_ENV || config.dev;
 config.env = process.env.NODE_ENV;
-// console.log('NODE_ENV:',process.env.NODE_ENV);
 var envConfig;
-
 try {
   envConfig = require('./' + config.env);
   // just making sure the require actually
@@ -199,14 +197,15 @@ module.exports = {
 };
 module.exports = {
   // disbable logging for production
-  logging: false
+  logging: false,
+  seed: true,
+  db: blogdb
 };
 
 module.exports = {
   // disbable logging for testing
   logging: false,
-  db: {
-  }
+  db: blogdb
 };
 
 

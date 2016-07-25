@@ -32,6 +32,7 @@ BlogRouter.get('/', function(req, res) {
       })
     .then(function(value){
         res.render('blog', value);
+        next();
       })
     .catch(function(err) {
       console.error(err.stack)
@@ -58,9 +59,11 @@ BlogRouter.get('/:title', function(req, res, title) {
     })
     .then(function(value){
       res.render('singleBlog', value);
+      next();
     })
     .catch(function(err) {
       console.error(err);
+      next();
     });
   });
 

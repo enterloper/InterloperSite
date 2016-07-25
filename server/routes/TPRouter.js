@@ -32,6 +32,7 @@ TPRouter.get('/', function(req, res) {
       })
     .then(function(value){
         res.render('toyProblems', value);
+        next();
       })
     .catch(function(err) {
       console.error(err.stack);
