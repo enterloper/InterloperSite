@@ -4,6 +4,7 @@ var Posts      = require('./../posts/posts_model');
 var Projects   = require('./../projects/projects_model');
 var ToyProbs   = require('./../toy_problems/toy_problems_model');
 var path       = require('path');
+var Promise    = require('bluebird');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
 var assetFolder = path.resolve(__dirname, '../../public');
@@ -35,6 +36,7 @@ APIRouter.route('/posts')
     })
     .catch(function(err){
       console.error(err.stack);
+      next();
     });
   })
 //Add a post

@@ -22,6 +22,7 @@ var BlogRouter      = require('./routes/blogRouter');
 var TPRouter        = require('./routes/TPRouter');
 var ProjectsRouter  = require('./routes/ProjectsRouter');
 var APIRouter       = require('./routes/APIRouter');
+var Promise         = require('bluebird');
 
 //if debugging, use {{debug}} at the top of the view
 Handlebars.registerHelper("debug", function(optionalValue) {
@@ -82,7 +83,7 @@ app.set('view cache', true);
 /***************** HOME PAGE ROUTING *****************/
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
-  
+
 });
 
 app.get('/', function(req, res){

@@ -2,7 +2,7 @@ var express  = require('express');
 var TPRouter = express.Router();
 var ToyProbs = require('./../toy_problems/toy_problems_model');
 var path     = require('path');
-
+var Promise  = require('bluebird');
 //SERVE UP THOSE DELICIOUS STATIC FILES!
 var assetFolder = path.resolve(__dirname, '../../public');
 
@@ -34,7 +34,8 @@ TPRouter.get('/', function(req, res) {
         res.render('toyProblems', value);
       })
     .catch(function(err) {
-      // console.error(err.stack)
+      console.error(err.stack);
+      next();
     });
   });
 

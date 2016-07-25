@@ -47,7 +47,7 @@ ToyProbs.editToyProblem = function(id, data) {
     return data;
   })
   .catch(function(err){
-    console.error(err.stack)
+    console.error(err.stack);
   });
 };
 
@@ -58,7 +58,7 @@ ToyProbs.deleteToyProblem = function(id) {
   })
   .del()
   .then(function(data) {
-    console.log('Deleted '+data+' blog post.')
+    console.log('Deleted '+data+' blog post.');
   });
 };
 /************* TODO ENDPOINTS *************/
