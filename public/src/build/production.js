@@ -16,9 +16,12 @@ var Posts           = require('./posts/posts_model');
 var ToyProbs        = require('./toy_problems/toy_problems_model');
 var Projects        = require('./projects/projects_model');
 var db              = require('./db');
-var router          = require('./routes/router');
 var Handlebars      = require('handlebars');
-var exphbs  = require('express-handlebars');
+var exphbs          = require('express-handlebars');
+var BlogRouter      = require('./routes/blogRouter');
+var TPRouter        = require('./routes/TPRouter');
+var ProjectsRouter  = require('./routes/ProjectsRouter');
+var APIRouter       = require('./routes/APIRouter');
 
 //if debugging, use {{debug}} at the top of the view
 Handlebars.registerHelper("debug", function(optionalValue) {
@@ -36,30 +39,38 @@ Handlebars.registerHelper("debug", function(optionalValue) {
 
 //rootPath for path to public directory => Interloper/public
 var rootPath = path.normalize(__dirname + './../public');
+var assetFolder = path.resolve(__dirname, '../../public');
+app.use( express.static(assetFolder) );
 
 //serve static files in public directory, without processing them.
-app.use("/routes/router", router);
-app.use("/public", express.static(rootPath));
-app.use("/style", express.static(rootPath + '/style'));
-app.use("/img", express.static(rootPath + '/img'));
-app.use("/lib", express.static(rootPath + '/lib'));
-app.use("/src", express.static(rootPath + '/src'));
+app.use(express.static('public'));
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
 app.disable('x-powered-by');
 //middleware
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/views');
 
+//ROUTERS
+app.use("/toy-problems", TPRouter);
+app.use("/blog", BlogRouter);
+app.use("/portfolio", ProjectsRouter);
+app.use("/api", APIRouter);
+
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
+  helpers: {
+    static: function(name) {
+      return require('./static.js').map(name);
+    }
+  },
   partialsDir: [
-    'shared/templates',
-    'views/partials/'
+    'server/views/shared/templates',
+    'server/views/partials/'
   ],
-  layoutsDir:  'views/layouts/'
+  layoutsDir: 'server/views/layouts/'
 });
 
 // Register `hbs` as our view engine using its bound `engine()` function.
@@ -69,379 +80,13 @@ app.enable('view cache');
 app.set('view cache', true);
 
 /***************** HOME PAGE ROUTING *****************/
+app.param('id', function(req, res, next, id) {
+  req.params.id = Number(id);
+  
+});
 
 app.get('/', function(req, res){
   res.render('home');
-});
-
-/***************** TOY PROBLEM ROUTING *****************/
-
-app.get('/toy-problems', function(req, res) {
-  var toy_problems; 
-  ToyProbs.getAll()
-  .then(function(data) {
-    toy_problems = data;
-    return toy_problems;
-  }).then(function(data) {
-      var context = {
-        toy_problems: toy_problems.map(function(toy_problem) {
-          return {
-            id: toy_problem.toy_problem_id,
-            title: toy_problem.toy_problem_title,
-            description: toy_problem.toy_problem_description
-          };
-        })
-      };
-      return context;
-    }).then(function(value){
-      res.render('toyProblems', value);
-    });
-});
-
-app.get('/toy-problems/:title', function(req, res, title) {
-  var options = {
-    root: path.normalize(__dirname+'./../public/')
-  };
-  app.use("/style", express.static(options.root + '/style'));
-  var toy_problem;
-  console.log("DIRNAME!!!!!!!!", __dirname, options.root);
-  ToyProbs.getToyProbByTitle(req.params.title)
-  .then(function(data) {
-    toy_problem = data;
-    return toy_problem;
-  }).then(function(toy_problem) {
-    var context = {
-      id: toy_problem[0].toy_problem_id,
-      title: toy_problem[0].toy_problem_title,
-      description: toy_problem[0].toy_problem_description,
-      body: toy_problem[0].toy_problem_body,
-      blog_attached: toy_problem[0].blog_attached,
-      created_at: toy_problem[0].created_at
-    }
-    return context;
-  })
-  .then(function(value){
-    res.render('singleToyProblem', value);
-  });
-});
-
-/***************** BLOG ROUTING *****************/
-
-app.get('/blog', function(req, res) {
-    var posts; 
-  Posts.getAll().then(function(data) {
-    posts = data;
-    }).then(function(data) {
-      var context = {
-        posts: posts.map(function(post) {
-          return {
-            id: post.blog_id,
-            title: post.blog_title,
-            description: post.blog_description,
-            image: post.image_source
-          };
-        })
-      };
-      return context;
-    }).then(function(value){
-      res.render('blog', value);
-    });
-});
-
-app.get('/blog/:title', function(req, res, title) {
-  var post;
-  Posts.getPostByTitle(req.params.title)
-  .then(function(data) {
-    post = data;
-    return post;
-  }).then(function(post) {
-    var context = {
-      id: post[0].blog_id,
-      title: post[0].blog_title,
-      description: post[0].blog_description,
-      body: post[0].blog_body,
-      blog_attached: post[0].toy_problem_attached,
-      created_at: post[0].created_at
-    }
-    return context;
-  })
-  .then(function(value){
-    res.render('singleBlog', value);
-  });
-});
-
-/***************** PORTFOLIO ROUTING *****************/
-
-app.get('/portfolio', function(req, res) {
-  var projects; 
-  Projects.getAll()
-  .then(function(data) {
-    projects = data;
-  }).then(function(data) {
-      var context = {
-        projects: projects.map(function(project) {
-          return {
-            id: project.project_id,
-            title: project.project_title,
-            description: project.project_description
-          };
-        })
-      };
-      return context;
-    }).then(function(value){
-      res.render('portfolio', value);
-    });
-});
-
-app.get('/add-content', function(req, res) {
-  res.render('additional');
-});
-
-/***************** API HEADER CHECK *****************/
-app.get('/api/headers', function(req, res) {
-  res.set('Content-Type', 'text/plain');
-  var s = '';
-  req.secure;
-  for(var name in req.headers) s += name + ': ' + req.headers[name] + '\n';
-    console.log('THIS IS s::::::::',s);
-    res.send(s);
-});
-
-/***************** BLOG ENDPOINTS *****************/
-
-app.param('id', function(req, res, next, id) {
-  req.params.id = Number(id);
-  next();
-});
-
-//GET all posts
-app.route('/api/posts') 
-  .get(function(req, res, next) {
-    Posts.getAll()
-    .then(function(data) {
-      res.status(200).json(data);
-    }).catch(next);
-  })
-//Add a post
-  .post(function(req, res, next) {
-    Posts.addNewBlogPost(req.body)
-    .then(function(resp) {
-      res.status(201).json(res.req.body);
-    }).catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
-  });
-
-
-//GET post by ID
-app.route('/api/posts/:id')
-  .get(function(req, res, next) {
-    Posts.getPostByID(req.params.id)
-    .then(function(data){
-      res.status(200).json(data);
-    }).catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
-  })
-//Edit a post
-  .put(function(req, res, next){
-    Posts.editBlogPost(req.params.id, req.body)
-    .then(function(resp) {
-      console.log("Modified on blog number "+req.params.id+":", res.req.body);
-      res.status(200).json(res.req.body);
-    })
-    .catch(function(err){
-      console.error(err.stack);
-      next();
-    });
-  })
-//Delete a post
-  .delete(function(req, res, next) {
-    Posts.deletePost(req.params.id)
-    .then(function(resp) {
-      console.log("Deleted blog number "+req.params.id+":", res.req.body);
-      res.status(200).json(resp);
-    })
-    .catch(function(err){
-      console.error(err.stack);
-      next();
-    });
-  });
-
-//GET post by Title
-app.get('/api/posts/title/:title', function(req, res, next){
-  Posts.getPostByTitle(req.params.title)
-  .then(function(data){
-    res.status(200).json(data);
-  }).catch(function(err){
-    console.error(err.stack);
-    next();
-  });
-});
-
-//GET post by Category
-app.get('/api/posts/category/:category', function(req, res, next) {
-  Posts.getPostByCategory(req.params.category)
-  .then(function(data) {
-    res.send(data);
-  }).catch(function(err){
-    console.error(err.stack);
-    next();
-  });
-});
-
-/************* TOY PROBLEM ENDPOINTS *************/
-
-//GET ALL toy problems
-app.route('/api/problems') 
-  .get(function(req, res, next) {
-    ToyProbs.getAll()
-    .then(function(resp) {
-      res.send(resp);
-    }).catch(function(err){
-      console.error(err.stack);
-      next();
-    });
-  })
-  //Add a toy problems
-  .post(function(req, res, next) {
-    ToyProbs.addNewToyProblem(req.body)
-    .then(function(resp) {
-      res.status(201).json(res.req.body);
-    }).catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
-  });
-
-//GET a toy problem by ID
-app.route('/api/problems/:id') 
-  .get(function(req, res, next){
-    ToyProbs.getToyProbByID(req.params.id)
-    .then(function(data){
-      res.send(data);
-    }).catch(function(err){
-      console.error(err.stack);
-      next();
-    });
-  })
-  //Edit a Toy Problem
-  .put(function(req, res, next) {
-    ToyProbs.editToyProblem(req.params.id, req.body)
-    .then(function(resp) {
-      console.log("Modified on toy problem number "+req.params.id+":", res.req.body);
-      res.status(200).json(res.req.body);
-    })
-    .catch(function(err){
-      console.error(err.stack);
-    });
-  })
-  //Delete a post
-  .delete(function(req, res, next) {
-    ToyProbs.deleteToyProblem(req.params.id)
-    .then(function(resp) {
-      console.log("Deleted toy problem number "+req.params.id+":", res.req.body);
-      res.status(200).json(res.body);
-    })
-    .catch(function(err){
-      console.error(err.stack);
-    });
-  });
-
-
-//GET toy problem by Title
-app.get('/api/problems/title/:title', function(req, res, next){
-  ToyProbs.getToyProbByTitle(req.params.title)
-  .then(function(data){
-    res.status(200).json(data);
-  }).catch(function(err){
-    console.error(err.stack);
-    next();
-  });
-});
-
-//GET a toy problem by difficulty level
-app.get('/api/problems/difficulty/:level', function(req, res, next) {
-  ToyProbs.getToyProbByDifficulty(req.params.level)
-  .then(function(data) {
-    res.send(data);
-  }).catch(function(err){
-    console.error(err.stack);
-    next();
-  });
-});
-
-/************* PORTFOLIO ENDPOINTS *************/
-
-
-//GET all projects
-app.get('/api/projects', function(req, res, next) {
-  Projects.getAll()
-  .then(function(data) {
-    res.status(200).json(data);
-  }).catch(function(err){
-    console.error(err.stack);
-    next();
-  });
-});
-
-//Add a post
-app.post('/api/projects/', function(req, res, next) {
-  Projects.addNewProject(req.body)
-  .then(function(resp) {
-    res.status(201).json(res.req.body);
-  }).catch(function(err) {
-    console.error(err.stack);
-    next();
-  });
-});
-
-
-//GET project by ID
-app.route('/api/projects/:id')
-  .get(function(req, res, next){
-    Projects.getProjectByID(req.params.id)
-    .then(function(data){
-      res.status(200).json(data);
-    }).catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
-  })
-  //Edit a project
-  .put(function(req, res, next){
-    Projects.editProject(req.params.id, req.body)
-    .then(function(resp) {
-      console.log("Modified on project number "+req.params.id+":", res.req.body);
-      res.status(200).json(res.req.body);
-    })
-    .catch(function(err){
-      console.error(err.stack);
-    });
-  })
-  //Delete a project
-  .delete(function(req, res, next) {
-    Projects.deleteProject(req.params.id)
-    .then(function(resp) {
-      console.log("Deleted project number "+req.params.id+":", res.req.body);
-      res.status(200).json(resp);
-    })
-    .catch(function(err){
-      console.error(err.stack);
-    });
-  });
-
-//GET project by Title
-app.get('/api/projects/title/:title', function(req, res, next){
-  Projects.getProjectByTitle(req.params.title)
-  .then(function(data){
-    res.status(200).json(data);
-  }).catch(function(err){
-    console.error(err.stack);
-    next();
-  });
 });
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
@@ -460,7 +105,6 @@ app.use(function(req, res) {
   res.status(404).render('404');
 });
 
-
 app.listen(config.port || 3000, function(){
   console.log('Listening on port:' , config.port);
 });
@@ -470,46 +114,6 @@ module.exports=app;
 
 
 
-
-module.exports = {
-  
-  development: {
-    client: 'pg',
-    connection: {
-      host    : '127.0.0.1',
-      database: 'blogdb'
-    },
-    migrations: {
-      tableName:'migrations',
-      directory: './migrations'
-    },
-    seeds: {
-      directory: './seeds'
-    },
-    debug: true
-  },
-
-  production: {
-    client: 'pg',
-    connection: {
-      database: 'blogdb',
-      user:     'richardjboothe',
-      password: 'blogdb'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'migrations',
-      directory: './',
-    },
-    seeds: {
-      directory: './seeds'
-    },
-    debug: true
-  }
-};
 
 'use strict';
 var knex = require('./db');
@@ -521,6 +125,7 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.text('blog_description');
   table.text('blog_body');
   table.boolean('toy_problem_attached').defaultTo(false);
+  table.string('blog_image');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   table.foreign('toy_problem_id').references('toy_problem_id');
@@ -532,6 +137,7 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('toy_problem_difficulty');
   table.text('toy_problem_body');
   table.boolean('blog_attached').defaultTo(false);
+  table.string('toy_problem_image');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   table.foreign('blogs_id').references('blog_id');
@@ -541,6 +147,8 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('project_title');
   table.text('project_description');
   table.boolean('blog_attached').defaultTo(false);
+  table.string('project_image');
+  table.string('project_url');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
   table.foreign('blogs_id').references('blog_id');
@@ -553,6 +161,11 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   console.log('[schema.js: 35] - error: ', err.message);
 });
 
+var baseUrl = '';
+
+exports.map = function(name){
+  return baseUrl+name;
+};
 var _ = require('lodash');
 
 var config = {
@@ -592,11 +205,9 @@ module.exports = {
   // disbable logging for testing
   logging: false,
   db: {
-    // url: 'mongodb://localhost/nodeblog-test'
   }
 };
 
-var knex = require('./../db');
 
 exports.up = function(knex, Promise) {
   return Promise.all([
@@ -607,11 +218,11 @@ exports.up = function(knex, Promise) {
       table.text('blog_description');
       table.text('blog_body');
       table.boolean('toy_problem_attached').defaultTo(false);
+      table.string('blog_image');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
       table.foreign('toy_problem_id').references('toy_problem_id');
     }),
-
     knex.schema.createTableIfNotExists('toy_problems', function(table){
       table.increments('toy_problem_id').primary();
       table.string('toy_problem_title');
@@ -619,30 +230,33 @@ exports.up = function(knex, Promise) {
       table.string('toy_problem_difficulty');
       table.text('toy_problem_body');
       table.boolean('blog_attached').defaultTo(false);
+      table.string('toy_problem_image');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
       table.foreign('blogs_id').references('blog_id');
     }),
-    
     knex.schema.createTableIfNotExists('projects', function(table){
       table.increments('project_id').primary();
       table.string('project_title');
       table.text('project_description');
       table.boolean('blog_attached').defaultTo(false);
+      table.string('project_image');
+      table.string('project_url');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-      table.foreign('blogs_id').references('blogs_id') ;
+      table.foreign('blogs_id').references('blog_id');
     })
   ]);
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('blogs'),
-    knex.schema.dropTable('toy_problems'),
-    knex.schema.dropTable('projects')
+    knex.schema.dropTable("blogs"),
+    knex.schema.dropTable("toy_problems"),
+    knex.schema.dropTable("projects")
   ]);
 };
+
 
 exports.seed = function(knex, Promise) {
   return Promise.join(

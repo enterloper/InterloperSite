@@ -40,7 +40,7 @@ app.use(express.static('public'));
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
 app.disable('x-powered-by');
 //middleware
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/views');
@@ -54,6 +54,11 @@ app.use("/api", APIRouter);
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
+  helpers: {
+    static: function(name) {
+      return require('./static.js').map(name);
+    }
+  },
   partialsDir: [
     'server/views/shared/templates',
     'server/views/partials/'
@@ -70,7 +75,7 @@ app.set('view cache', true);
 /***************** HOME PAGE ROUTING *****************/
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
-  next();
+  
 });
 
 app.get('/', function(req, res){

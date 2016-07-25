@@ -15,7 +15,8 @@ BlogRouter.route('/')
     Posts.getAll()
     .then(function(data) {
       posts = data;
-      })
+      return posts; 
+    })
     .then(function(data) {
         var context = {
           posts: posts.map(function(post) {

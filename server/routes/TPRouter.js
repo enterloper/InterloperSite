@@ -9,8 +9,7 @@ var assetFolder = path.resolve(__dirname, '../../public');
 /***************** TOY PROBLEM ROUTING *****************/
 TPRouter.use( express.static(assetFolder) );
 
-TPRouter.route('/')
-  .get(function(req, res) {
+TPRouter.get('/', function(req, res) {
     var toy_problems; 
     ToyProbs.getAll()
     .then(function(data) {
@@ -18,6 +17,7 @@ TPRouter.route('/')
       return toy_problems;
     })
     .then(function(data) {
+      // console.log('data20', data);
         var context = {
           toy_problems: toy_problems.map(function(toy_problem) {
             return {
@@ -27,22 +27,27 @@ TPRouter.route('/')
             };
           })
         };
+        // console.log('context', context);
         return context;
       })
     .then(function(value){
         res.render('toyProblems', value);
-      });
+      })
+    .catch(function(err) {
+      // console.error(err.stack)
+    });
   });
 
-TPRouter.route('/:title') 
-  .get(function(req, res, title) {
+TPRouter.get('/:title', function(req, res, title) {
     var toy_problem;
     ToyProbs.getToyProbByTitle(req.params.title)
     .then(function(data) {
+      // console.log('data42', data)
       toy_problem = data;
       return toy_problem;
     })
     .then(function(toy_problem) {
+      // console.log('toy_problem',toy_problem); 
       var context = {
         id: toy_problem[0].toy_problem_id,
         title: toy_problem[0].toy_problem_title,
@@ -55,6 +60,9 @@ TPRouter.route('/:title')
     })
     .then(function(value){
       res.render('singleToyProblem', value);
+    })
+    .catch(function(err) {
+      console.error(err);
     });
   });
 

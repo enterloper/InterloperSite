@@ -21,42 +21,41 @@ APIRouter.route('/headers')
     res.set('Content-Type', 'text/plain');
     var s = '';
     req.secure;
-    for(var name in req.headers) s += name + ': ' + req.headers[name] + '\n';
-      console.log('THIS IS s::::::::',s);
-      res.send(s);
+    for(var name in req.headers) {s += name + ': ' + req.headers[name] + '\n';}
+    res.send(s);
   });
 
 /***************** BLOG ENDPOINTS *****************/
 //GET all posts
 APIRouter.route('/posts') 
-  .get(function(req, res, next) {
+  .get(function(req, res) {
     Posts.getAll()
     .then(function(data) {
       res.status(200).json(data);
     })
-    .catch(next);
+    .catch(function(err){
+      console.error(err.stack);
+    });
   })
 //Add a post
-  .post(function(req, res, next) {
+  .post(function(req, res) {
     Posts.addNewBlogPost(req.body)
     .then(function(resp) {
       res.status(201).json(res.req.body);
     })
     .catch(function(err) {
       console.error(err.stack);
-      next();
     });
   });
 
 //GET post by ID
 APIRouter.route('/posts/:id')
-    .get(function(req, res, next) {
+    .get(function(req, res) {
       Posts.getPostByID(req.params.id)
       .then(function(data){
         res.status(200).json(data);
       }).catch(function(err) {
         console.error(err.stack);
-        next();
       });
     })
   //Edit a post

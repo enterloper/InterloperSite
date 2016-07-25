@@ -17,9 +17,9 @@ ToyProbs.getToyProbByID = function(id) {
   });
 };
 
-ToyProbs.getToyProbByTitle = function(toyProbTitle) {
+ToyProbs.getToyProbByTitle = function(title) {
   return db('toy_problems').where({
-    'toy_problem_title' : toyProbTitle
+    'toy_problem_title' : title
   });
 };
 
