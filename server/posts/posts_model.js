@@ -8,12 +8,62 @@ var Posts = module.exports;
     .orderBy('blog_id', 'desc');
   };
 
-  Posts.getPostByID = function(postID) {
+  Posts.getPostByID = function(id) {
     return db('blogs')
     .where({
-      'blog_id' : postID
+      'blog_id' : id
     });
   };
+
+  Posts.getPostByTitle = function(title) {
+    return db('blogs')
+    .where({
+      'blog_title' : title
+    });
+  };
+
+  Posts.getPostByCategory = function(category) {
+    return db('blogs')
+    .where({
+      'blog_category' : category
+    });
+  };
+
+  Posts.addNewBlogPost = function(data) {
+    return db('blogs')
+    .insert(data);
+  };
+
+  Posts.editBlogPost = function(id, data) {
+    return db('blogs')
+    .where({
+      'blog_id': id
+    })
+    .limit(1)
+    .update(data)
+    .then(function(data) {
+      console.log(data);
+      return data;
+    })
+    .catch(function(err){
+      console.error(err.stack);
+    });
+  };
+
+//DELETE A POST
+  Posts.deletePost = function(id){ 
+    return db('blogs')
+    .where({
+      'blog_id': id
+    })
+    .del()
+    .then(function(data) {
+      console.log('Deleted '+data+' blog post.');
+    }).catch(function(error) {
+      console.error(error);
+    });
+  };
+
   /*
   <-----------TODO: SET UP NEXT AND PREVIOUS QUERIES FOR BUTTONS--------------->
   SELECT
@@ -47,52 +97,6 @@ var Posts = module.exports;
   }
   */
 
-  Posts.getPostByTitle = function(postTitle) {
-    return db('blogs')
-    .where({
-      'blog_title' : postTitle
-    });
-  };
-
-  Posts.getPostByCategory = function(postCategory) {
-    return db('blogs')
-    .where({
-      'blog_category' : postCategory
-    });
-  };
-
-  Posts.addNewBlogPost = function(data) {
-    return db('blogs')
-    .insert(data);
-  };
-
-  Posts.editBlogPost = function(id, data) {
-    return db('blogs')
-    .where({
-      blog_id: id
-    })
-    .limit(1)
-    .update(data)
-    .then(function(data) {
-      console.log(data);
-      return data;
-    })
-    .catch(function(err){
-      console.error(err.stack);
-    });
-  };
-
-//Delete a post
-  Posts.deletePost = function(id){ 
-    return db('blogs')
-    .where('blog_id', '=', id)
-    .del()
-    .then(function(data) {
-      console.log('Deleted '+data+' blog post.');
-    }).catch(function(error) {
-      console.error(error);
-    });
-  };
 
 /************* BLOG TODO ENDPOINTS *************/
 // Get bound toyproblems if present

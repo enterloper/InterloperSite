@@ -10,7 +10,7 @@ var assetFolder = path.resolve(__dirname, '../../public');
 /***************** BLOG ROUTING *****************/
 BlogRouter.use( express.static(assetFolder) );
 
-BlogRouter.get('/', function(req, res) {
+BlogRouter.get('/', function(req, res, next) {
     var posts; 
     Posts.getAll()
     .then(function(data) {
@@ -32,14 +32,14 @@ BlogRouter.get('/', function(req, res) {
       })
     .then(function(value){
         res.render('blog', value);
-        next();
       })
     .catch(function(err) {
-      console.error(err.stack)
+      console.error(err.stack);
+      next();
     });
   });
 
-BlogRouter.get('/:title', function(req, res, title) {
+BlogRouter.get('/:title', function(req, res, next) {
     var post;
     Posts.getPostByTitle(req.params.title)
     .then(function(data) {
@@ -53,13 +53,13 @@ BlogRouter.get('/:title', function(req, res, title) {
         description: post[0].blog_description,
         body: post[0].blog_body,
         blog_attached: post[0].toy_problem_attached,
+        image: post[0].blog_image,
         created_at: post[0].created_at
       };
       return context;
     })
     .then(function(value){
       res.render('singleBlog', value);
-      next();
     })
     .catch(function(err) {
       console.error(err);

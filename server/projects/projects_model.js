@@ -18,7 +18,8 @@ Projects.getProjectByID = function(id) {
 };
 
 Projects.getProjectByTitle = function(ProjectTitle) {
-  return db('projects').where({
+  return db('projects')
+  .where({
     'project_title' : ProjectTitle
   });
 };
@@ -29,10 +30,9 @@ Projects.addNewProject = function(data) {
 };
 
 Projects.editProject = function(id, data) {
-  console.log('id',id, 'data',data);
   return db('projects')
   .where({
-    project_id: id
+    'project_id' : id
   })
   .limit(1)
   .update(data)

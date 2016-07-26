@@ -18,7 +18,8 @@ ToyProbs.getToyProbByID = function(id) {
 };
 
 ToyProbs.getToyProbByTitle = function(title) {
-  return db('toy_problems').where({
+  return db('toy_problems')
+  .where({
     'toy_problem_title' : title
   });
 };
@@ -38,7 +39,7 @@ ToyProbs.addNewToyProblem = function(data) {
 ToyProbs.editToyProblem = function(id, data) {
   return db('toy_problems')
   .where({
-    toy_problem_id: id
+    'toy_problem_id': id
   })
   .limit(1)
   .update(data)
@@ -51,10 +52,11 @@ ToyProbs.editToyProblem = function(id, data) {
   });
 };
 
+//DELETE A TOY PROBLEM
 ToyProbs.deleteToyProblem = function(id) {
   return db('toy_problems')
   .where({
-    toy_problem_id: id
+    'toy_problem_id': id
   })
   .del()
   .then(function(data) {

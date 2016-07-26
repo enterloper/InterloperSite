@@ -6,8 +6,7 @@ var path          = require('path');
 
 var assetFolder = path.resolve(__dirname, '../../public');
 
-ProjectsRouter.route('/')
-  .get(function(req, res) {
+ProjectsRouter.get('/', function(req, res, next) {
     var projects; 
     Projects.getAll()
     .then(function(data) {
