@@ -48,12 +48,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.set('views', __dirname + '/views');
 
-//ROUTERS
-app.use("/toy-problems", TPRouter);
-app.use("/blog", BlogRouter);
-app.use("/portfolio", ProjectsRouter);
-app.use("/api", APIRouter);
-app.use("/", MainRouter);
 
 // Set up Handlebars engine
 var hbs = exphbs.create({
@@ -93,6 +87,12 @@ app.use(function(err, req, res, next) {
     res.status(500).render('500');
 });
 
+//ROUTERS
+app.use("/toy-problems", TPRouter);
+app.use("/blog", BlogRouter);
+app.use("/portfolio", ProjectsRouter);
+app.use("/api", APIRouter);
+app.use("/", MainRouter);
 app.use(function(req, res) {
   res.status(404).render('404');
 });
