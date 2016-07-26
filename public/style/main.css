@@ -2,11 +2,6 @@
 GENERAL
 ***********************************/
 /*(050505(RICH BLACK), 1B9AAA(LIGHT SEA GREEN), DDDBCB(bone), F5F1E3(alabaster), FFFFFF(white)*/
-@font-face {
-  font-family: 'Changa One';
-  src: url('../fonts/ChangaOne-Italic.ttf'),
-       url('../fonts/ChangaOne-Regular.ttf');
-}
 
 body {
   font-family: 'Avenir Next ', sans-serif;
