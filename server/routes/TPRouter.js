@@ -32,10 +32,10 @@ TPRouter.get('/', function(req, res, next) {
     .then(function(value){
         res.render('toyProblems', value);
       })
-    .catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
+    .catch(
+      // console.error(err.stack);
+      next
+    );
   });
 
 TPRouter.get('/:title', function(req, res, next) {
@@ -60,10 +60,10 @@ TPRouter.get('/:title', function(req, res, next) {
     .then(function(value){
       res.render('singleToyProblem', value);
     })
-    .catch(function(err) {
-      console.error(err);
-      next();
-    });
+    .catch(
+      // console.error(err);
+      next
+    );
   });
 
 module.exports = TPRouter;

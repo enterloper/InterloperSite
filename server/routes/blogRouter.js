@@ -33,10 +33,10 @@ BlogRouter.get('/', function(req, res, next) {
     .then(function(value){
         res.render('blog', value);
       })
-    .catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
+    .catch(
+      // console.error(err.stack);
+      next
+    );
   });
 
 BlogRouter.get('/:title', function(req, res, next) {
@@ -61,10 +61,10 @@ BlogRouter.get('/:title', function(req, res, next) {
     .then(function(value){
       res.render('singleBlog', value);
     })
-    .catch(function(err) {
-      console.error(err);
-      next();
-    });
+    .catch(
+      // console.error(err);
+      next
+    );
   });
 
 module.exports = BlogRouter;

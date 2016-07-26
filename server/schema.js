@@ -37,9 +37,9 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.foreign('blogs_id').references('blog_id');
 })
 .then(function(res){
-  console.log('Success Applying Schema');
+  // console.log('Success Applying Schema');
   knex.destroy();
 })
 .catch(function(err){
-  console.log('[schema.js: 35] - error: ', err.message);
+  // console.log('[schema.js: 35] - error: ', err.message);
 });
