@@ -4,13 +4,11 @@ var Path    = require('path');
 
 var assetFolder = Path.resolve(__dirname, '../../public');
 
-/***************** DEFAULT ROUTING *****************/
+/***************** HOME PAGE ROUTING *****************/
 MainRouter.use( express.static(assetFolder) );
 
-MainRouter.get('/*', function(req, res){
-
-  res.sendFile( assetFolder + '/main.handlebars' )
-    
+MainRouter.get('/', function(req, res){
+  res.render('home');
 });
 
 module.exports = MainRouter;

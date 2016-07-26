@@ -52,6 +52,7 @@ app.use("/toy-problems", TPRouter);
 app.use("/blog", BlogRouter);
 app.use("/portfolio", ProjectsRouter);
 app.use("/api", APIRouter);
+app.use("/", MainRouter);
 
 // Set up Handlebars engine
 var hbs = exphbs.create({
@@ -74,14 +75,9 @@ app.set('view engine', 'handlebars');
 app.enable('view cache');
 app.set('view cache', true);
 
-/***************** HOME PAGE ROUTING *****************/
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
 
-});
-
-app.get('/', function(req, res){
-  res.render('home');
 });
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
