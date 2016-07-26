@@ -17,8 +17,7 @@ APIRouter.get('/add-content', function(req, res) {
   });
 
 /***************** API HEADER CHECK *****************/
-APIRouter.route('/headers') 
-  .get(function(req, res) {
+APIRouter.get('/headers', function(req, res) {
     res.set('Content-Type', 'text/plain');
     var s = '';
     req.secure;
@@ -86,8 +85,7 @@ APIRouter.route('/posts/:id')
     });
 
 //GET post by Title
-APIRouter.route('/posts/title/:title') 
-  .get(function(req, res, next){
+APIRouter.get('/posts/title/:title', function(req, res, next){
     Posts.getPostByTitle(req.params.title)
     .then(function(data){
       res.status(200).json(data);
@@ -99,8 +97,7 @@ APIRouter.route('/posts/title/:title')
   });
 
 //GET post by Category
-APIRouter.route('/posts/category/:category')
-  .get(function(req, res, next) {
+APIRouter.get('/posts/category/:category', function(req, res, next) {
     Posts.getPostByCategory(req.params.category)
     .then(function(data) {
       res.send(data);
@@ -172,8 +169,7 @@ APIRouter.route('/problems/:id')
     });
 
 //GET toy problem by Title
-APIRouter.route('/problems/title/:title')
-  .get(function(req, res, next){
+APIRouter.get('/problems/title/:title', function(req, res, next){
     ToyProbs.getToyProbByTitle(req.params.title)
     .then(function(data){
       res.status(200).json(data);
@@ -185,8 +181,7 @@ APIRouter.route('/problems/title/:title')
   });
 
 //GET a toy problem by difficulty level
-APIRouter.route('/problems/difficulty/:level')
-  .get(function(req, res, next) {
+APIRouter.get('/problems/difficulty/:level', function(req, res, next) {
     ToyProbs.getToyProbByDifficulty(req.params.level)
     .then(function(data) {
       res.send(data);
