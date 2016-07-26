@@ -47,7 +47,9 @@ Thumbs.db
 
 # Specific Files, Library and Modules #
 lib/
-node_modules
+/node_modules
+npm-debug.log
+/*.env
 seeds
 SQL_notes.md
 router_notes.md
