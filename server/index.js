@@ -14,7 +14,7 @@ var exphbs          = require('express-handlebars');
 var BlogRouter      = require('./routes/blogRouter');
 var TPRouter        = require('./routes/TPRouter');
 var ProjectsRouter  = require('./routes/ProjectsRouter');
-// var APIRouter       = require('./routes/APIRouter');
+var APIRouter       = require('./routes/APIRouter');
 var MainRouter      = require('./routes/mainRouter');
 var Promise         = require('bluebird');
 
@@ -91,7 +91,7 @@ app.use(function(err, req, res, next) {
 app.use("/toy-problems", TPRouter);
 app.use("/blog", BlogRouter);
 app.use("/portfolio", ProjectsRouter);
-// app.use("/api", APIRouter);
+app.use("/api", APIRouter);
 app.use("/", MainRouter); 
 app.use(function(req, res) {
   res.status(404).render('404');
