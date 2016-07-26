@@ -41,7 +41,7 @@ Handlebars.registerHelper("debug", function(optionalValue) {
 
 //rootPath for path to public directory => Interloper/public
 var rootPath = path.normalize(__dirname + './../public');
-var assetFolder = path.resolve(__dirname, '../../public');
+var assetFolder = path.resolve(__dirname, './../../public');
 app.use( express.static(assetFolder) );
 
 //serve static files in public directory, without processing them.
