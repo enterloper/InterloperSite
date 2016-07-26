@@ -22,6 +22,7 @@ var BlogRouter      = require('./routes/blogRouter');
 var TPRouter        = require('./routes/TPRouter');
 var ProjectsRouter  = require('./routes/ProjectsRouter');
 var APIRouter       = require('./routes/APIRouter');
+var MainRouter      = require('./routes/mainRouter');
 var Promise         = require('bluebird');
 
 //if debugging, use {{debug}} at the top of the view
