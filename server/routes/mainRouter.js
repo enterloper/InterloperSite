@@ -6,7 +6,7 @@ var assetFolder = Path.resolve(__dirname, '../../public');
 
 /***************** HOME PAGE ROUTING *****************/
 MainRouter.use( express.static(assetFolder) );
-MainRouter.use( express.static(assetFolder + '/img') );
+MainRouter.use( express.static('public') );
 
 MainRouter.get('/', function(req, res){
   res.render('home');
