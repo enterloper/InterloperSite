@@ -19,9 +19,11 @@ module.exports = {
   production: {
     client: 'pg',
     connection: {
-      database: 'blogdb',
+      host : 'ec2-50-17-206-164.compute-1.amazonaws.com',
+      port: 5432,
+      database: 'BLOG_DB',
       user:     'richardjboothe',
-      password: 'blogdb'
+      password: 'BLOG_DB'
     },
     pool: {
       min: 2,
