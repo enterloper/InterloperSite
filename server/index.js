@@ -18,22 +18,6 @@ var APIRouter       = require('./routes/APIRouter');
 var MainRouter      = require('./routes/mainRouter');
 var Promise         = require('bluebird');
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-
-//assetFolder for path to public directory => Interloper/public
-var assetFolder = path.resolve(__dirname, './../../public');
-app.use( express.static(assetFolder) );
-app.use( express.static(assetFolder + '/img') );
-app.use( express.static(assetFolder + '/style') );
-app.use( express.static(assetFolder + '/src') );
-//serve static files in public directory, without processing them.
-app.use(express.static('public'));
-//middleware
-// app.use(morgan('dev'));
-app.set('views', __dirname + '/views');
-
-
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
@@ -54,6 +38,24 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('view cache', true);
 app.set('case sensitive routing', false); 
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+//assetFolder for path to public directory => Interloper/public
+var assetFolder = path.resolve(__dirname, './../../public');
+app.use( express.static(assetFolder) );
+app.use('/img' express.static(assetFolder + '/img') );
+app.use( express.static(assetFolder + '/style') );
+app.use( express.static(assetFolder + '/src') );
+
+//serve static files in public directory, without processing them.
+app.use(express.static('public'));
+//middleware
+// app.use(morgan('dev'));
+
+app.set('views', __dirname + '/views');
+
+
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
 app.disable('x-powered-by');
 app.param('id', function(req, res, next, id) {
@@ -70,6 +72,7 @@ app.use("/portfolio", ProjectsRouter);
 app.use(function(req, res) {
   res.status(404).render('404');
 });
+
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.get('/error', function(err, req, res, next) {
   //set status to 500 and render error page
