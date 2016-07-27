@@ -44,7 +44,7 @@ app.use(bodyParser.json());
 //assetFolder for path to public directory => Interloper/public
 var assetFolder = path.resolve(__dirname, './../../public');
 app.use( express.static(assetFolder) );
-app.use('/img' express.static(assetFolder + '/img') );
+app.use('/img', express.static(assetFolder + '/img') );
 app.use( express.static(assetFolder + '/style') );
 app.use( express.static(assetFolder + '/src') );
 
