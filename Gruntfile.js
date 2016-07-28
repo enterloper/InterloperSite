@@ -12,15 +12,15 @@ module.exports = function(grunt) {
                 'server/*.js',
                 'server/config/*.js',
                 'server/migrations/*.js',
-                '/server/posts/*.js',
-                '/server/projects/*.js',
-                '/server/routes/*.js',
+                'server/posts/*.js',
+                'server/projects/*.js',
+                'server/routes/*.js',
                 'server/seeds/*.js',
-                '/server/toy_problems/*.js',
-                '/server/views/*.js',
-                '/server/views/layouts/*.js',
-                '/server/views/partials/*.js',
-                '/server/views/shared/*.js'
+                'server/toy_problems/*.js',
+                'server/views/*.js',
+                'server/views/layouts/*.js',
+                'server/views/partials/*.js',
+                'server/views/shared/*.js'
                 ],
                 dest: 'public/src/build/production.js'
             }
