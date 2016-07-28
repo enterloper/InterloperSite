@@ -1,10 +1,9 @@
 
-var config = require('./../knexfile.js');
-var env = process.env.NODE_ENV || 'development';
-var knex = require('knex')(config[env]); 
-knex.migrate.latest([config]);  
+var environment = process.env.NODE_ENV || 'development';
+var config      = require('../knexfile.js')[environment];
+var knex        = require('knex')(config);
+knex.migrate.latest([config]);
 module.exports = knex;
-
 var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
@@ -25,43 +24,6 @@ var APIRouter       = require('./routes/APIRouter');
 var MainRouter      = require('./routes/mainRouter');
 var Promise         = require('bluebird');
 
-//if debugging, use {{debug}} at the top of the view
-Handlebars.registerHelper("debug", function(optionalValue) {
-  console.log("Current Context");
-  console.log("====================");
-  console.log(this);
-  console.log(this.exphbs);
- 
-  if (optionalValue) {
-    console.log("Value");
-    console.log("====================");
-    console.log(optionalValue);
-  }
-});
-
-//assetFolder for path to public directory => Interloper/public
-var assetFolder = path.resolve(__dirname, './../../public');
-app.use( express.static(assetFolder) );
-app.use('/img', express.static(assetFolder + '/img') );
-app.use('/style', express.static(assetFolder + '/style') );
-
-//serve static files in public directory, without processing them.
-app.use(express.static('public'));
-//DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
-app.disable('x-powered-by');
-//middleware
-// app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-app.set('views', __dirname + '/views');
-
-//ROUTERS
-app.use("/toy-problems", TPRouter);
-app.use("/blog", BlogRouter);
-app.use("/portfolio", ProjectsRouter);
-app.use("/api", APIRouter);
-app.use("/", MainRouter);
-
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
@@ -77,35 +39,59 @@ var hbs = exphbs.create({
   layoutsDir: 'server/views/layouts/'
 });
 
+app.set( 'port', (process.env.PORT || 3000) );
+
+//middleware
+//assetFolder for path to public directory => Interloper/public
+var assetFolder = path.resolve(__dirname, './../../public');
+//serve static files in public directory, without processing them.
+app.use( express.static('public') );
+app.use( express.static(assetFolder) );
+app.use('/img', express.static(assetFolder + '/img') );
+app.use( express.static(assetFolder + '/style') );
+app.use( express.static(assetFolder + '/src') );
+// app.use(morgan('dev'));
+
+//ROUTERS
+app.use("/api", APIRouter);
+app.use("/", MainRouter); 
+app.use("/toy-problems", TPRouter);
+app.use("/blog", BlogRouter);
+app.use("/portfolio", ProjectsRouter);
+app.use(function(req, res) {
+  res.status(404).render('404');
+});
+
 // Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('handlebars', hbs.engine);
+app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
-app.enable('view cache');
 app.set('view cache', true);
+app.set('case sensitive routing', false); 
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
+//DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
+app.disable('x-powered-by');
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
-
+  next();
 });
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.get('/error', function(err, req, res, next) {
   //set status to 500 and render error page
-  console.error(err.message);
+  // console.error(err.message);
   res.status(500).render('500');
 });
 
 app.use(function(err, req, res, next) {
-    console.error(err.stack);
+    // console.error(err.stack);
     res.status(500).render('500');
 });
 
-app.use(function(req, res) {
-  res.status(404).render('404');
-});
-
-app.listen(config.port || 3000, function(){
-  console.log('Listening on port:' , config.port);
+app.listen(app.get('port'), function(){
+  console.log('Node app is running on port:' , app.get('port'));
 });
 
 module.exports = app;  
@@ -153,11 +139,11 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.foreign('blogs_id').references('blog_id');
 })
 .then(function(res){
-  console.log('Success Applying Schema');
+  // console.log('Success Applying Schema');
   knex.destroy();
 })
 .catch(function(err){
-  console.log('[schema.js: 35] - error: ', err.message);
+  // console.log('[schema.js: 35] - error: ', err.message);
 });
 
 var baseUrl = '';
