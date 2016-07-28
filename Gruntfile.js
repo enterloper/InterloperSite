@@ -18,9 +18,9 @@ module.exports = function(grunt) {
                 'server/seeds/*.js',
                 '/server/toy_problems/*.js',
                 '/server/views/*.js',
-                '/server/views/layouts*.js',
-                '/server/views/partials*.js',
-                '/server/views/shared*.js'
+                '/server/views/layouts/*.js',
+                '/server/views/partials/*.js',
+                '/server/views/shared/*.js'
                 ],
                 dest: 'public/src/build/production.js'
             }
@@ -59,10 +59,9 @@ module.exports = function(grunt) {
     ['grunt-contrib-concat',
     'grunt-contrib-uglify',
     'grunt-contrib-imagemin',
-    "grunt-contrib-cssmin",
-    "grunt-contrib-handlebars"].forEach(function(task) { grunt.loadNpmTasks(task);});
+    "grunt-contrib-cssmin"].forEach(function(task) { grunt.loadNpmTasks(task);});
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-    grunt.registerTask('default', ['concat', 'uglify', 'imagemin', 'cssmin', 'handlebars']);
+    grunt.registerTask('default', ['concat', 'uglify', 'imagemin', 'cssmin']);
 
 };
