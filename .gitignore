@@ -54,7 +54,7 @@ seeds
 SQL_notes.md
 router_notes.md
 db.js
-
+build/*.js
 
 
 
