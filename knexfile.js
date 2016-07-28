@@ -1,8 +1,14 @@
+console.log("host",process.env.POSTGRES_HOST);
+console.log("port",process.env.POSTGRES_PORT);
+console.log("user", process.env.POSTGRES_USER);
+console.log("password", process.env.POSTGRES_PASSWORD);
+console.log("database" ,process.env.POSTGRES_DB);
 module.exports = {
   
   development: {
     client: 'pg',
     connection: {
+      charset: 'utf8',
       host    : '127.0.0.1',
       database: 'blogdb'
     },
@@ -15,7 +21,6 @@ module.exports = {
     },
     debug: true
   },
-
   production: {
     client: 'pg',
     connection: {
