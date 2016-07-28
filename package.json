@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon ./server/index.js",
-    "postinstall": "grunt build"
+    "postinstall": "grunt"
   },
   "author": "Richard Boothe",
   "license": "ISC",
