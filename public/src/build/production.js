@@ -23,7 +23,10 @@ var ProjectsRouter  = require('./routes/ProjectsRouter');
 var APIRouter       = require('./routes/APIRouter');
 var MainRouter      = require('./routes/mainRouter');
 var Promise         = require('bluebird');
-var assetFolder     = path.resolve(__dirname, './../../public/');
+
+// SERVE UP THOSE DELICIOUS STATIC FILES!
+var assetFolder = path.resolve(__dirname +'./../public');
+app.use( express.static(assetFolder) );
 
 // Set up Handlebars engine
 var hbs = exphbs.create({
@@ -45,11 +48,12 @@ app.set( 'port', (process.env.PORT || 3000) );
 //middleware
 //assetFolder for path to public directory => Interloper/public
 //serve static files in public directory, without processing them.
-app.use( express.static('public') );
-app.use( express.static(assetFolder) );
+
 app.use('/img', express.static(assetFolder + '/img') );
 app.use( express.static(assetFolder + '/style') );
 app.use( express.static(assetFolder + '/src') );
+app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({extended: true}));
 // app.use(morgan('dev'));
 
 //ROUTERS
@@ -68,8 +72,6 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 app.set('view cache', true);
 app.set('case sensitive routing', false); 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
 
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
 app.disable('x-powered-by');
@@ -173,6 +175,8 @@ try {
 }
 
 module.exports = _.merge(config, envConfig);
+
+
 module.exports = {
   // enabled logging for development
   logging: true,
@@ -182,8 +186,7 @@ module.exports = {
 module.exports = {
   // disbable logging for production
   logging: false,
-  seed: true,
-  db: blogdb
+  seed: true
 };
 
 module.exports = {
@@ -445,10 +448,10 @@ var path       = require('path');
 var Promise    = require('bluebird');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
-var assetFolder = path.resolve(__dirname, '../../public');
+var assetFolder = path.resolve(__dirname + './../../public');
+APIRouter.use( express.static(assetFolder) );
 
 /***************** API ROUTING *****************/
-APIRouter.use( express.static(assetFolder) );
 
 APIRouter.get('/add-content', function(req, res) {
     res.render('additional');
@@ -708,13 +711,16 @@ APIRouter.get('/projects/title/:title', function(req, res, next){
 module.exports = APIRouter;
 
 
-var express       = require('express');
+var express           = require('express');
 var ProjectsRouter    = express.Router();
-var Projects      = require('./../projects/projects_model');
-var path          = require('path');
-/***************** PORTFOLIO ROUTING *****************/
+var Projects          = require('./../projects/projects_model');
+var path              = require('path');
 
-var assetFolder = path.resolve(__dirname, '../../public');
+// SERVE UP THOSE DELICIOUS STATIC FILES!
+var assetFolder = path.resolve(__dirname + './../../public');
+ProjectsRouter.use( express.static(assetFolder) );
+
+/***************** PORTFOLIO ROUTING *****************/
 
 ProjectsRouter.get('/', function(req, res, next) {
     var projects; 
@@ -742,17 +748,18 @@ ProjectsRouter.get('/', function(req, res, next) {
   });
 
 module.exports = ProjectsRouter;
+
 var express  = require('express');
 var TPRouter = express.Router();
 var ToyProbs = require('./../toy_problems/toy_problems_model');
 var path     = require('path');
 var Promise  = require('bluebird');
-//SERVE UP THOSE DELICIOUS STATIC FILES!
-var assetFolder = path.resolve(__dirname, '../../public');
 
-/***************** TOY PROBLEM ROUTING *****************/
+//SERVE UP THOSE DELICIOUS STATIC FILES!
+var assetFolder = path.resolve(__dirname + './../../public');
 TPRouter.use( express.static(assetFolder) );
 
+/***************** TOY PROBLEM ROUTING *****************/
 TPRouter.get('/', function(req, res, next) {
     var toy_problems; 
     ToyProbs.getAll()
@@ -820,10 +827,10 @@ var path       = require('path');
 var Promise    = require('bluebird');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
-var assetFolder = path.resolve(__dirname, '../../public');
+var assetFolder = path.resolve(__dirname + './../../public');
+BlogRouter.use( express.static(assetFolder) );
 
 /***************** BLOG ROUTING *****************/
-BlogRouter.use( express.static(assetFolder) );
 
 BlogRouter.get('/', function(req, res, next) {
     var posts; 
@@ -886,16 +893,15 @@ module.exports = BlogRouter;
 
 
 
-var express = require('express');
+var express     = require('express');
 var MainRouter  = express.Router();
-var Path    = require('path');
+var Path        = require('path');
 
-var assetFolder = Path.resolve(__dirname, '../../public');
+// //SERVE UP THOSE DELICIOUS STATIC FILES!
+var assetFolder = Path.resolve(__dirname + './../../public');
+MainRouter.use( express.static(assetFolder) );
 
 /***************** HOME PAGE ROUTING *****************/
-MainRouter.use( express.static(assetFolder) );
-MainRouter.use( express.static('public') );
-
 MainRouter.get('/', function(req, res){
   res.render('home');
 });

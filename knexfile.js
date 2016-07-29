@@ -45,10 +45,3 @@ module.exports = {
     debug: true
   }
 };
-    // connection: {
-    //   host : 'ec2-54-243-126-40.compute-1.amazonaws.com',
-    //   port: 5432,
-    //   database: 'BLOG_DB',
-    //   user:     'richardjboothe',
-    //   password: 'BLOG_DB'
-    // },
