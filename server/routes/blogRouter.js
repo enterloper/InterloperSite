@@ -5,7 +5,7 @@ var path       = require('path');
 var Promise    = require('bluebird');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
-var assetFolder = path.resolve(__dirname, '../../public');
+var assetFolder = path.resolve(__dirname + './../../public');
 BlogRouter.use( express.static(assetFolder) );
 
 /***************** BLOG ROUTING *****************/

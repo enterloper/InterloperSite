@@ -3,8 +3,8 @@ var ProjectsRouter    = express.Router();
 var Projects          = require('./../projects/projects_model');
 var path              = require('path');
 
-//SERVE UP THOSE DELICIOUS STATIC FILES!
-var assetFolder = path.resolve(__dirname, '../../public');
+// SERVE UP THOSE DELICIOUS STATIC FILES!
+var assetFolder = path.resolve(__dirname + './../../public');
 ProjectsRouter.use( express.static(assetFolder) );
 
 /***************** PORTFOLIO ROUTING *****************/

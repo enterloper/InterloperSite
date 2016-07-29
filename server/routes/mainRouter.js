@@ -2,7 +2,8 @@ var express     = require('express');
 var MainRouter  = express.Router();
 var Path        = require('path');
 
-var assetFolder = Path.resolve(__dirname, '../../public');
+// //SERVE UP THOSE DELICIOUS STATIC FILES!
+var assetFolder = Path.resolve(__dirname + './../../public');
 MainRouter.use( express.static(assetFolder) );
 
 /***************** HOME PAGE ROUTING *****************/
