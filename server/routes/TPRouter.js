@@ -3,12 +3,12 @@ var TPRouter = express.Router();
 var ToyProbs = require('./../toy_problems/toy_problems_model');
 var path     = require('path');
 var Promise  = require('bluebird');
+
 //SERVE UP THOSE DELICIOUS STATIC FILES!
 var assetFolder = path.resolve(__dirname, '../../public');
-
-/***************** TOY PROBLEM ROUTING *****************/
 TPRouter.use( express.static(assetFolder) );
 
+/***************** TOY PROBLEM ROUTING *****************/
 TPRouter.get('/', function(req, res, next) {
     var toy_problems; 
     ToyProbs.getAll()

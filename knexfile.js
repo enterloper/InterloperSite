@@ -24,12 +24,12 @@ module.exports = {
   production: {
     client: 'pg',
     connection: {
-      charset: 'utf8',
-      host : process.env.POSTGRES_HOST,
-      port : process.env.POSTGRES_PORT,
-      user : process.env.POSTGRES_USER,
-      password : process.env.POSTGRES_PASSWORD,
-      database : process.env.POSTGRES_DB,
+      database : 'd3ntj3cmv66vll',
+      user : 'qjiwhevwfexkza',
+      password : 'DyKIG3C7CNg-ZhW3qKuFU7zWTt',
+      host : 'ec2-54-243-126-40.compute-1.amazonaws.com',
+      port : 5432,
+      ssl: true
     },
     pool: {
       min: 2,

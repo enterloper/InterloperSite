@@ -23,6 +23,7 @@ var ProjectsRouter  = require('./routes/ProjectsRouter');
 var APIRouter       = require('./routes/APIRouter');
 var MainRouter      = require('./routes/mainRouter');
 var Promise         = require('bluebird');
+var assetFolder     = path.resolve(__dirname, './../../public/');
 
 // Set up Handlebars engine
 var hbs = exphbs.create({
@@ -34,16 +35,15 @@ var hbs = exphbs.create({
   },
   partialsDir: [
     'server/views/shared/templates',
-    'server/views/partials/'
+    'server/views/partials'
   ],
-  layoutsDir: 'server/views/layouts/'
+  layoutsDir: 'server/views/layouts'
 });
 
 app.set( 'port', (process.env.PORT || 3000) );
 
 //middleware
 //assetFolder for path to public directory => Interloper/public
-var assetFolder = path.resolve(__dirname, './../../public');
 //serve static files in public directory, without processing them.
 app.use( express.static('public') );
 app.use( express.static(assetFolder) );

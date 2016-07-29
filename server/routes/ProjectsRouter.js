@@ -1,10 +1,13 @@
-var express       = require('express');
+var express           = require('express');
 var ProjectsRouter    = express.Router();
-var Projects      = require('./../projects/projects_model');
-var path          = require('path');
-/***************** PORTFOLIO ROUTING *****************/
+var Projects          = require('./../projects/projects_model');
+var path              = require('path');
 
+//SERVE UP THOSE DELICIOUS STATIC FILES!
 var assetFolder = path.resolve(__dirname, '../../public');
+ProjectsRouter.use( express.static(assetFolder) );
+
+/***************** PORTFOLIO ROUTING *****************/
 
 ProjectsRouter.get('/', function(req, res, next) {
     var projects; 

@@ -8,9 +8,9 @@ var Promise    = require('bluebird');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
 var assetFolder = path.resolve(__dirname, '../../public');
+APIRouter.use( express.static(assetFolder) );
 
 /***************** API ROUTING *****************/
-APIRouter.use( express.static(assetFolder) );
 
 APIRouter.get('/add-content', function(req, res) {
     res.render('additional');
