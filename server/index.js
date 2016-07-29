@@ -19,7 +19,10 @@ var MainRouter      = require('./routes/mainRouter');
 var Promise         = require('bluebird');
 
 // SERVE UP THOSE DELICIOUS STATIC FILES!
-var assetFolder = path.resolve(__dirname +'./../public');
+//assetFolder for path to public directory => Interloper/public
+console.log('INDEX DIRNAME:',__dirname);
+var assetFolder = path.resolve(__dirname, './../public');
+console.log('INDEX ASSETFOLER:',assetFolder);
 app.use( express.static(assetFolder) );
 
 // Set up Handlebars engine
@@ -39,16 +42,14 @@ var hbs = exphbs.create({
 
 app.set( 'port', (process.env.PORT || 3000) );
 
-//middleware
-//assetFolder for path to public directory => Interloper/public
-//serve static files in public directory, without processing them.
 
-app.use('/img', express.static(assetFolder + '/img') );
-app.use( express.static(assetFolder + '/style') );
+//middleware
+//serve static files in public directory, without processing them.
+app.use( '/img', express.static(assetFolder + '/img') );
+app.use( '/style', express.static(assetFolder + '/style') );
 app.use( express.static(assetFolder + '/src') );
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}));
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 //ROUTERS
 app.use("/api", APIRouter);

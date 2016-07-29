@@ -5,7 +5,9 @@ var path     = require('path');
 var Promise  = require('bluebird');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
+console.log('TOY PROBLEMS DIRNAME:',__dirname);
 var assetFolder = path.resolve(__dirname + './../../public');
+console.log('TOY PROBLEMS ASSETFOLER:',assetFolder);
 TPRouter.use( express.static(assetFolder) );
 
 /***************** TOY PROBLEM ROUTING *****************/
