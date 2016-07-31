@@ -9,7 +9,7 @@ console.log('TOY PROBLEMS DIRNAME:',__dirname);
 var assetFolder = path.resolve(__dirname + './../../public');
 console.log('TOY PROBLEMS ASSETFOLER:',assetFolder);
 TPRouter.use( express.static(assetFolder) );
-TPRouter.use('/toy-problems', express.static(assetFolder + '/img'));
+TPRouter.use(express.static(assetFolder + '/img'));
 
 /***************** TOY PROBLEM ROUTING *****************/
 TPRouter.get('/', function(req, res, next) {
