@@ -22,7 +22,7 @@ var MainRouter      = require('./routes/mainRouter.js');
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 console.log('INDEX', __dirname);
 app.use(express.static(__dirname + '/../public'));
-app.use('/img', express.static(__dirname+ '/../public/img') );
+app.use('/static', express.static(__dirname+ '/../public/img') );
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
