@@ -5,8 +5,8 @@ var path       = require('path');
 var Promise    = require('bluebird');
 
 // SERVE UP THOSE DELICIOUS STATIC FILES!
-BlogRouter.use( express.static('public') );
-BlogRouter.use( express.static('img') );
+BlogRouter.use( express.static(__dirname + '/../../public') );
+BlogRouter.use( '/img', express.static(__dirname+ '/../../public/img') );
 
 /***************** BLOG ROUTING *****************/
 

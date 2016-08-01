@@ -5,8 +5,8 @@ var path     = require('path');
 var Promise  = require('bluebird');
 
 // //SERVE UP THOSE DELICIOUS STATIC FILES!
-TPRouter.use( express.static('public') );
-TPRouter.use( express.static('img') );
+TPRouter.use( express.static(__dirname + '/../../public') );
+TPRouter.use( '/img', express.static(__dirname+ '/../../public/img') );
 
 /***************** TOY PROBLEM ROUTING *****************/
 TPRouter.get('/', function(req, res, next) {
