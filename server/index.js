@@ -1,6 +1,7 @@
 var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
+var Promise         = require('bluebird');
 // var _               = require('lodash');
 var path            = require('path'); 
 var morgan          = require('morgan');
@@ -11,20 +12,20 @@ var config          = require('./config/config');
 var db              = require('./db');
 var Handlebars      = require('handlebars');
 var exphbs          = require('express-handlebars');
-var BlogRouter      = require('./routes/blogRouter');
-var TPRouter        = require('./routes/TPRouter');
-var ProjectsRouter  = require('./routes/ProjectsRouter');
-var APIRouter       = require('./routes/APIRouter');
-var MainRouter      = require('./routes/mainRouter');
-var Promise         = require('bluebird');
+var BlogRouter      = require('./routes/blogRouter.js');
+var TPRouter        = require('./routes/TPRouter.js');
+var ProjectsRouter  = require('./routes/ProjectsRouter.js');
+var APIRouter       = require('./routes/APIRouter.js');
+var MainRouter      = require('./routes/mainRouter.js');
 
+//for production put in NODE_ENV=production node index.js
 // SERVE UP THOSE DELICIOUS STATIC FILES!
-//assetFolder for path to public directory => Interloper/public
-// console.log('INDEX DIRNAME:',__dirname);
-// var assetFolder = path.resolve(__dirname, './../public');
+// assetFolder for path to public directory => Interloper/public
+console.log('INDEX DIRNAME:',__dirname);
+// var assetFolder = path.join(__dirname, './../public');
 // console.log('INDEX ASSETFOLER:',assetFolder);
-// app.use( express.static(assetFolder) );
-
+app.use( express.static('public') );
+// app.use( '/public/style', express.static(path.join(__dirname + '/public/style')) );
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
@@ -63,8 +64,8 @@ app.use(function(req, res) {
 
 // Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('handlebars', hbs.engine);
-app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/views');
 app.set('view cache', true);
 app.set('case sensitive routing', false); 
 

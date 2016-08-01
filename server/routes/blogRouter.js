@@ -4,11 +4,8 @@ var Posts      = require('./../posts/posts_model');
 var path       = require('path');
 var Promise    = require('bluebird');
 
-//SERVE UP THOSE DELICIOUS STATIC FILES!
-console.log('BLOG DIRNAME:', __dirname);
-var assetFolder = path.resolve(__dirname, './../../public');
-console.log('BLOG ASSETFOLER:',assetFolder);
-BlogRouter.use( express.static(assetFolder) );
+// SERVE UP THOSE DELICIOUS STATIC FILES!
+BlogRouter.use( express.static('public') );
 
 /***************** BLOG ROUTING *****************/
 

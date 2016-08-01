@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "postinstall": "grunt uglify",
-    "start": "node ./server/index.js"
+    "start": "nodemon ./server/index.js"
   },
   "author": "Richard Boothe",
   "license": "ISC",

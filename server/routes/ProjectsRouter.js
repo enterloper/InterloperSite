@@ -4,10 +4,7 @@ var Projects          = require('./../projects/projects_model');
 var path              = require('path');
 
 // SERVE UP THOSE DELICIOUS STATIC FILES!
-console.log('PROJECTS DIRNAME:',__dirname);
-var assetFolder = path.resolve(__dirname, './../../public');
-console.log('PROJECTS ASSETFOLER:',assetFolder);
-ProjectsRouter.use( express.static(assetFolder) );
+ProjectsRouter.use( express.static('public') );
 
 /***************** PORTFOLIO ROUTING *****************/
 

@@ -3,6 +3,7 @@ console.log("port",process.env.POSTGRES_PORT);
 console.log("user", process.env.POSTGRES_USER);
 console.log("password", process.env.POSTGRES_PASSWORD);
 console.log("database" ,process.env.POSTGRES_DB);
+
 module.exports = {
   
   development: {

@@ -2,12 +2,9 @@ var express     = require('express');
 var MainRouter  = express.Router();
 var Path        = require('path');
 
-// //SERVE UP THOSE DELICIOUS STATIC FILES!
-console.log('MAIN DIRNAME:', __dirname);
-var assetFolder = Path.resolve(__dirname, './../../public');
-console.log('MAIN ASSETFOLER:',assetFolder);
-MainRouter.use( express.static(assetFolder) );
-MainRouter.use('/img', express.static(__dirname + './../../public/img'));
+// SERVE UP THOSE DELICIOUS STATIC FILES!
+MainRouter.use( express.static('public') );
+
 /***************** HOME PAGE ROUTING *****************/
 MainRouter.get('/', function(req, res){
   res.render('home');

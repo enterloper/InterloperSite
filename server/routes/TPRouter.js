@@ -4,12 +4,8 @@ var ToyProbs = require('./../toy_problems/toy_problems_model');
 var path     = require('path');
 var Promise  = require('bluebird');
 
-//SERVE UP THOSE DELICIOUS STATIC FILES!
-console.log('TOY PROBLEMS DIRNAME:',__dirname);
-var assetFolder = path.resolve(__dirname + './../../public');
-console.log('TOY PROBLEMS ASSETFOLER:',assetFolder);
-TPRouter.use( express.static(assetFolder) );
-TPRouter.use(express.static(assetFolder + '/img'));
+// //SERVE UP THOSE DELICIOUS STATIC FILES!
+TPRouter.use( express.static('public') );
 
 /***************** TOY PROBLEM ROUTING *****************/
 TPRouter.get('/', function(req, res, next) {
