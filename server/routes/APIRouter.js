@@ -7,8 +7,8 @@ var path       = require('path');
 var Promise    = require('bluebird');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
-APIRouter.use( express.static(__dirname + '/../../public') );
-APIRouter.use( '/img', express.static(__dirname+ '/../../public/img') );
+APIRouter.use( express.static( path.join( __dirname, '/../../public' )) );
+APIRouter.use( '/img', express.static( path.join(__dirname, '/../../public/img' )) );
 /***************** API ROUTING *****************/
 
 APIRouter.get('/add-content', function(req, res) {

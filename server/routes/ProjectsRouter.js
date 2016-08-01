@@ -5,7 +5,7 @@ var path              = require('path');
 
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 ProjectsRouter.use( express.static(__dirname + '/../../public') );
-ProjectsRouter.use( '/img', express.static(__dirname+ '/../../public/img') );
+ProjectsRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img')) );
 /***************** PORTFOLIO ROUTING *****************/
 
 ProjectsRouter.get('/', function(req, res, next) {
