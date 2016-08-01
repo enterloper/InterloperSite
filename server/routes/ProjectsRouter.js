@@ -5,6 +5,7 @@ var path              = require('path');
 
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 ProjectsRouter.use( express.static('public') );
+ProjectsRouter.use( '/img', express.static('img') );
 
 /***************** PORTFOLIO ROUTING *****************/
 

@@ -20,12 +20,10 @@ var MainRouter      = require('./routes/mainRouter.js');
 
 //for production put in NODE_ENV=production node index.js
 // SERVE UP THOSE DELICIOUS STATIC FILES!
-// assetFolder for path to public directory => Interloper/public
-console.log('INDEX DIRNAME:',__dirname);
-// var assetFolder = path.join(__dirname, './../public');
-// console.log('INDEX ASSETFOLER:',assetFolder);
+
 app.use( express.static('public') );
-// app.use( '/public/style', express.static(path.join(__dirname + '/public/style')) );
+app.use( '/img', express.static('img') );
+
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',

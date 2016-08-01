@@ -6,6 +6,7 @@ var Promise    = require('bluebird');
 
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 BlogRouter.use( express.static('public') );
+BlogRouter.use( '/img', express.static('img') );
 
 /***************** BLOG ROUTING *****************/
 

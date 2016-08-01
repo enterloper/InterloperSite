@@ -6,6 +6,7 @@ var Promise  = require('bluebird');
 
 // //SERVE UP THOSE DELICIOUS STATIC FILES!
 TPRouter.use( express.static('public') );
+TPRouter.use( '/img', express.static('img') );
 
 /***************** TOY PROBLEM ROUTING *****************/
 TPRouter.get('/', function(req, res, next) {
