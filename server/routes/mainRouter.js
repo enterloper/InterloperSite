@@ -4,7 +4,7 @@ var Path        = require('path');
 
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 MainRouter.use( express.static('public') );
-MainRouter.use( '/img', express.static('img') );
+MainRouter.use( express.static('img') );
 
 /***************** HOME PAGE ROUTING *****************/
 MainRouter.get('/', function(req, res){

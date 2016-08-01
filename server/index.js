@@ -22,7 +22,7 @@ var MainRouter      = require('./routes/mainRouter.js');
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 
 app.use( express.static('public') );
-app.use( '/img', express.static('img') );
+app.use( express.static('img') );
 
 // Set up Handlebars engine
 var hbs = exphbs.create({
