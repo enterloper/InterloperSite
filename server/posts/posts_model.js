@@ -1,4 +1,4 @@
-var db = require('../db');
+var db = require('./../db.js');
 var _ = require('lodash');
 var Promise = require('bluebird');
 var Posts = module.exports;
@@ -30,6 +30,7 @@ var Posts = module.exports;
   };
 
   Posts.addNewBlogPost = function(data) {
+    console.log("dataaaaaaaaaaaaaa",data)
     return db('blogs')
     .insert(data);
   };
@@ -42,11 +43,11 @@ var Posts = module.exports;
     .limit(1)
     .update(data)
     .then(function(data) {
-      // console.log(data);
+      console.log(data);
       return data;
     })
     .catch(function(err){
-      // console.error(err.stack);
+      console.error(err.stack);
     });
   };
 
@@ -58,9 +59,9 @@ var Posts = module.exports;
     })
     .del()
     .then(function(data) {
-      // console.log('Deleted '+data+' blog post.');
+      console.log('Deleted '+data+' blog post.'); 
     }).catch(function(error) {
-      // console.error(error);
+      console.error(error);
     });
   };
 

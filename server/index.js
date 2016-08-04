@@ -2,13 +2,9 @@ var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
 var Promise         = require('bluebird');
-// var _               = require('lodash');
 var path            = require('path'); 
 var morgan          = require('morgan');
 var config          = require('./config/config');
-// var Posts           = require('./posts/posts_model');
-// var ToyProbs        = require('./toy_problems/toy_problems_model');
-// var Projects        = require('./projects/projects_model');
 var db              = require('./db');
 var Handlebars      = require('handlebars');
 var exphbs          = require('express-handlebars');
@@ -20,7 +16,6 @@ var MainRouter      = require('./routes/mainRouter.js');
 
 //for production put in NODE_ENV=production node index.js
 // SERVE UP THOSE DELICIOUS STATIC FILES!
-console.log('INDEX', __dirname);
 app.use(express.static(__dirname + '/../public'));
 app.use('/static', express.static(__dirname+ '/../public/img') );
 // Set up Handlebars engine
@@ -76,12 +71,12 @@ app.param('id', function(req, res, next, id) {
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.get('/error', function(err, req, res, next) {
   //set status to 500 and render error page
-  // console.error(err.message);
+  console.error(err.stack);
   res.status(500).render('500');
 });
 
 app.use(function(err, req, res, next) {
-    // console.error(err.stack);
+    console.error(err.stack);
     res.status(500).render('500');
 });
 

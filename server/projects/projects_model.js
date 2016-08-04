@@ -1,4 +1,4 @@
-var db = require('../db');
+var db = require('./../db');
 var _ = require('lodash');
 var Promise = require('bluebird');
 var Projects = module.exports;
@@ -37,11 +37,11 @@ Projects.editProject = function(id, data) {
   .limit(1)
   .update(data)
   .then(function(data) {
-    // console.log(data);
+    console.log(data);
     return data;
   })
   .catch(function(err){
-    // console.error(err.stack)
+    console.error(err.stack)
   });
 };
 
@@ -52,7 +52,7 @@ Projects.deleteProject = function(id) {
   })
   .del()
   .then(function(data) {
-    // console.log('Deleted '+data+' blog post.')
+    console.log('Deleted '+data+' blog post.')
   });
 };
 /************* TODO ENDPOINTS *************/

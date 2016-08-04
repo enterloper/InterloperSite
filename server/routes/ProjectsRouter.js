@@ -11,7 +11,7 @@ ProjectsRouter.use( '/img', express.static( path.join( __dirname, '/../../public
 ProjectsRouter.get('/', function(req, res, next) {
     var projects; 
     Projects.getAll()
-    .then(function(data) {
+    .then( function(data) {
       projects = data;
     })
     .then(function(data) {

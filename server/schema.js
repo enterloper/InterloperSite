@@ -1,7 +1,7 @@
 'use strict';
 var knex = require('./db');
 
-knex.schema.createTableIfNotExists('blogs', function(table){
+knex.schema.createTableIfNotExists('blogs', function(table) {
   table.increments('blog_id').primary();
   table.string('blog_title');
   table.string('blog_category');
@@ -11,9 +11,8 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('blog_image');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-  table.foreign('toy_problem_id').references('toy_problem_id');
 })
-.createTableIfNotExists('toy_problems', function(table){
+.createTableIfNotExists('toy_problems', function(table) {
   table.increments('toy_problem_id').primary();
   table.string('toy_problem_title');
   table.text('toy_problem_description');
@@ -23,9 +22,8 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('toy_problem_image');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-  table.foreign('blogs_id').references('blog_id');
 })
-.createTableIfNotExists('projects', function(table){
+.createTableIfNotExists('projects', function(table) {
   table.increments('project_id').primary();
   table.string('project_title');
   table.text('project_description');
@@ -34,12 +32,15 @@ knex.schema.createTableIfNotExists('blogs', function(table){
   table.string('project_url');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-  table.foreign('blogs_id').references('blog_id');
 })
-.then(function(res){
+.createTableIfNotExists('blogs_to_problems' , function(table) {
+  table.string('')
+})
+.createTableIfNotExists('problems_to_blogs', function(table) {})
+.then(function(res) {
   // console.log('Success Applying Schema');
   knex.destroy();
 })
-.catch(function(err){
+.catch(function(err) {
   // console.log('[schema.js: 35] - error: ', err.message);
 });

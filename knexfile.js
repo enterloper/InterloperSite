@@ -1,8 +1,3 @@
-console.log("host",process.env.POSTGRES_HOST);
-console.log("port",process.env.POSTGRES_PORT);
-console.log("user", process.env.POSTGRES_USER);
-console.log("password", process.env.POSTGRES_PASSWORD);
-console.log("database" ,process.env.POSTGRES_DB);
 
 module.exports = {
   
@@ -18,18 +13,19 @@ module.exports = {
       directory: 'server/migrations'
     },
     seeds: {
-      directory: './seeds'
+      directory: './server/seeds'
     },
     debug: true
   },
+  
   production: {
     client: 'pg',
     connection: {
+      host : 'ec2-54-243-126-40.compute-1.amazonaws.com',
       database : 'd3ntj3cmv66vll',
       user : 'qjiwhevwfexkza',
-      password : 'DyKIG3C7CNg-ZhW3qKuFU7zWTt',
-      host : 'ec2-54-243-126-40.compute-1.amazonaws.com',
       port : 5432,
+      password : 'DyKIG3C7CNg-ZhW3qKuFU7zWTt',
       ssl: true
     },
     pool: {
@@ -41,7 +37,7 @@ module.exports = {
       directory: 'server/migrations',
     },
     seeds: {
-      directory: './seeds'
+      directory: './server/seeds'
     },
     debug: true
   }
