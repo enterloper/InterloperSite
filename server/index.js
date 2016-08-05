@@ -8,12 +8,12 @@ var config          = require('./config/config');
 var db              = require('./db');
 var Handlebars      = require('handlebars');
 var exphbs          = require('express-handlebars');
+var APIRouter       = require('./routes/APIRouter.js');
+var MainRouter      = require('./routes/mainRouter.js');
 var BlogRouter      = require('./routes/blogRouter.js');
 var TPRouter        = require('./routes/TPRouter.js');
 var ProjectsRouter  = require('./routes/ProjectsRouter.js');
-var APIRouter       = require('./routes/APIRouter.js');
-var MainRouter      = require('./routes/mainRouter.js');
-
+console.log('[[[[[[[[[[INDEX DIR',__dirname);
 //for production put in NODE_ENV=production node index.js
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 app.use(express.static(__dirname + '/../public'));
@@ -37,22 +37,9 @@ app.set( 'port', (process.env.PORT || 3000) );
 
 
 //middleware
-//serve static files in public directory, without processing them.
-// app.use( '/img', express.static(assetFolder + '/img') );
-// app.use( '/style', express.static(assetFolder + '/style') );
-// app.use( express.static(assetFolder + '/src') );
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-//ROUTERS
-app.use("/api", APIRouter);
-app.use("/", MainRouter); 
-app.use("/toy-problems", TPRouter);
-app.use("/blog", BlogRouter);
-app.use("/portfolio", ProjectsRouter);
-app.use(function(req, res) {
-  res.status(404).render('404');
-});
 
 // Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('handlebars', hbs.engine);
@@ -66,6 +53,16 @@ app.disable('x-powered-by');
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
   next();
+});
+
+//ROUTERS
+app.use("/", MainRouter); 
+app.use("/api", APIRouter);
+app.use("/toy-problems", TPRouter);
+app.use("/blog", BlogRouter);
+app.use("/portfolio", ProjectsRouter);
+app.use(function(req, res) {
+  res.status(404).render('404');
 });
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200

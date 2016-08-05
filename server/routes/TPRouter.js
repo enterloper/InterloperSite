@@ -3,7 +3,7 @@ var TPRouter = express.Router();
 var ToyProbs = require('./../toy_problems/toy_problems_model');
 var path     = require('path');
 var Promise  = require('bluebird');
-
+console.log('[[[[[[[[[[TP DIR',__dirname);
 // //SERVE UP THOSE DELICIOUS STATIC FILES!
 TPRouter.use( express.static(__dirname + '/../../public') );
 TPRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img' )) );
@@ -23,7 +23,7 @@ TPRouter.get('/', function(req, res, next) {
               id: toy_problem.toy_problem_id,
               title: toy_problem.toy_problem_title,
               description: toy_problem.toy_problem_description,
-              image: toy_problem.toy_problem_description
+              image: toy_problem.toy_problem_image
             };
           })
         };

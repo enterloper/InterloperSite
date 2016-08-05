@@ -3,7 +3,7 @@ var BlogRouter = express.Router();
 var Posts      = require('./../posts/posts_model');
 var path       = require('path');
 var Promise    = require('bluebird');
-
+console.log('[[[[[[[[[[BLOG DIR',__dirname);
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 BlogRouter.use( express.static(__dirname + '/../../public') );
 BlogRouter.use( '/img', express.static ( path.join(__dirname, '/../../public/img' )) );
@@ -24,7 +24,7 @@ BlogRouter.get('/', function(req, res, next) {
               id: post.blog_id,
               title: post.blog_title,
               description: post.blog_description,
-              image: post.image_source
+              image: post.blog_image
             };
           })
         };
@@ -33,10 +33,10 @@ BlogRouter.get('/', function(req, res, next) {
     .then(function(value){
         res.render('blog', value);
       })
-    .catch(
-      // console.error(err.stack);
-      next
-    );
+    .catch(function(err){
+      console.error(err.stack);
+      next();
+    });
   });
 
 BlogRouter.get('/:title', function(req, res, next) {
@@ -61,10 +61,10 @@ BlogRouter.get('/:title', function(req, res, next) {
     .then(function(value){
       res.render('singleBlog', value);
     })
-    .catch(
-      // console.error(err);
-      next
-    );
+    .catch(function(err){
+      console.error(err);
+      next();
+    });
   });
 
 module.exports = BlogRouter;

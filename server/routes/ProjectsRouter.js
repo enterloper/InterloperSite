@@ -2,7 +2,7 @@ var express           = require('express');
 var ProjectsRouter    = express.Router();
 var Projects          = require('./../projects/projects_model');
 var path              = require('path');
-
+console.log('[[[[[[[[[[PROJ DIR',__dirname);
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 ProjectsRouter.use( express.static(__dirname + '/../../public') );
 ProjectsRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img')) );
@@ -13,6 +13,7 @@ ProjectsRouter.get('/', function(req, res, next) {
     Projects.getAll()
     .then( function(data) {
       projects = data;
+      console.log('pwjriwqjkdsfasjflPROJECTS', data);
     })
     .then(function(data) {
       var context = {

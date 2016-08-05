@@ -6,7 +6,12 @@ module.exports = {
     connection: {
       charset: 'utf8',
       host    : '127.0.0.1',
-      database: 'blogdb'
+      database: 'blogdb',
+
+    },
+    pool: {
+      min: 2,
+      max: 10
     },
     migrations: {
       tableName:'migrations',
@@ -21,11 +26,12 @@ module.exports = {
   production: {
     client: 'pg',
     connection: {
+      charset: 'utf8',
       host : 'ec2-54-243-126-40.compute-1.amazonaws.com',
-      database : 'd3ntj3cmv66vll',
-      user : 'qjiwhevwfexkza',
       port : 5432,
+      user : 'qjiwhevwfexkza',
       password : 'DyKIG3C7CNg-ZhW3qKuFU7zWTt',
+      database : 'd3ntj3cmv66vll',
       ssl: true
     },
     pool: {
@@ -33,7 +39,7 @@ module.exports = {
       max: 10
     },
     migrations: {
-      tableName: '_migrations',
+      tableName: 'migrations',
       directory: 'server/migrations',
     },
     seeds: {

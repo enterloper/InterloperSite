@@ -30,6 +30,7 @@ Projects.addNewProject = function(data) {
 };
 
 Projects.editProject = function(id, data) {
+  console.log('{{{{{{{{[[[[[ID & DATA]]]]]}}}}}}}}', id, data);
   return db('projects')
   .where({
     'project_id' : id

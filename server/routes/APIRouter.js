@@ -1,14 +1,14 @@
 var express    = require('express');
 var APIRouter = express.Router();
+var Promise    = require('bluebird');
 var Posts      = require('./../posts/posts_model');
 var Projects   = require('./../projects/projects_model');
 var ToyProbs   = require('./../toy_problems/toy_problems_model');
 var path       = require('path');
-var Promise    = require('bluebird');
 
 //SERVE UP THOSE DELICIOUS STATIC FILES!
 APIRouter.use( express.static( path.join( __dirname, '/../../public' )) );
-// APIRouter.use( '/img', express.static( path.join(__dirname, '/../../public/img' )) );
+APIRouter.use( '/img', express.static( path.join(__dirname, '/../../public/img' )) );
 /***************** API ROUTING *****************/
 
 APIRouter.get('/add-content', function(req, res) {
@@ -52,8 +52,7 @@ APIRouter.route('/posts')
   });
 
 //GET post by ID
-APIRouter.route('/posts/:id')
-    .get(function(req, res) {
+APIRouter.get('/posts/:id', function(req, res) {
       Posts.getPostByID(req.params.id)
       .then(function(data) {
         res.status(200).json(data);
@@ -61,9 +60,10 @@ APIRouter.route('/posts/:id')
       .catch(function(err) {
         console.error(err.stack);
       });
-    })
+});
   //Edit a post
-    .put(function(req, res, next) {
+APIRouter.put('/posts/:id',function(req, res, next) {
+    console.log("{{{}{}{}{}}}{{}}{req.body", req.body);
       Posts.editBlogPost(req.params.id, req.body)
       .then(function(resp) {
         console.log("Modified on blog number "+req.params.id+":", res.req.body);
@@ -73,9 +73,9 @@ APIRouter.route('/posts/:id')
         console.error(err.stack);
         next();
       });
-    })
+});
   //Delete a post
-    .delete(function(req, res, next) {
+APIRouter.delete('/posts/:id', function(req, res, next) {
       Posts.deletePost(req.params.id)
       .then(function(resp) {
         console.log("Deleted blog number "+req.params.id+":", res.req.body);
@@ -85,7 +85,7 @@ APIRouter.route('/posts/:id')
         console.error(err.stack);
         next();
       });
-    });
+});
 
 //GET post by Title
 APIRouter.get('/posts/title/:title', function(req, res, next) {
@@ -226,8 +226,7 @@ APIRouter.route('/projects')
 
 
 //GET project by ID
-APIRouter.route('/projects/:id')
-  .get(function(req, res, next){
+APIRouter.get('/projects/:id', function(req, res, next){
     Projects.getProjectByID(req.params.id)
     .then(function(data) {
       res.status(200).json(data);
@@ -236,11 +235,12 @@ APIRouter.route('/projects/:id')
       console.error(err.stack);
       next();
     });
-  })
+  });
   //Edit a project
-  .put(function(req, res, next){
+APIRouter.put('/projects/:id', function(req, res, next){
     Projects.editProject(req.params.id, req.body)
     .then(function(resp) {
+      console.log('<KKKKKKKKKKKKKKKKKKKKKKK>res',resp);
       console.log("Modified on project number "+req.params.id+":", res.req.body);
       res.status(200).json(res.req.body);
     })
@@ -248,9 +248,9 @@ APIRouter.route('/projects/:id')
       console.error(err.stack);
       next();
     });
-  })
+  });
   //Delete a project
-  .delete(function(req, res, next) {
+  APIRouter.delete('/projects/:id', function(req, res, next) {
     Projects.deleteProject(req.params.id)
     .then(function(resp) {
       console.log("Deleted project number "+req.params.id+":", res.req.body);

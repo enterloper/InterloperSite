@@ -5,6 +5,7 @@ var ToyProbs = module.exports;
 
 
 ToyProbs.getAll = function() {
+  console.log(db('toy_problems'));
   return db('toy_problems')
   .orderBy('toy_problem_id', 'desc');
 };
