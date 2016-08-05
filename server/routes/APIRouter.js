@@ -63,7 +63,7 @@ APIRouter.get('/posts/:id', function(req, res) {
 });
   //Edit a post
 APIRouter.put('/posts/:id',function(req, res, next) {
-    console.log("{{{}{}{}{}}}{{}}{req.body", req.body);
+    console.log("{{{}{}{}{}}}{{}}{req.body", req.body); 
       Posts.editBlogPost(req.params.id, req.body)
       .then(function(resp) {
         console.log("Modified on blog number "+req.params.id+":", res.req.body);
