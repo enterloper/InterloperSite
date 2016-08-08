@@ -10,10 +10,13 @@ BlogRouter.use( '/img', express.static ( path.join(__dirname, '/../../public/img
 
 /***************** BLOG ROUTING *****************/
 
+/***************** GET ALL BLOGS *****************/
 BlogRouter.get('/', function(req, res, next) {
+    Posts.Hallo();
     var posts; 
     Posts.getAll()
     .then(function(data) {
+      console.log(data);
       posts = data;
       return posts; 
     })

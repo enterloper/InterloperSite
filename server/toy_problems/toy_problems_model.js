@@ -5,40 +5,40 @@ var ToyProbs = module.exports;
 
 
 ToyProbs.getAll = function() {
-  console.log(db('toy_problems'));
-  return db('toy_problems')
+  console.log(db("toy_problems"));
+  return db("toy_problems")
   .orderBy('toy_problem_id', 'desc');
 };
 
 
 ToyProbs.getToyProbByID = function(id) {
-  return db('toy_problems')
+  return db("toy_problems")
   .where({
     'toy_problem_id' : id
   });
 };
 
 ToyProbs.getToyProbByTitle = function(title) {
-  return db('toy_problems')
+  return db("toy_problems")
   .where({
     'toy_problem_title' : title
   });
 };
 
 ToyProbs.getToyProbByDifficulty = function(level) {
-  return db('toy_problems')
+  return db("toy_problems")
   .where({
     'toy_problem_difficulty' : level
   });
 };
 
 ToyProbs.addNewToyProblem = function(data) {
-  return db('toy_problems')
+  return db("toy_problems")
   .insert(data);
 };
 
 ToyProbs.editToyProblem = function(id, data) {
-  return db('toy_problems')
+  return db("toy_problems")
   .where({
     'toy_problem_id': id
   })
@@ -55,7 +55,7 @@ ToyProbs.editToyProblem = function(id, data) {
 
 //DELETE A TOY PROBLEM
 ToyProbs.deleteToyProblem = function(id) {
-  return db('toy_problems')
+  return db("toy_problems")
   .where({
     'toy_problem_id': id
   })

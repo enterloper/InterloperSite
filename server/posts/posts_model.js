@@ -2,68 +2,69 @@ var db = require('./../db.js');
 var _ = require('lodash');
 var Promise = require('bluebird');
 var Posts = module.exports;
+  Posts.Hallo = function() {
+  console.log('HAlllooooooooo!!!');
+}
+/*************** GET ALL BLOGS ***************/
+Posts.getAll = function() {
 
-  Posts.getAll = function() {
-    return db('blogs')
-    .orderBy('blog_id', 'desc');
-  };
+  return db("blogs")
+  .orderBy('blog_id', 'desc');
+};
+/*************** GET SINGLE BLOG POST ***************/
+Posts.getPostByID = function(id) {
+  return db("blogs")
+  .where({
+    'blog_id' : id
+  });
+};
+/*************** GET POST BY TITLE ***************/
+Posts.getPostByTitle = function(title) {
+  return db("blogs")
+  .where({
+    'blog_title' : title
+  });
+};
 
-  Posts.getPostByID = function(id) {
-    return db('blogs')
-    .where({
-      'blog_id' : id
-    });
-  };
+Posts.getPostByCategory = function(category) {
+  return db("blogs")
+  .where({
+    'blog_category' : category
+  });
+};
 
-  Posts.getPostByTitle = function(title) {
-    return db('blogs')
-    .where({
-      'blog_title' : title
-    });
-  };
+Posts.addNewBlogPost = function(data) {
+  console.log("dataaaaaaaaaaaaaa",data);
+  return db("blogs").insert(data);
+};
 
-  Posts.getPostByCategory = function(category) {
-    return db('blogs')
-    .where({
-      'blog_category' : category
-    });
-  };
-
-  Posts.addNewBlogPost = function(data) {
-    console.log("dataaaaaaaaaaaaaa",data)
-    return db('blogs')
-    .insert(data);
-  };
-
-  Posts.editBlogPost = function(id, data) {
-    return db('blogs')
-    .where({
-      'blog_id': id
-    })
-    .limit(1)
-    .update(data)
-    .then(function(data) {
-      console.log(data);
-      return data;
-    })
-    .catch(function(err){
-      console.error(err.stack);
-    });
-  };
+Posts.editBlogPost = function(id, data) {
+  return db("blogs")
+  .where({'blog_id': id})
+  .limit(1)
+  .update(data)
+  .then(function(data) {
+    console.log(data);
+    return data;
+  })
+  .catch(function(err){
+    console.error(err.stack);
+  });
+};
 
 //DELETE A POST
-  Posts.deletePost = function(id){ 
-    return db('blogs')
-    .where({
-      'blog_id': id
-    })
-    .del()
-    .then(function(data) {
-      console.log('Deleted '+data+' blog post.'); 
-    }).catch(function(error) {
-      console.error(error);
-    });
-  };
+Posts.deletePost = function(id){ 
+  return db("blogs")
+  .where({
+    'blog_id': id
+  })
+  .del()
+  .then(function(data) {
+    console.log('Deleted '+data+' blog post.'); 
+  }).catch(function(error) {
+    console.error(error);
+  });
+};
 
   /*
   <-----------TODO: SET UP NEXT AND PREVIOUS QUERIES FOR BUTTONS--------------->
@@ -86,14 +87,14 @@ var Posts = module.exports;
   ORDER BY i.created DESC;
   
   Posts.getPreviousPost = function() {
-    console.log(db('blogs'));
-    return db('blogs')
+    console.log(db("blogs"));
+    return db("blogs")
     .where({ })
   };
 
   Posts.getNextPost = function() {
-    console.log(db('blogs'));
-    return db('blogs')
+    console.log(db("blogs"));
+    return db("blogs")
     .where({ })
   }
   */
