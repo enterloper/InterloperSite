@@ -1,46 +1,44 @@
-var db = require('./../db.js');
+var knex = require('./../db.js');
 var _ = require('lodash');
 var Promise = require('bluebird');
 var Posts = module.exports;
-  Posts.Hallo = function() {
-  console.log('HAlllooooooooo!!!');
-}
+
 /*************** GET ALL BLOGS ***************/
 Posts.getAll = function() {
-
-  return db("blogs")
-  .orderBy('blog_id', 'desc');
+  return knex("blogs")
+  .orderBy('id', 'desc');
 };
 /*************** GET SINGLE BLOG POST ***************/
 Posts.getPostByID = function(id) {
-  return db("blogs")
+  return knex("blogs")
   .where({
-    'blog_id' : id
+    'id' : id
   });
 };
 /*************** GET POST BY TITLE ***************/
 Posts.getPostByTitle = function(title) {
-  return db("blogs")
+  return knex("blogs")
   .where({
-    'blog_title' : title
+    'title' : title
   });
 };
-
+/*************** GET POST BY CATEGORY ***************/
 Posts.getPostByCategory = function(category) {
-  return db("blogs")
+  return knex("blogs")
   .where({
-    'blog_category' : category
+    'category' : category
   });
 };
-
+/*************** ADD POST  ***************/
 Posts.addNewBlogPost = function(data) {
   console.log("dataaaaaaaaaaaaaa",data);
-  return db("blogs").insert(data);
+  return knex("blogs").insert(data);
 };
+/*************** EDIT POST ***************/
 
 Posts.editBlogPost = function(id, data) {
-  return db("blogs")
-  .where({'blog_id': id})
+  return knex("blogs")
+  .where({'id': id})
   .limit(1)
   .update(data)
   .then(function(data) {
@@ -54,9 +52,9 @@ Posts.editBlogPost = function(id, data) {
 
 //DELETE A POST
 Posts.deletePost = function(id){ 
-  return db("blogs")
+  return knex("blogs")
   .where({
-    'blog_id': id
+    'id': id
   })
   .del()
   .then(function(data) {
@@ -87,14 +85,14 @@ Posts.deletePost = function(id){
   ORDER BY i.created DESC;
   
   Posts.getPreviousPost = function() {
-    console.log(db("blogs"));
-    return db("blogs")
+    console.log(knex("blogs"));
+    return knex("blogs")
     .where({ })
   };
 
   Posts.getNextPost = function() {
-    console.log(db("blogs"));
-    return db("blogs")
+    console.log(knex("blogs"));
+    return knex("blogs")
     .where({ })
   }
   */

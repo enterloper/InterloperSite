@@ -12,7 +12,7 @@ var MainRouter      = require('./routes/mainRouter.js');
 var BlogRouter      = require('./routes/blogRouter.js');
 var TPRouter        = require('./routes/TPRouter.js');
 var ProjectsRouter  = require('./routes/ProjectsRouter.js');
-console.log('[[[[[[[[[[INDEX DIR',__dirname);
+// console.log('[[[[[[[[[[INDEX DIR',__dirname);
 
 //for production put in NODE_ENV=production node index.js
 // Set up Handlebars engine
@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 app.use(express.static(__dirname + '/../public'));
-app.use('/static', express.static(__dirname+ '/../public/img') );
+app.use('/img', express.static(__dirname+ '/../public/img') );
 
 
 // Register `hbs` as our view engine using its bound `engine()` function.
@@ -60,21 +60,21 @@ app.use("/api", APIRouter);
 app.use("/toy-problems", TPRouter);
 app.use("/blog", BlogRouter);
 app.use("/portfolio", ProjectsRouter);
-// app.use(function(req, res) {
-//   res.status(404).render('404');
-// });
+app.use(function(req, res) {
+  res.status(404).render('404');
+});
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
-// app.get('/error', function(err, req, res, next) {
-//   //set status to 500 and render error page
-//   console.error(err.stack);
-//   res.status(500).render('500');
-// });
+app.get('/error', function(err, req, res, next) {
+  //set status to 500 and render error page
+  console.error(err.stack);
+  res.status(500).render('500');
+});
 
-// app.use(function(err, req, res, next) {
-//     console.error(err.stack);
-//     res.status(500).render('500');
-// });
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).render('500');
+});
 
 app.listen(app.get('port'), function(){
   console.log('Node app is running on port:' , app.get('port'));

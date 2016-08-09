@@ -1,5 +1,5 @@
 var express    = require('express');
-var APIRouter = express.Router();
+var APIRouter  = express.Router();
 var Promise    = require('bluebird');
 var Posts      = require('./../posts/posts_model');
 var Projects   = require('./../projects/projects_model');
@@ -26,28 +26,25 @@ APIRouter.get('/headers', function(req, res) {
 
 /***************** BLOG ENDPOINTS *****************/
 //GET all posts
-APIRouter.route('/posts') 
-  .get(function(req, res, next) {
+APIRouter.get('/posts',function(req, res, next) {
     Posts.getAll()
     .then(function(data) {
       res.status(200).json(data);
     })
     .catch(function(err){
       console.error(err.stack);
-      next();
     });
-  })
-//Add a post
-  .post(function(req, res, next) {
-    console.log("req.body",res.req.body);
+});
+
+APIRouter.post('/posts', function(req, res) {
+    console.log("reqbody", req.body);
     Posts.addNewBlogPost(req.body)
     .then(function(resp) {
-      console.log("[[[[[[[[[[[[[[[[[resp")
+      console.log("[[[[[[[[[[[[[[[[[resp",resp)
       res.status(201).json(res.req.body);
     })
     .catch(function(err){
       console.error(err.stack);
-      next();
     });
   });
 
@@ -210,7 +207,6 @@ APIRouter.route('/projects')
       next();
     });
   })
-  //Add a post
   .post(function(req, res, next) {
     Projects.addNewProject(req.body)
     .then(function(resp) {

@@ -3,7 +3,7 @@ var BlogRouter = express.Router();
 var Posts      = require('./../posts/posts_model');
 var path       = require('path');
 var Promise    = require('bluebird');
-console.log('[[[[[[[[[[BLOG DIR',__dirname);
+// console.log('[[[[[[[[[[BLOG DIR',__dirname);
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 BlogRouter.use( express.static(__dirname + '/../../public') );
 BlogRouter.use( '/img', express.static ( path.join(__dirname, '/../../public/img' )) );
@@ -12,7 +12,6 @@ BlogRouter.use( '/img', express.static ( path.join(__dirname, '/../../public/img
 
 /***************** GET ALL BLOGS *****************/
 BlogRouter.get('/', function(req, res, next) {
-    Posts.Hallo();
     var posts; 
     Posts.getAll()
     .then(function(data) {
@@ -24,10 +23,10 @@ BlogRouter.get('/', function(req, res, next) {
         var context = {
           posts: posts.map(function(post) {
             return {
-              id: post.blog_id,
-              title: post.blog_title,
-              description: post.blog_description,
-              image: post.blog_image
+              id: post.id,
+              title: post.title,
+              description: post.description,
+              image: post.image
             };
           })
         };
@@ -51,12 +50,11 @@ BlogRouter.get('/:title', function(req, res, next) {
     })
     .then(function(post) {
       var context = {
-        id: post[0].blog_id,
-        title: post[0].blog_title,
-        description: post[0].blog_description,
-        body: post[0].blog_body,
-        blog_attached: post[0].toy_problem_attached,
-        image: post[0].blog_image,
+        id: post[0].id,
+        title: post[0].title,
+        description: post[0].description,
+        body: post[0].body,
+        image: post[0].image,
         created_at: post[0].created_at
       };
       return context;

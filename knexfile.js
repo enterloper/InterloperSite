@@ -19,7 +19,7 @@ module.exports = {
     seeds: {
       directory: './server/seeds'
     },
-    debug: true
+    // debug: true
   },
   
   production: {
@@ -44,6 +44,6 @@ module.exports = {
     seeds: {
       directory: './server/seeds'
     },
-    debug: true
+    // debug: true
   }
 };

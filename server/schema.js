@@ -36,14 +36,15 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
 })
-// .createTableIfNotExists('blogs_to_problems' , function(table) {
-//   table.text('');
-// })
-// .createTableIfNotExists('problems_to_blogs', function(table) {})
+.createTableIfNotExists('blog_toyprob', function(table){
+  table.integer('blog_id').notNullable().references('id').inTable('blogs').onDelete('CASCADE');
+  table.integer('toy_problem_id').notNullable().references('id').inTable('toy_problems').onDelete('CASCADE');
+  table.primary(['blog_id', 'toy_problem_id']);
+})
 .then(function() {
   console.log('Success Applying Schema');
   knex.destroy();
 })
 .catch(function(err) {
-  console.error('[schema.js: 45] - error: ', err.message);
+  console.error('[schema.js: 45] - error: ', err.message);  
 });

@@ -3,7 +3,7 @@ var TPRouter = express.Router();
 var ToyProbs = require('./../toy_problems/toy_problems_model');
 var path     = require('path');
 var Promise  = require('bluebird');
-console.log('[[[[[[[[[[TP DIR',__dirname);
+// console.log('[[[[[[[[[[TP DIR',__dirname);
 // //SERVE UP THOSE DELICIOUS STATIC FILES!
 TPRouter.use( express.static(__dirname + '/../../public') );
 TPRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img' )) );
@@ -20,10 +20,10 @@ TPRouter.get('/', function(req, res, next) {
         var context = {
           toy_problems: toy_problems.map(function(toy_problem) {
             return {
-              id: toy_problem.toy_problem_id,
-              title: toy_problem.toy_problem_title,
-              description: toy_problem.toy_problem_description,
-              image: toy_problem.toy_problem_image
+              id: toy_problem.id,
+              title: toy_problem.title,
+              description: toy_problem.description,
+              image: toy_problem.image
             };
           })
         };
@@ -32,10 +32,10 @@ TPRouter.get('/', function(req, res, next) {
     .then(function(value){
         res.render('toyProblems', value);
       })
-    .catch(
-      // console.error(err.stack);
-      next
-    );
+    .catch( function(err){
+      console.error(err.stack);
+      next();
+    });
   });
 
 TPRouter.get('/:title', function(req, res, next) {
@@ -46,13 +46,14 @@ TPRouter.get('/:title', function(req, res, next) {
       return toy_problem;
     })
     .then(function(toy_problem) {
+      console.log('TOYPROBLEMS', toy_problem[0]);
       var context = {
-        id: toy_problem[0].toy_problem_id,
-        title: toy_problem[0].toy_problem_title,
-        description: toy_problem[0].toy_problem_description,
-        body: toy_problem[0].toy_problem_body,
+        id: toy_problem[0].id,
+        title: toy_problem[0].title,
+        description: toy_problem[0].description,
+        body: toy_problem[0].body,
         blog_attached: toy_problem[0].blog_attached,
-        image: toy_problem[0].toy_problem_image,
+        image: toy_problem[0].image,
         created_at: toy_problem[0].created_at
       };
       return context;
@@ -60,10 +61,10 @@ TPRouter.get('/:title', function(req, res, next) {
     .then(function(value){
       res.render('singleToyProblem', value);
     })
-    .catch(
-      // console.error(err);
-      next
-    );
+    .catch(function(err){
+      console.error(err);
+      next();
+    });
   });
 
 module.exports = TPRouter;

@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.createTableIfNotExists('blogs', function(table){
+  return knex.schema
+    .createTableIfNotExists('blogs', function(table){
       table.increments('id').primary();
       table.text('title');
       table.text('category');
@@ -12,8 +12,8 @@ exports.up = function(knex, Promise) {
       table.text('image').defaultTo('richardboothe.png');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-    }),
-    knex.schema.createTableIfNotExists('toy_problems', function(table){
+    })
+    .createTableIfNotExists('toy_problems', function(table){
       table.increments('id').primary();
       table.text('title');
       table.text('description');
@@ -24,8 +24,8 @@ exports.up = function(knex, Promise) {
       table.text('image').defaultTo('richardboothe.png');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-    }),
-    knex.schema.createTableIfNotExists('projects', function(table){
+    })
+    .createTableIfNotExists('projects', function(table){
       table.increments('id').primary();
       table.text('title');
       table.text('description');
@@ -35,14 +35,18 @@ exports.up = function(knex, Promise) {
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
     })
-  ]);
+    .createTableIfNotExists('blog_toyprob', function(table){
+      table.integer('blog_id').notNullable().references('id').inTable('blogs').onDelete('CASCADE');
+      table.integer('toy_problem_id').notNullable().references('id').inTable('toy_problems').onDelete('CASCADE');
+      table.primary(['tag_id', 'movie_id']);
+    });
 };
 
 exports.down = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.dropTableIfExists("blogs"),
-    knex.schema.dropTableIfExists("toy_problems"),
-    knex.schema.dropTableIfExists("projects")
-  ]);
+  return knex.schema
+    .dropTableIfExists("blogs")
+    .dropTableIfExists("toy_problems")
+    .dropTableIfExists("projects")
+    .dropTableIfExists("blog_toyprob");
 };
 

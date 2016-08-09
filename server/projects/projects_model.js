@@ -1,40 +1,40 @@
-var db = require('./../db.js');
+var knex = require('./../db.js');
 var _ = require('lodash');
 var Promise = require('bluebird');
 var Projects = module.exports;
 
 //GET ALL PROJECTS
 Projects.getAll = function() {
-  return db("projects")
-  .orderBy('project_id', 'desc');
+  return knex("projects")
+  .orderBy('id', 'desc');
 };
 
 
 Projects.getProjectByID = function(id) {
-  return db("projects")
+  return knex("projects")
   .where({
-    'project_id' : id
+    'id' : id
   });
 };
 
 Projects.getProjectByTitle = function(ProjectTitle) {
-  return db("projects")
+  return knex("projects")
   .where({
-    'project_title' : ProjectTitle
+    'title' : ProjectTitle
   });
 };
 
 Projects.addNewProject = function(data) {
   console.log('{{{{{{{{[[[[[ DATA ]]]]]}}}}}}}}', data);
-  return db("projects")
+  return knex("projects")
   .insert(data);
 };
 
 Projects.editProject = function(id, data) {
   console.log('{{{{{{{{[[[[[ID & DATA]]]]]}}}}}}}}', id, data);
-  return db("projects")
+  return knex("projects")
   .where({
-    'project_id' : id
+    'id' : id
   })
   .limit(1)
   .update(data)
@@ -48,9 +48,9 @@ Projects.editProject = function(id, data) {
 };
 
 Projects.deleteProject = function(id) {
-  return db("projects")
+  return knex("projects")
   .where({
-    project_id: id
+    id: id
   })
   .del()
   .then(function(data) {

@@ -1,46 +1,45 @@
-var db = require('./../db.js');
+var knex = require('./../db.js');
 var _ = require('lodash');
 var Promise = require('bluebird');
 var ToyProbs = module.exports;
 
 
 ToyProbs.getAll = function() {
-  console.log(db("toy_problems"));
-  return db("toy_problems")
-  .orderBy('toy_problem_id', 'desc');
-};
+  return knex("toy_problems")
+  .orderBy('id', 'desc');
+  };
 
 
 ToyProbs.getToyProbByID = function(id) {
-  return db("toy_problems")
+  return knex("toy_problems")
   .where({
-    'toy_problem_id' : id
+    'id' : id
   });
 };
 
 ToyProbs.getToyProbByTitle = function(title) {
-  return db("toy_problems")
+  return knex("toy_problems")
   .where({
-    'toy_problem_title' : title
+    'title' : title
   });
 };
 
 ToyProbs.getToyProbByDifficulty = function(level) {
-  return db("toy_problems")
+  return knex("toy_problems")
   .where({
-    'toy_problem_difficulty' : level
+    'difficulty' : level
   });
 };
 
 ToyProbs.addNewToyProblem = function(data) {
-  return db("toy_problems")
+  return knex("toy_problems")
   .insert(data);
 };
 
 ToyProbs.editToyProblem = function(id, data) {
-  return db("toy_problems")
+  return knex("toy_problems")
   .where({
-    'toy_problem_id': id
+    'id': id
   })
   .limit(1)
   .update(data)
@@ -55,9 +54,9 @@ ToyProbs.editToyProblem = function(id, data) {
 
 //DELETE A TOY PROBLEM
 ToyProbs.deleteToyProblem = function(id) {
-  return db("toy_problems")
+  return knex("toy_problems")
   .where({
-    'toy_problem_id': id
+    'id': id
   })
   .del()
   .then(function(data) {
