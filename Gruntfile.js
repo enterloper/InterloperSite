@@ -3,6 +3,19 @@ module.exports = function(grunt) {
     // 1. All configuration goes here 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        assemble: {
+            options: {
+                assets: 'assets',
+                layoutdir: 'views/layouts',
+                partials: ['/server/views/partials/**/*.handlebars'],
+                helpers: ["public/src/helpers.js"],
+                layout: "server/views/layouts/main.handlebars"
+            },
+            home: {
+                src: ['views/home.handlebars'],
+                dest: 'public/home.html'
+            }
+        },
 
         concat: {   
             build: {
@@ -25,6 +38,7 @@ module.exports = function(grunt) {
                 dest: 'public/src/build/production.js'
             }
         },
+
         uglify: {
             options: {
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -34,6 +48,7 @@ module.exports = function(grunt) {
                 dest: 'public/js/build/production.min.js'
             }
         },
+
         cssmin: {
             minify: {
                 expand: true,
@@ -43,6 +58,7 @@ module.exports = function(grunt) {
                 ext: ".min.css"
             }
         },
+
         imagemin: {
             dynamic: {
                 files: [{
@@ -56,7 +72,8 @@ module.exports = function(grunt) {
     });
 
     // 3. Where we tell Grunt we plan to use this plug-in.
-    ['grunt-contrib-concat',
+    ['grunt-assemble',
+    'grunt-contrib-concat',
     'grunt-contrib-uglify',
     'grunt-contrib-imagemin',
     "grunt-contrib-cssmin"].forEach(function(task) { grunt.loadNpmTasks(task);});

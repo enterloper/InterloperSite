@@ -36,7 +36,7 @@ app.set( 'port', (process.env.PORT || 8000) );
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 // SERVE UP THOSE DELICIOUS STATIC FILES!
-app.use(express.static(__dirname + '/../public'));
+app.use( express.static(__dirname + '/../public'));
 app.use('/img', express.static(__dirname+ '/../public/img') );
 
 
