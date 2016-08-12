@@ -42,7 +42,7 @@ app.set( 'port', (process.env.PORT || 8000) );
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 // SERVE UP THOSE DELICIOUS STATIC FILES!
-app.use('/public', express.static(__dirname + '/../public'));
+app.use( express.static(__dirname + '/../public'));
 app.use('/img', express.static(__dirname+ '/../public/img') );
 
 
@@ -713,8 +713,8 @@ var Projects          = require('./../projects/projects_model');
 var path              = require('path');
 // console.log('[[[[[[[[[[PROJ DIR',__dirname);
 // SERVE UP THOSE DELICIOUS STATIC FILES!
-// ProjectsRouter.use( express.static(__dirname + '/../../public') );
-// ProjectsRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img')) );
+ProjectsRouter.use( express.static(__dirname + '/../../public') );
+ProjectsRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img')) );
 /***************** PORTFOLIO ROUTING *****************/
 
 ProjectsRouter.get('/', function(req, res, next) {

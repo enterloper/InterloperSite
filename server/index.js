@@ -18,16 +18,9 @@ var ProjectsRouter  = require('./routes/ProjectsRouter.js');
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
-  helpers: {
-    static: function(name) {
-      return require('./static.js').map(name);
-    }
-  },
-  partialsDir: [
-    'server/views/shared/templates',
-    'server/views/partials'
-  ],
-  layoutsDir: 'server/views/layouts'
+  helpers: require('./helpers.js').helpers,
+  partialsDir: 'server/views/partials/',
+  layoutsDir: 'server/views/layouts/'
 });
 
 app.set( 'port', (process.env.PORT || 8000) );
