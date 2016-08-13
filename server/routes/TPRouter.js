@@ -3,12 +3,11 @@ var TPRouter = express.Router();
 var ToyProbs = require('./../toy_problems/toy_problems_model');
 var path     = require('path');
 var Promise  = require('bluebird');
-// console.log('[[[[[[[[[[TP DIR',__dirname);
-// //SERVE UP THOSE DELICIOUS STATIC FILES!
-// TPRouter.use( express.static(__dirname + '/../../public') );
-// TPRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img' )) );
 
 /***************** TOY PROBLEM ROUTING *****************/
+
+/***************** GET ALL TOY PROBLEMS *****************/
+
 TPRouter.get('/', function(req, res, next) {
     var toy_problems; 
     ToyProbs.getAll()
@@ -38,6 +37,8 @@ TPRouter.get('/', function(req, res, next) {
     });
   });
 
+/***************** GET TOY PROBLEM BY TITLE *****************/
+
 TPRouter.get('/:title', function(req, res, next) {
     var toy_problem;
     ToyProbs.getToyProbByTitle(req.params.title)
@@ -46,7 +47,37 @@ TPRouter.get('/:title', function(req, res, next) {
       return toy_problem;
     })
     .then(function(toy_problem) {
-      console.log('TOYPROBLEMS', toy_problem[0]);
+      console.log('TOYPROBLEMS', toy_problem);
+      var context = {
+        id: toy_problem[0].id,
+        title: toy_problem[0].title,
+        description: toy_problem[0].description,
+        body: toy_problem[0].body,
+        blog_attached: toy_problem[0].blog_attached,
+        image: toy_problem[0].image,
+        created_at: toy_problem[0].created_at
+      };
+      return context;
+    })
+    .then(function(value){
+      res.render('singleToyProblem', value);
+    })
+    .catch(function(err){
+      console.error(err);
+      next();
+    });
+  });
+/***************** GET TOY PROBLEM BY ID *****************/
+
+TPRouter.get('/id/:id', function(req, res, next) {
+    var toy_problem;
+    ToyProbs.getToyProbByID(req.params.id)
+    .then(function(data) {
+      toy_problem = data;
+      return toy_problem;
+    })
+    .then(function(toy_problem) {
+      console.log('TOYPROBLEMS', toy_problem);
       var context = {
         id: toy_problem[0].id,
         title: toy_problem[0].title,

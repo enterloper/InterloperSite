@@ -6,16 +6,16 @@ var Projects   = require('./../projects/projects_model');
 var ToyProbs   = require('./../toy_problems/toy_problems_model');
 var path       = require('path');
 
-//SERVE UP THOSE DELICIOUS STATIC FILES!
-APIRouter.use( express.static( path.join( __dirname, '/../../public' )) );
-APIRouter.use( '/img', express.static( path.join(__dirname, '/../../public/img' )) );
 /***************** API ROUTING *****************/
+
+/***************** ADD CONTENT *****************/
 
 APIRouter.get('/add-content', function(req, res) {
     res.render('additional');
   });
 
 /***************** API HEADER CHECK *****************/
+
 APIRouter.get('/headers', function(req, res) {
   res.set('Content-Type', 'text/plain');
   var s = '';
@@ -25,8 +25,10 @@ APIRouter.get('/headers', function(req, res) {
 });
 
 /***************** BLOG ENDPOINTS *****************/
-//GET all posts
-APIRouter.get('/posts',function(req, res, next) {
+
+/***************** GET/POST BLOG INFORMATION *****************/
+APIRouter.route('/posts')
+  .get( function(req, res, next) {
     Posts.getAll()
     .then(function(data) {
       res.status(200).json(data);
@@ -34,12 +36,11 @@ APIRouter.get('/posts',function(req, res, next) {
     .catch(function(err){
       console.error(err.stack);
     });
-});
-
-APIRouter.post('/posts', function(req, res) {
+  })
+  .post( function(req, res) {
     console.log("reqbody", req.body);
     Posts.addNewBlogPost(req.body)
-    .then(function(resp) {
+    .then( function(resp) {
       console.log("[[[[[[[[[[[[[[[[[resp",resp)
       res.status(201).json(res.req.body);
     })
@@ -48,8 +49,9 @@ APIRouter.post('/posts', function(req, res) {
     });
   });
 
-//GET post by ID
-APIRouter.get('/posts/:id', function(req, res) {
+/***************** GET/PUT/DELETE SINGLE BLOG BY ID *****************/
+APIRouter.route('/posts/:id')
+  .get( function(req, res) {
       Posts.getPostByID(req.params.id)
       .then(function(data) {
         res.status(200).json(data);
@@ -57,9 +59,8 @@ APIRouter.get('/posts/:id', function(req, res) {
       .catch(function(err) {
         console.error(err.stack);
       });
-});
-  //Edit a post
-APIRouter.put('/posts/:id',function(req, res, next) {
+  })
+  .put( function(req, res, next) {
     console.log("{{{}{}{}{}}}{{}}{req.body", req.body); 
       Posts.editBlogPost(req.params.id, req.body)
       .then(function(resp) {
@@ -70,9 +71,7 @@ APIRouter.put('/posts/:id',function(req, res, next) {
         console.error(err.stack);
         next();
       });
-});
-  //Delete a post
-APIRouter.delete('/posts/:id', function(req, res, next) {
+  }).delete( function(req, res, next) {
       Posts.deletePost(req.params.id)
       .then(function(resp) {
         console.log("Deleted blog number "+req.params.id+":", res.req.body);
@@ -84,7 +83,7 @@ APIRouter.delete('/posts/:id', function(req, res, next) {
       });
 });
 
-//GET post by Title
+/***************** GET BLOG INFO BY TITLE *****************/
 APIRouter.get('/posts/title/:title', function(req, res, next) {
   Posts.getPostByTitle(req.params.title)
     .then(function(data) {
@@ -96,7 +95,7 @@ APIRouter.get('/posts/title/:title', function(req, res, next) {
     });
 });
 
-//GET post by Category
+/***************** GET BLOG INFO BY CATEGORY *****************/
 APIRouter.get('/posts/category/:category', function(req, res, next) {
   Posts.getPostByCategory(req.params.category)
     .then(function(data) {
@@ -109,7 +108,9 @@ APIRouter.get('/posts/category/:category', function(req, res, next) {
 });
 
 /************* TOY PROBLEM ENDPOINTS *************/
-//GET ALL toy problems
+
+/***************** GET/POST TP INFO *****************/
+
 APIRouter.route('/problems') 
   .get(function(req, res, next) {
     ToyProbs.getAll()
@@ -121,19 +122,18 @@ APIRouter.route('/problems')
       next();
     });
   })
-  //Add a toy problems
   .post(function(req, res, next) {
     ToyProbs.addNewToyProblem(req.body)
     .then(function(resp) {
       res.status(201).json(res.req.body);
-  })
+    })
     .catch(function(err){
       console.error(err.stack);
       next();
-    });
+     });
   });
 
-//GET a toy problem by ID
+/***************** GET/PUT/DELETE SINGLE TP INFO BY ID *****************/
 APIRouter.route('/problems/:id') 
   .get(function(req, res, next){
     ToyProbs.getToyProbByID(req.params.id)
@@ -145,7 +145,6 @@ APIRouter.route('/problems/:id')
       next();
     });
   })
-  //Edit a Toy Problem
   .put(function(req, res, next) {
     ToyProbs.editToyProblem(req.params.id, req.body)
     .then(function(resp) {
@@ -157,7 +156,6 @@ APIRouter.route('/problems/:id')
       next();
     });
   })
-  //Delete a post
   .delete(function(req, res, next) {
     ToyProbs.deleteToyProblem(req.params.id)
     .then(function(resp) {
@@ -170,19 +168,19 @@ APIRouter.route('/problems/:id')
     });
   });
 
-//GET toy problem by Title
+/***************** GET TP INFO BY TITLE *****************/
 APIRouter.get('/problems/title/:title', function(req, res, next){
-    ToyProbs.getToyProbByTitle(req.params.title)
-    .then(function(data){
-      res.status(200).json(data);
-    })
-    .catch(function(err){
-      console.error(err.stack);
-      next();
-    });
+  ToyProbs.getToyProbByTitle(req.params.title)
+  .then(function(data){
+    res.status(200).json(data);
+  })
+  .catch(function(err){
+    console.error(err.stack);
+    next();
   });
+});
 
-//GET a toy problem by difficulty level
+/***************** GET ALL TP INFO BY DIFFICULTY *****************/
 APIRouter.get('/problems/difficulty/:level', function(req, res, next) {
   ToyProbs.getToyProbByDifficulty(req.params.level)
   .then(function(data) {
@@ -195,7 +193,8 @@ APIRouter.get('/problems/difficulty/:level', function(req, res, next) {
 });
 
 /************* PORTFOLIO ENDPOINTS *************/
-//GET all projectsAPIRouter.route('/projects') 
+
+/***************** GET/POST PROJECT INFO *****************/
 APIRouter.route('/projects') 
   .get(function(req, res, next) {
     Projects.getAll()
@@ -221,8 +220,9 @@ APIRouter.route('/projects')
 });
 
 
-//GET project by ID
-APIRouter.get('/projects/:id', function(req, res, next){
+/***************** GET/PUT/DELETE PROJECT INFO BY ID *****************/
+APIRouter.route('/projects/:id') 
+  .get(function(req, res, next){
     Projects.getProjectByID(req.params.id)
     .then(function(data) {
       res.status(200).json(data);
@@ -231,12 +231,11 @@ APIRouter.get('/projects/:id', function(req, res, next){
       console.error(err.stack);
       next();
     });
-  });
-  //Edit a project
-APIRouter.put('/projects/:id', function(req, res, next){
+  })
+  .put(function(req, res, next){
     Projects.editProject(req.params.id, req.body)
     .then(function(resp) {
-      console.log('<KKKKKKKKKKKKKKKKKKKKKKK>res',resp);
+      console.log('+++++++++++++++---->resp',resp);
       console.log("Modified on project number "+req.params.id+":", res.req.body);
       res.status(200).json(res.req.body);
     })
@@ -244,9 +243,8 @@ APIRouter.put('/projects/:id', function(req, res, next){
       console.error(err.stack);
       next();
     });
-  });
-  //Delete a project
-  APIRouter.delete('/projects/:id', function(req, res, next) {
+  })
+  .delete(function(req, res, next) {
     Projects.deleteProject(req.params.id)
     .then(function(resp) {
       console.log("Deleted project number "+req.params.id+":", res.req.body);
@@ -258,7 +256,7 @@ APIRouter.put('/projects/:id', function(req, res, next){
     });
   });
 
-//GET project by Title
+/***************** GET PROJECT INFO BY TITLE *****************/
 APIRouter.get('/projects/title/:title', function(req, res, next) {
   Projects.getProjectByTitle( req.params.title )
   .then(function(data) {
