@@ -27,7 +27,7 @@
 *.sql
 *.sqlite
 DS_Store
-  
+
 # OS generated files #
 ######################
 .DS_Store
@@ -45,11 +45,9 @@ lib/
 /node_modules
 npm-debug.log
 /*.env
-seeds
 SQL_notes.md
 router_notes.md
-
-
+todo.md
 
 
 
