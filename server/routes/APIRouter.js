@@ -4,7 +4,6 @@ var Promise    = require('bluebird');
 var Posts      = require('./../posts/posts_model');
 var Projects   = require('./../projects/projects_model');
 var ToyProbs   = require('./../toy_problems/toy_problems_model');
-var path       = require('path');
 
 /***************** API ROUTING *****************/
 
@@ -38,10 +37,10 @@ APIRouter.route('/posts')
     });
   })
   .post( function(req, res) {
-    console.log("reqbody", req.body);
+    console.log("-------------------->reqbody", req.body);
     Posts.addNewBlogPost(req.body)
     .then( function(resp) {
-      console.log("[[[[[[[[[[[[[[[[[resp",resp)
+      console.log("------------------>resp",resp)
       res.status(201).json(res.req.body);
     })
     .catch(function(err){
@@ -61,7 +60,7 @@ APIRouter.route('/posts/:id')
       });
   })
   .put( function(req, res, next) {
-    console.log("{{{}{}{}{}}}{{}}{req.body", req.body); 
+    console.log("------------------>req.body", req.body); 
       Posts.editBlogPost(req.params.id, req.body)
       .then(function(resp) {
         console.log("Modified on blog number "+req.params.id+":", res.req.body);
@@ -235,7 +234,7 @@ APIRouter.route('/projects/:id')
   .put(function(req, res, next){
     Projects.editProject(req.params.id, req.body)
     .then(function(resp) {
-      console.log('+++++++++++++++---->resp',resp);
+      console.log('------------------>resp',resp);
       console.log("Modified on project number "+req.params.id+":", res.req.body);
       res.status(200).json(res.req.body);
     })

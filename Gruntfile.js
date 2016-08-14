@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                 assets: 'assets',
                 layoutdir: 'views/layouts',
                 partials: ['/server/views/partials/**/*.handlebars'],
-                helpers: ["public/src/helpers.js"],
+                helpers: ["server/helpers.js"],
                 layout: "server/views/layouts/main.handlebars"
             },
             home: {

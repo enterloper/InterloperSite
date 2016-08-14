@@ -1,7 +1,6 @@
 var express    = require('express');
 var BlogRouter = express.Router();
 var Posts      = require('./../posts/posts_model');
-var path       = require('path');
 var Promise    = require('bluebird');
 
 /***************** BLOG ROUTING *****************/

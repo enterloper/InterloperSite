@@ -2,26 +2,25 @@ var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
 var Promise         = require('bluebird');
-var path            = require('path'); 
 var morgan          = require('morgan');
 var config          = require('./config/config');
-var Handlebars      = require('handlebars');
 var exphbs          = require('express-handlebars');
 var APIRouter       = require('./routes/APIRouter.js');
 var BlogRouter      = require('./routes/blogRouter.js');
 var TPRouter        = require('./routes/TPRouter.js');
 var ProjectsRouter  = require('./routes/ProjectsRouter.js');
-
+var path            = require('path');       
 //for production put in NODE_ENV=production node index.js
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
   helpers: require('./helpers.js').helpers,
-  partialsDir: 'server/views/partials/',
-  layoutsDir: 'server/views/layouts/'
+  partialsDir: path.join(__dirname + '/views/partials/'),
+  layoutsDir: path.join(__dirname + '/views/layouts/')
 });
 // Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('handlebars', hbs.engine);
+app.enable('view cache');
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 app.set('view cache', true);
@@ -35,13 +34,8 @@ app.use(morgan('dev',{
 }));
 // SERVE UP THOSE DELICIOUS STATIC FILES!
 app.use( express.static('public') );
-// app.use('/img', express.static(__dirname+ '/../public/img') );
-// app.use('/lib', express.static(__dirname+ '/../public/lib') );
-
-
 
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
-app.disable('x-powered-by');
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
   next();

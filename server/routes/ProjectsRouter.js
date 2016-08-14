@@ -1,7 +1,6 @@
 var express           = require('express');
 var ProjectsRouter    = express.Router();
 var Projects          = require('./../projects/projects_model');
-var path              = require('path');
 
 /***************** PORTFOLIO ROUTING *****************/
 
@@ -12,7 +11,7 @@ ProjectsRouter.get('/', function(req, res, next) {
     Projects.getAll()
     .then( function(data) {
       projects = data;
-      console.log('pwjriwqjkdsfasjflPROJECTS', data);
+      // console.log('pwjriwqjkdsfasjflPROJECTS', data);
     })
     .then(function(data) {
       var context = {

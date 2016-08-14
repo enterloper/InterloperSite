@@ -4,73 +4,96 @@ var config      = require('./../knexfile.js')[environment];
 var knex        = require('knex')(config);
 knex.migrate.latest([config]);
 module.exports = knex;
+var register = function(Handlebars) {
+
+    var helpers = {
+        // put all of your helpers inside this object
+        static: function(name) {
+          return require('./static.js').map(name);
+        }
+    };
+
+    if (Handlebars && typeof Handlebars.registerHelper === "function") {
+        // register helpers
+        for (var prop in helpers) {
+            Handlebars.registerHelper(prop, helpers[prop]);
+        }
+    } else {
+        // just return helpers object if we can't register helpers here
+        return helpers;
+    }
+
+};
+
+// client
+if (typeof window !== "undefined") {
+    register(Handlebars);
+}
+// server
+else {
+    module.exports.register = register;
+    module.exports.helpers = register(null);
+}
+
 var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
 var Promise         = require('bluebird');
-var path            = require('path'); 
 var morgan          = require('morgan');
 var config          = require('./config/config');
-var Handlebars      = require('handlebars');
 var exphbs          = require('express-handlebars');
 var APIRouter       = require('./routes/APIRouter.js');
-var MainRouter      = require('./routes/mainRouter.js');
 var BlogRouter      = require('./routes/blogRouter.js');
 var TPRouter        = require('./routes/TPRouter.js');
 var ProjectsRouter  = require('./routes/ProjectsRouter.js');
-// console.log('[[[[[[[[[[INDEX DIR',__dirname);
-
+var path            = require('path');       
 //for production put in NODE_ENV=production node index.js
 // Set up Handlebars engine
 var hbs = exphbs.create({
   defaultLayout: 'main',
-  helpers: {
-    static: function(name) {
-      return require('./static.js').map(name);
-    }
-  },
-  partialsDir: [
-    'server/views/shared/templates',
-    'server/views/partials'
-  ],
-  layoutsDir: 'server/views/layouts'
+  helpers: require('./helpers.js').helpers,
+  partialsDir: path.join(__dirname + '/views/partials/'),
+  layoutsDir: path.join(__dirname + '/views/layouts/')
 });
-
-app.set( 'port', (process.env.PORT || 8000) );
-
-//middleware
-app.use(bodyParser.json());
-app.use(morgan('dev'));
-// SERVE UP THOSE DELICIOUS STATIC FILES!
-app.use( express.static(__dirname + '/../public'));
-app.use('/img', express.static(__dirname+ '/../public/img') );
-
-
 // Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('handlebars', hbs.engine);
+app.enable('view cache');
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 app.set('view cache', true);
 app.set('case sensitive routing', false); 
 
+//middleware
+app.use(bodyParser.json());
+app.use(morgan('dev',{
+  // only log error responses 
+  skip: function (req, res) { return res.statusCode < 400; }
+}));
+// SERVE UP THOSE DELICIOUS STATIC FILES!
+app.use( express.static('public') );
+
 //DISABLE RETURNING SERVER INFORMATION VIA Express' default X-Powered-By
-app.disable('x-powered-by');
 app.param('id', function(req, res, next, id) {
   req.params.id = Number(id);
   next();
 });
 
 //ROUTERS
-app.use("/", MainRouter); 
 app.use("/api", APIRouter);
 app.use("/toy-problems", TPRouter);
 app.use("/blog", BlogRouter);
 app.use("/portfolio", ProjectsRouter);
+
+//HOME PAGE ROUTING
+app.get('/', function(req, res){
+  res.render('home');
+});
+
+//ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.use(function(req, res) {
   res.status(404).render('404');
 });
 
-//ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.get('/error', function(err, req, res, next) {
   //set status to 500 and render error page
   console.error(err.stack);
@@ -82,6 +105,8 @@ app.use(function(err, req, res, next) {
     res.status(500).render('500');
 });
 
+//ESTABLISH CONNECTION WITH LISTEN
+app.set( 'port', (process.env.PORT || 8000) );
 app.listen(app.get('port'), function(){
   console.log('Node app is running on port:' , app.get('port'));
 });
@@ -438,18 +463,17 @@ var Promise    = require('bluebird');
 var Posts      = require('./../posts/posts_model');
 var Projects   = require('./../projects/projects_model');
 var ToyProbs   = require('./../toy_problems/toy_problems_model');
-var path       = require('path');
 
-//SERVE UP THOSE DELICIOUS STATIC FILES!
-APIRouter.use( express.static( path.join( __dirname, '/../../public' )) );
-APIRouter.use( '/img', express.static( path.join(__dirname, '/../../public/img' )) );
 /***************** API ROUTING *****************/
+
+/***************** ADD CONTENT *****************/
 
 APIRouter.get('/add-content', function(req, res) {
     res.render('additional');
   });
 
 /***************** API HEADER CHECK *****************/
+
 APIRouter.get('/headers', function(req, res) {
   res.set('Content-Type', 'text/plain');
   var s = '';
@@ -459,8 +483,10 @@ APIRouter.get('/headers', function(req, res) {
 });
 
 /***************** BLOG ENDPOINTS *****************/
-//GET all posts
-APIRouter.get('/posts',function(req, res, next) {
+
+/***************** GET/POST BLOG INFORMATION *****************/
+APIRouter.route('/posts')
+  .get( function(req, res, next) {
     Posts.getAll()
     .then(function(data) {
       res.status(200).json(data);
@@ -468,13 +494,12 @@ APIRouter.get('/posts',function(req, res, next) {
     .catch(function(err){
       console.error(err.stack);
     });
-});
-
-APIRouter.post('/posts', function(req, res) {
-    console.log("reqbody", req.body);
+  })
+  .post( function(req, res) {
+    console.log("-------------------->reqbody", req.body);
     Posts.addNewBlogPost(req.body)
-    .then(function(resp) {
-      console.log("[[[[[[[[[[[[[[[[[resp",resp)
+    .then( function(resp) {
+      console.log("------------------>resp",resp)
       res.status(201).json(res.req.body);
     })
     .catch(function(err){
@@ -482,8 +507,9 @@ APIRouter.post('/posts', function(req, res) {
     });
   });
 
-//GET post by ID
-APIRouter.get('/posts/:id', function(req, res) {
+/***************** GET/PUT/DELETE SINGLE BLOG BY ID *****************/
+APIRouter.route('/posts/:id')
+  .get( function(req, res) {
       Posts.getPostByID(req.params.id)
       .then(function(data) {
         res.status(200).json(data);
@@ -491,10 +517,9 @@ APIRouter.get('/posts/:id', function(req, res) {
       .catch(function(err) {
         console.error(err.stack);
       });
-});
-  //Edit a post
-APIRouter.put('/posts/:id',function(req, res, next) {
-    console.log("{{{}{}{}{}}}{{}}{req.body", req.body); 
+  })
+  .put( function(req, res, next) {
+    console.log("------------------>req.body", req.body); 
       Posts.editBlogPost(req.params.id, req.body)
       .then(function(resp) {
         console.log("Modified on blog number "+req.params.id+":", res.req.body);
@@ -504,9 +529,7 @@ APIRouter.put('/posts/:id',function(req, res, next) {
         console.error(err.stack);
         next();
       });
-});
-  //Delete a post
-APIRouter.delete('/posts/:id', function(req, res, next) {
+  }).delete( function(req, res, next) {
       Posts.deletePost(req.params.id)
       .then(function(resp) {
         console.log("Deleted blog number "+req.params.id+":", res.req.body);
@@ -518,7 +541,7 @@ APIRouter.delete('/posts/:id', function(req, res, next) {
       });
 });
 
-//GET post by Title
+/***************** GET BLOG INFO BY TITLE *****************/
 APIRouter.get('/posts/title/:title', function(req, res, next) {
   Posts.getPostByTitle(req.params.title)
     .then(function(data) {
@@ -530,7 +553,7 @@ APIRouter.get('/posts/title/:title', function(req, res, next) {
     });
 });
 
-//GET post by Category
+/***************** GET BLOG INFO BY CATEGORY *****************/
 APIRouter.get('/posts/category/:category', function(req, res, next) {
   Posts.getPostByCategory(req.params.category)
     .then(function(data) {
@@ -543,7 +566,9 @@ APIRouter.get('/posts/category/:category', function(req, res, next) {
 });
 
 /************* TOY PROBLEM ENDPOINTS *************/
-//GET ALL toy problems
+
+/***************** GET/POST TP INFO *****************/
+
 APIRouter.route('/problems') 
   .get(function(req, res, next) {
     ToyProbs.getAll()
@@ -555,19 +580,18 @@ APIRouter.route('/problems')
       next();
     });
   })
-  //Add a toy problems
   .post(function(req, res, next) {
     ToyProbs.addNewToyProblem(req.body)
     .then(function(resp) {
       res.status(201).json(res.req.body);
-  })
+    })
     .catch(function(err){
       console.error(err.stack);
       next();
-    });
+     });
   });
 
-//GET a toy problem by ID
+/***************** GET/PUT/DELETE SINGLE TP INFO BY ID *****************/
 APIRouter.route('/problems/:id') 
   .get(function(req, res, next){
     ToyProbs.getToyProbByID(req.params.id)
@@ -579,7 +603,6 @@ APIRouter.route('/problems/:id')
       next();
     });
   })
-  //Edit a Toy Problem
   .put(function(req, res, next) {
     ToyProbs.editToyProblem(req.params.id, req.body)
     .then(function(resp) {
@@ -591,7 +614,6 @@ APIRouter.route('/problems/:id')
       next();
     });
   })
-  //Delete a post
   .delete(function(req, res, next) {
     ToyProbs.deleteToyProblem(req.params.id)
     .then(function(resp) {
@@ -604,19 +626,19 @@ APIRouter.route('/problems/:id')
     });
   });
 
-//GET toy problem by Title
+/***************** GET TP INFO BY TITLE *****************/
 APIRouter.get('/problems/title/:title', function(req, res, next){
-    ToyProbs.getToyProbByTitle(req.params.title)
-    .then(function(data){
-      res.status(200).json(data);
-    })
-    .catch(function(err){
-      console.error(err.stack);
-      next();
-    });
+  ToyProbs.getToyProbByTitle(req.params.title)
+  .then(function(data){
+    res.status(200).json(data);
+  })
+  .catch(function(err){
+    console.error(err.stack);
+    next();
   });
+});
 
-//GET a toy problem by difficulty level
+/***************** GET ALL TP INFO BY DIFFICULTY *****************/
 APIRouter.get('/problems/difficulty/:level', function(req, res, next) {
   ToyProbs.getToyProbByDifficulty(req.params.level)
   .then(function(data) {
@@ -629,7 +651,8 @@ APIRouter.get('/problems/difficulty/:level', function(req, res, next) {
 });
 
 /************* PORTFOLIO ENDPOINTS *************/
-//GET all projectsAPIRouter.route('/projects') 
+
+/***************** GET/POST PROJECT INFO *****************/
 APIRouter.route('/projects') 
   .get(function(req, res, next) {
     Projects.getAll()
@@ -655,8 +678,9 @@ APIRouter.route('/projects')
 });
 
 
-//GET project by ID
-APIRouter.get('/projects/:id', function(req, res, next){
+/***************** GET/PUT/DELETE PROJECT INFO BY ID *****************/
+APIRouter.route('/projects/:id') 
+  .get(function(req, res, next){
     Projects.getProjectByID(req.params.id)
     .then(function(data) {
       res.status(200).json(data);
@@ -665,12 +689,11 @@ APIRouter.get('/projects/:id', function(req, res, next){
       console.error(err.stack);
       next();
     });
-  });
-  //Edit a project
-APIRouter.put('/projects/:id', function(req, res, next){
+  })
+  .put(function(req, res, next){
     Projects.editProject(req.params.id, req.body)
     .then(function(resp) {
-      console.log('<KKKKKKKKKKKKKKKKKKKKKKK>res',resp);
+      console.log('------------------>resp',resp);
       console.log("Modified on project number "+req.params.id+":", res.req.body);
       res.status(200).json(res.req.body);
     })
@@ -678,9 +701,8 @@ APIRouter.put('/projects/:id', function(req, res, next){
       console.error(err.stack);
       next();
     });
-  });
-  //Delete a project
-  APIRouter.delete('/projects/:id', function(req, res, next) {
+  })
+  .delete(function(req, res, next) {
     Projects.deleteProject(req.params.id)
     .then(function(resp) {
       console.log("Deleted project number "+req.params.id+":", res.req.body);
@@ -692,7 +714,7 @@ APIRouter.put('/projects/:id', function(req, res, next){
     });
   });
 
-//GET project by Title
+/***************** GET PROJECT INFO BY TITLE *****************/
 APIRouter.get('/projects/title/:title', function(req, res, next) {
   Projects.getProjectByTitle( req.params.title )
   .then(function(data) {
@@ -710,19 +732,17 @@ module.exports = APIRouter;
 var express           = require('express');
 var ProjectsRouter    = express.Router();
 var Projects          = require('./../projects/projects_model');
-var path              = require('path');
-// console.log('[[[[[[[[[[PROJ DIR',__dirname);
-// SERVE UP THOSE DELICIOUS STATIC FILES!
-ProjectsRouter.use( express.static(__dirname + '/../../public') );
-ProjectsRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img')) );
+
 /***************** PORTFOLIO ROUTING *****************/
+
+/***************** GET ALL PROJECTS *****************/
 
 ProjectsRouter.get('/', function(req, res, next) {
     var projects; 
     Projects.getAll()
     .then( function(data) {
       projects = data;
-      console.log('pwjriwqjkdsfasjflPROJECTS', data);
+      // console.log('pwjriwqjkdsfasjflPROJECTS', data);
     })
     .then(function(data) {
       var context = {
@@ -748,14 +768,12 @@ module.exports = ProjectsRouter;
 var express  = require('express');
 var TPRouter = express.Router();
 var ToyProbs = require('./../toy_problems/toy_problems_model');
-var path     = require('path');
 var Promise  = require('bluebird');
-// console.log('[[[[[[[[[[TP DIR',__dirname);
-// //SERVE UP THOSE DELICIOUS STATIC FILES!
-// TPRouter.use( express.static(__dirname + '/../../public') );
-// TPRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img' )) );
 
 /***************** TOY PROBLEM ROUTING *****************/
+
+/***************** GET ALL TOY PROBLEMS *****************/
+
 TPRouter.get('/', function(req, res, next) {
     var toy_problems; 
     ToyProbs.getAll()
@@ -785,6 +803,8 @@ TPRouter.get('/', function(req, res, next) {
     });
   });
 
+/***************** GET TOY PROBLEM BY TITLE *****************/
+
 TPRouter.get('/:title', function(req, res, next) {
     var toy_problem;
     ToyProbs.getToyProbByTitle(req.params.title)
@@ -793,7 +813,37 @@ TPRouter.get('/:title', function(req, res, next) {
       return toy_problem;
     })
     .then(function(toy_problem) {
-      console.log('TOYPROBLEMS', toy_problem[0]);
+      console.log('TOYPROBLEMS', toy_problem);
+      var context = {
+        id: toy_problem[0].id,
+        title: toy_problem[0].title,
+        description: toy_problem[0].description,
+        body: toy_problem[0].body,
+        blog_attached: toy_problem[0].blog_attached,
+        image: toy_problem[0].image,
+        created_at: toy_problem[0].created_at
+      };
+      return context;
+    })
+    .then(function(value){
+      res.render('singleToyProblem', value);
+    })
+    .catch(function(err){
+      console.error(err);
+      next();
+    });
+  });
+/***************** GET TOY PROBLEM BY ID *****************/
+
+TPRouter.get('/id/:id', function(req, res, next) {
+    var toy_problem;
+    ToyProbs.getToyProbByID(req.params.id)
+    .then(function(data) {
+      toy_problem = data;
+      return toy_problem;
+    })
+    .then(function(toy_problem) {
+      console.log('TOYPROBLEMS', toy_problem);
       var context = {
         id: toy_problem[0].id,
         title: toy_problem[0].title,
@@ -820,16 +870,12 @@ module.exports = TPRouter;
 var express    = require('express');
 var BlogRouter = express.Router();
 var Posts      = require('./../posts/posts_model');
-var path       = require('path');
 var Promise    = require('bluebird');
-// console.log('[[[[[[[[[[BLOG DIR',__dirname);
-// SERVE UP THOSE DELICIOUS STATIC FILES!
-// BlogRouter.use( express.static(__dirname + '/../../public') );
-// BlogRouter.use( '/img', express.static ( path.join(__dirname, '/../../public/img' )) );
 
 /***************** BLOG ROUTING *****************/
 
 /***************** GET ALL BLOGS *****************/
+
 BlogRouter.get('/', function(req, res, next) {
     var posts; 
     Posts.getAll()
@@ -891,20 +937,6 @@ module.exports = BlogRouter;
 
 
 
-var express     = require('express');
-var MainRouter  = express.Router();
-var path        = require('path');
-// console.log('[[[[[[[[[[MAIN DIR',__dirname);
-// SERVE UP THOSE DELICIOUS STATIC FILES!
-// MainRouter.use( express.static( path.join( __dirname, '/../../public' )) );
-// MainRouter.use( '/img', express.static( path.join( __dirname, '/../../public/img' )) );
-
-/***************** HOME PAGE ROUTING *****************/
-MainRouter.get('/', function(req, res){
-  res.render('home');
-});
-
-module.exports = MainRouter;
 exports.seed = function(knex, Promise) {
   return Promise.join(
     //Delete ALL existing entries

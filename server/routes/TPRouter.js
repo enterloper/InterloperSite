@@ -1,7 +1,6 @@
 var express  = require('express');
 var TPRouter = express.Router();
 var ToyProbs = require('./../toy_problems/toy_problems_model');
-var path     = require('path');
 var Promise  = require('bluebird');
 
 /***************** TOY PROBLEM ROUTING *****************/
