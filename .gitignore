@@ -37,13 +37,7 @@ DS_Store
 ehthumbs.db
 Thumbs.db
 
-# Images #
-######################
-*.jpg
-*.gif
 
-*.svg
-*.ico
 
 # Specific Files, Library and Modules #
 lib/
