@@ -6,13 +6,13 @@ module.exports = function(grunt) {
         assemble: {
             options: {
                 assets: 'assets',
-                layoutdir: 'views/layouts',
-                partials: ['/server/views/partials/**/*.handlebars'],
-                helpers: ["server/helpers.js"],
-                layout: "server/views/layouts/main.handlebars"
+                layoutdir: 'server/views/layouts',
+                partials: ['server/views/partials/**/*.handlebars'],
+                helpers: ['server/helpers.js'],
+                layout: 'main.handlebars'
             },
             home: {
-                src: ['views/home.handlebars'],
+                src: ['server/views/home.handlebars'],
                 dest: 'public/home.html'
             }
         },
@@ -44,8 +44,8 @@ module.exports = function(grunt) {
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },
             build: {
-                src: 'public/js/build/production.js',
-                dest: 'public/js/build/production.min.js'
+                src: 'public/src/build/production.js',
+                dest: 'public/src/build/production.min.js'
             }
         },
 
