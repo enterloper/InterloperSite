@@ -3,7 +3,7 @@ var knex = require('./db');
 
 knex.schema.createTableIfNotExists('blogs', function(table) {
   table.increments('id').primary();
-  table.text('title');
+  table.string('title');
   table.text('category');
   table.text('description');
   table.text('body');
@@ -15,7 +15,7 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
 })
 .createTableIfNotExists('toy_problems', function(table) {
   table.increments('id').primary();
-  table.text('title');
+  table.string('title');
   table.text('description');
   table.text('difficulty').defaultTo('Beginner');
   table.text('body');
@@ -28,7 +28,7 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
 })
 .createTableIfNotExists('projects', function(table) {
   table.increments('id').primary();
-  table.text('title');
+  table.string('title');
   table.text('description');
   table.boolean('blog_attached').defaultTo(false);
   table.text('image').defaultTo('richardboothe.png');
