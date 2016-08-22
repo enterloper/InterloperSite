@@ -31,7 +31,6 @@ Posts.getPostByCategory = function(category) {
 };
 /*************** ADD POST  ***************/
 Posts.addNewBlogPost = function(data) {
-  console.log("dataaaaaaaaaaaaaa",data);
   return knex("blogs").insert(data);
 };
 /*************** EDIT POST ***************/
@@ -58,7 +57,7 @@ Posts.deletePost = function(id){
   })
   .del()
   .then(function(data) {
-    console.log('Deleted '+data+' blog post.'); 
+    console.log('Deleted '+data+' blog post containing: '); 
   }).catch(function(error) {
     console.error(error);
   });

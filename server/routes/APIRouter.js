@@ -16,7 +16,7 @@ APIRouter.get('/add-content', function(req, res) {
 /***************** API HEADER CHECK *****************/
 
 APIRouter.get('/headers', function(req, res) {
-  res.set('Content-Type', 'text/plain');
+  res.set('Content-Type', 'application/json');
   var s = '';
   req.secure;
   for(var name in req.headers) {s += name + ': ' + req.headers[name] + '\n';}
@@ -27,7 +27,7 @@ APIRouter.get('/headers', function(req, res) {
 
 /***************** GET/POST BLOG INFORMATION *****************/
 APIRouter.route('/posts')
-  .get( function(req, res, next) {
+  .get( function(req, res) {
     Posts.getAll()
     .then(function(data) {
       res.status(200).json(data);
@@ -37,7 +37,7 @@ APIRouter.route('/posts')
     });
   })
   .post( function(req, res) {
-    console.log("-------------------->reqbody", req.body);
+    console.log("-------------------->POSTreqbody", req.body);
     Posts.addNewBlogPost(req.body)
     .then( function(resp) {
       console.log("------------------>resp",resp)
@@ -60,7 +60,7 @@ APIRouter.route('/posts/:id')
       });
   })
   .put( function(req, res, next) {
-    console.log("------------------>req.body", req.body); 
+    console.log("------------------>PUTreq.body", req.body); 
       Posts.editBlogPost(req.params.id, req.body)
       .then(function(resp) {
         console.log("Modified on blog number "+req.params.id+":", res.req.body);

@@ -3,7 +3,6 @@ exports.seed = function(knex, Promise) {
     //Delete ALL existing entries
     knex('toy_problems').del(),
     knex('toy_problems').insert({
-      id: 1,
       title: 'The Stack and the Queue',
       description: 'This is seed data holder number 1 for Toy Problems from the database',
       difficulty: 'intermediate',
@@ -12,7 +11,6 @@ exports.seed = function(knex, Promise) {
       blog_attached: true
     }),
     knex('toy_problems').insert({
-      id: 2,
       title: 'String Reverse',
       description: 'This is seed data holder number 2 for Toy Problems from the database',
       difficulty: 'easy',
@@ -21,7 +19,6 @@ exports.seed = function(knex, Promise) {
       blog_attached: false
     }),
     knex('toy_problems').insert({
-      id: 3,
       title: 'Palindrome',
       description: 'This is seed data holder number 3 for Toy Problems from the database',
       difficulty: 'easy',

@@ -1,9 +1,9 @@
 exports.seed = function(knex, Promise) {
   return Promise.join(
-    //Delete ALL existing entries
+    //DELETE ALL EXISTING ENTRIES
     knex('blogs').del(),
+    //CREATE SEEDS
     knex('blogs').insert({
-      id: 1,
       title: 'The Stack and the Queue',
       category: 'data_management',
       description: 'This is seed data holder number 1 for blogs from the database',
@@ -12,7 +12,6 @@ exports.seed = function(knex, Promise) {
       toy_problem_attached: true
     }),
     knex('blogs').insert({
-      id: 2,
       title: 'Building an Api',
       category: 'data_management',
       description: 'This is seed data holder number 2 for blogs from the database',
@@ -21,7 +20,6 @@ exports.seed = function(knex, Promise) {
       toy_problem_attached: false
     }),
     knex('blogs').insert({
-      id: 3,
       title: 'Using Postgres',
       category: 'data_management',
       description: 'This is seed data holder number 3 for blogs from the database',
@@ -31,5 +29,6 @@ exports.seed = function(knex, Promise) {
     })
   );
 };
-
-
+// SELECT MAX(the_primary_key) FROM the_table; 
+// SELECT nextval('the_primary_key_sequence'); 
+// SELECT setval('the_primary_key_sequence', (SELECT MAX(the_primary_key) FROM the_table)+1);

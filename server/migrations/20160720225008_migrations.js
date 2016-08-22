@@ -7,7 +7,6 @@ exports.up = function(knex, Promise) {
       table.text('category');
       table.text('description');
       table.text('body');
-      table.text('toy_problem_id');
       table.boolean('toy_problem_attached').defaultTo(false);
       table.text('image').defaultTo('richardboothe.png');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
@@ -34,7 +33,7 @@ exports.up = function(knex, Promise) {
       table.text('url');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-    })
+    });
     // .createTableIfNotExists('blog_toyprob', function(table){
     //   table.integer('blog_id').notNullable().references('id').inTable('blogs').onDelete('CASCADE');
     //   table.integer('toy_problem_id').notNullable().references('id').inTable('toy_problems').onDelete('CASCADE');
