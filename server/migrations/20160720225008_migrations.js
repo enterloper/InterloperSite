@@ -4,11 +4,11 @@ exports.up = function(knex, Promise) {
     .createTableIfNotExists('blogs', function(table){
       table.increments('id').primary();
       table.string('title');
-      table.text('category');
+      table.string('category');
       table.text('description');
       table.text('body');
       table.boolean('toy_problem_attached').defaultTo(false);
-      table.text('image').defaultTo('richardboothe.png');
+      table.string('image').defaultTo('richardboothe.png');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
     })
@@ -16,11 +16,11 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary();
       table.string('title');
       table.text('description');
-      table.text('difficulty').defaultTo('Beginner');
+      table.string('difficulty').defaultTo('Beginner');
       table.text('body');
-      table.text('url');
+      table.string('url');
       table.boolean('blog_attached').defaultTo(false);
-      table.text('image').defaultTo('richardboothe.png');
+      table.string('image').defaultTo('richardboothe.png');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
     })
@@ -29,8 +29,8 @@ exports.up = function(knex, Promise) {
       table.string('title');
       table.text('description');
       table.boolean('blog_attached').defaultTo(false);
-      table.text('image').defaultTo('richardboothe.png');
-      table.text('url');
+      table.string('image').defaultTo('richardboothe.png');
+      table.string('url');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
     });

@@ -92,7 +92,7 @@ Posts.deletePost = function(id){
   Posts.getNextPost = function() {
     console.log(knex("blogs"));
     return knex("blogs")
-    .where({ })
+    .where({ //id = id -1 OR 1 })
   }
   */
 

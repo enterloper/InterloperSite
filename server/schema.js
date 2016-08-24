@@ -8,7 +8,7 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
   table.text('description');
   table.text('body');
   table.boolean('toy_problem_attached').defaultTo(false);
-  table.text('image').defaultTo('richardboothe.png');
+  table.string('image').defaultTo('richardboothe.png');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
 })
@@ -20,7 +20,7 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
   table.text('body');
   table.text('url');
   table.boolean('blog_attached').defaultTo(false);
-  table.text('image').defaultTo('richardboothe.png');
+  table.string('image').defaultTo('richardboothe.png');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
 })
@@ -29,7 +29,7 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
   table.string('title');
   table.text('description');
   table.boolean('blog_attached').defaultTo(false);
-  table.text('image').defaultTo('richardboothe.png');
+  table.string('image').defaultTo('richardboothe.png');
   table.text('url');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));

@@ -1,5 +1,5 @@
 module.exports = {
-  // disbable logging for production
+  // enable logging for production, CHANGE ONCE RUNNING SMOOTHLY
   logging: true,
-  seed: true
+  seed: false
 };

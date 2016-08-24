@@ -11,24 +11,22 @@ ProjectsRouter.get('/', function(req, res, next) {
     Projects.getAll()
     .then( function(data) {
       projects = data;
-      // console.log('pwjriwqjkdsfasjflPROJECTS', data);
+      return projects;
     })
-    .then(function(data) {
+    .then(function(projects) {
       var context = {
         projects: projects.map(function(project) {
           return {
-            id: project.project_id,
-            title: project.project_title,
-            description: project.project_description,
-            image: project.project_image,
-            url: project.project_url
+            id: project.id,
+            title: project.title,
+            description: project.description,
+            image: project.image,
+            url: project.url
           };
         })
       };
-      return context;
-    })
-    .then(function(value){
-        res.render('portfolio', value);
+
+      res.render('portfolio', context);
       });
   });
 
