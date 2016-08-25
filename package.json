@@ -16,7 +16,7 @@
   "author": "Richard Boothe",
   "license": "ISC",
   "engines": {
-    "node": "6.2.1"
+    "node": ">= 6.2.1"
   },
   "dependencies": {
     "bluebird": "^3.3.5",
