@@ -1,11 +1,12 @@
 {
   "name": "InterloperSite",
   "version": "1.0.0",
-  "description": "Interloper Site",
+  "private": true,
+  "description": "Personal Site for Richard Boothe",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "grunt uglify",
+    "postinstall": "grunt uglify && npm update && npm install package-name",
     "start": "nodemon ./server/index.js"
   },
   "repository": {
