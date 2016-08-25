@@ -114,7 +114,7 @@ app.use(function(err, req, res, next) {
 //ESTABLISH CONNECTION WITH LISTEN
 app.set( 'port', (process.env.PORT || 8000) );
 app.listen(app.get('port'), function(){
-  console.log('Node app is running on port:' , app.get('port'));
+  console.log('Interloper Site built with Node/Express/Handlebars/jQuery is running on port:' , app.get('port'));
 });
 
 module.exports = app;  
@@ -133,7 +133,7 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
   table.text('description');
   table.text('body');
   table.boolean('toy_problem_attached').defaultTo(false);
-  table.text('image').defaultTo('richardboothe.png');
+  table.string('image').defaultTo('richardboothe.png');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
 })
@@ -145,7 +145,7 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
   table.text('body');
   table.text('url');
   table.boolean('blog_attached').defaultTo(false);
-  table.text('image').defaultTo('richardboothe.png');
+  table.string('image').defaultTo('richardboothe.png');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
 })
@@ -154,7 +154,7 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
   table.string('title');
   table.text('description');
   table.boolean('blog_attached').defaultTo(false);
-  table.text('image').defaultTo('richardboothe.png');
+  table.string('image').defaultTo('richardboothe.png');
   table.text('url');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
@@ -181,7 +181,6 @@ var _ = require('lodash');
 
 var config = {
   dev: 'development',
-  test: 'testing',
   prod: 'production',
   port: process.env.PORT || 3000
 };
@@ -207,9 +206,9 @@ module.exports = {
   seed: true
 };
 module.exports = {
-  // disbable logging for production
+  // enable logging for production, CHANGE ONCE RUNNING SMOOTHLY
   logging: true,
-  seed: true
+  seed: false
 };
 
 
@@ -218,11 +217,11 @@ exports.up = function(knex, Promise) {
     .createTableIfNotExists('blogs', function(table){
       table.increments('id').primary();
       table.string('title');
-      table.text('category');
+      table.string('category');
       table.text('description');
       table.text('body');
       table.boolean('toy_problem_attached').defaultTo(false);
-      table.text('image').defaultTo('richardboothe.png');
+      table.string('image').defaultTo('richardboothe.png');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
     })
@@ -230,11 +229,11 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary();
       table.string('title');
       table.text('description');
-      table.text('difficulty').defaultTo('Beginner');
+      table.string('difficulty').defaultTo('Beginner');
       table.text('body');
-      table.text('url');
+      table.string('url');
       table.boolean('blog_attached').defaultTo(false);
-      table.text('image').defaultTo('richardboothe.png');
+      table.string('image').defaultTo('richardboothe.png');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
     })
@@ -243,8 +242,8 @@ exports.up = function(knex, Promise) {
       table.string('title');
       table.text('description');
       table.boolean('blog_attached').defaultTo(false);
-      table.text('image').defaultTo('richardboothe.png');
-      table.text('url');
+      table.string('image').defaultTo('richardboothe.png');
+      table.string('url');
       table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
       table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
     });
@@ -358,7 +357,7 @@ Posts.deletePost = function(id){
   Posts.getNextPost = function() {
     console.log(knex("blogs"));
     return knex("blogs")
-    .where({ })
+    .where({ //id = id -1 OR 1 })
   }
   */
 
@@ -744,24 +743,22 @@ ProjectsRouter.get('/', function(req, res, next) {
     Projects.getAll()
     .then( function(data) {
       projects = data;
-      // console.log('pwjriwqjkdsfasjflPROJECTS', data);
+      return projects;
     })
-    .then(function(data) {
+    .then(function(projects) {
       var context = {
         projects: projects.map(function(project) {
           return {
-            id: project.project_id,
-            title: project.project_title,
-            description: project.project_description,
-            image: project.project_image,
-            url: project.project_url
+            id: project.id,
+            title: project.title,
+            description: project.description,
+            image: project.image,
+            url: project.url
           };
         })
       };
-      return context;
-    })
-    .then(function(value){
-        res.render('portfolio', value);
+
+      res.render('portfolio', context);
       });
   });
 

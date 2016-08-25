@@ -12,8 +12,8 @@ module.exports = function(grunt) {
                 layout: 'main.handlebars'
             },
             home: {
-                src: ['server/views/home.handlebars'],
-                dest: 'public/home.html'
+                src: ['server/views/*.handlebars'],
+                dest: './'
             }
         },
 
@@ -79,6 +79,6 @@ module.exports = function(grunt) {
     "grunt-contrib-cssmin"].forEach(function(task) { grunt.loadNpmTasks(task);});
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-    grunt.registerTask('default', ['concat', 'uglify', 'imagemin', 'cssmin']);
+    grunt.registerTask('default', ['assemble', 'concat', 'uglify', 'imagemin', 'cssmin']);
 
 };
