@@ -28,6 +28,7 @@ ProjectsRouter.get('/', function(req, res, next) {
       return context;
     })
     .then(function(context){
+      console.log('------------>C',context);
       res.render('portfolio', context);
     })
     .catch( function(err){
