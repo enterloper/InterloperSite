@@ -188,6 +188,7 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
     background-color: #F5F1E3;
     margin: 0 auto 2em;
     width: 78%;
+    color: #2C302E;
 }
 
 .singleContentContainer {
@@ -197,6 +198,7 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
     background-color: #F5F1E3;
     margin: 0 auto 2em;
     width: 85%;
+    color: #2C302E;
 }
 
 .contentPhoto {
@@ -210,6 +212,7 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
     display: inline-block;
     width: inherit;
     margin: auto auto auto 1em;
+    color: #2C302E;
 }
 
 .contentTitle {

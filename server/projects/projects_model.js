@@ -25,13 +25,11 @@ Projects.getProjectByTitle = function(ProjectTitle) {
 };
 
 Projects.addNewProject = function(data) {
-  console.log('{{{{{{{{[[[[[ DATA ]]]]]}}}}}}}}', data);
   return knex("projects")
   .insert(data);
 };
 
 Projects.editProject = function(id, data) {
-  console.log('{{{{{{{{[[[[[ID & DATA]]]]]}}}}}}}}', id, data);
   return knex("projects")
   .where({
     'id' : id

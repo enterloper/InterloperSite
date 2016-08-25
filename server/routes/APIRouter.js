@@ -207,9 +207,7 @@ APIRouter.route('/projects')
   })
   .post(function(req, res, next) {
     Projects.addNewProject(req.body)
-    .then(function(resp) {
-      console.log("resp", resp);
-      console.log("res.req.body:",res.req.body);  
+    .then(function(resp) {  
       res.status(201).json(res.req.body);
     })
     .catch(function(err){
@@ -234,7 +232,6 @@ APIRouter.route('/projects/:id')
   .put(function(req, res, next){
     Projects.editProject(req.params.id, req.body)
     .then(function(resp) {
-      console.log('------------------>resp',resp);
       console.log("Modified on project number "+req.params.id+":", res.req.body);
       res.status(200).json(res.req.body);
     })
