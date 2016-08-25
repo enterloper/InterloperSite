@@ -15,17 +15,17 @@ TPRouter.get('/', function(req, res, next) {
     return toy_problems;
   })
   .then(function(data) {
-      var context = {
-        toy_problems: toy_problems.map(function(toy_problem) {
-          return {
-            id: toy_problem.id,
-            title: toy_problem.title,
-            description: toy_problem.description,
-            image: toy_problem.image
-          };
-        })
-      };
-      return context;
+    var context = {
+      toy_problems: toy_problems.map(function(toy_problem) {
+        return {
+          id: toy_problem.id,
+          title: toy_problem.title,
+          description: toy_problem.description,
+          image: toy_problem.image
+        };
+      })
+    };
+    return context;
   })
   .then(function(value){
       res.render('toyProblems', value);
@@ -65,7 +65,7 @@ TPRouter.get('/:title', function(req, res, next) {
     console.error(err);
     next();
   });
-  });
+});
 /***************** GET TOY PROBLEM BY ID *****************/
 
 TPRouter.get('/id/:id', function(req, res, next) {

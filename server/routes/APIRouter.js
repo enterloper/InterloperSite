@@ -40,7 +40,6 @@ APIRouter.route('/posts')
     console.log("-------------------->POSTreqbody", req.body);
     Posts.addNewBlogPost(req.body)
     .then( function(resp) {
-      console.log("------------------>resp",resp)
       res.status(201).json(res.req.body);
     })
     .catch(function(err){
@@ -60,7 +59,6 @@ APIRouter.route('/posts/:id')
       });
   })
   .put( function(req, res, next) {
-    console.log("------------------>PUTreq.body", req.body); 
       Posts.editBlogPost(req.params.id, req.body)
       .then(function(resp) {
         console.log("Modified on blog number "+req.params.id+":", res.req.body);
@@ -85,25 +83,25 @@ APIRouter.route('/posts/:id')
 /***************** GET BLOG INFO BY TITLE *****************/
 APIRouter.get('/posts/title/:title', function(req, res, next) {
   Posts.getPostByTitle(req.params.title)
-    .then(function(data) {
-      res.status(200).json(data);
-    })
-    .catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
+  .then(function(data) {
+    res.status(200).json(data);
+  })
+  .catch(function(err) {
+    console.error(err.stack);
+    next();
+  });
 });
 
 /***************** GET BLOG INFO BY CATEGORY *****************/
 APIRouter.get('/posts/category/:category', function(req, res, next) {
   Posts.getPostByCategory(req.params.category)
-    .then(function(data) {
-      res.send(data);
-    })
-    .catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
+  .then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.error(err.stack);
+    next();
+  });
 });
 
 /************* TOY PROBLEM ENDPOINTS *************/
@@ -130,7 +128,7 @@ APIRouter.route('/problems')
       console.error(err.stack);
       next();
      });
-  });
+});
 
 /***************** GET/PUT/DELETE SINGLE TP INFO BY ID *****************/
 APIRouter.route('/problems/:id') 
