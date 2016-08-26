@@ -4,6 +4,17 @@ var register = function(Handlebars) {
         // put all of your helpers inside this object
         static: function(name) {
           return require('./static.js').map(name);
+        },
+        debug: function(optionalValue) {
+          console.log("Current Context");
+          console.log("====================");
+          console.log(this);
+         
+          if (optionalValue) {
+            console.log("Value");
+            console.log("====================");
+            console.log(optionalValue);
+          }
         }
     };
 

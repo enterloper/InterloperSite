@@ -1,8 +1,7 @@
 
 var environment = process.env.NODE_ENV || 'development';
-var config      = require('./../knexfile.js')[environment];
+var config      = require('./knexfile.js')[environment];
 var knex        = require('knex')(config);
-knex.migrate.latest([config]);
 module.exports = knex;
 var register = function(Handlebars) {
 
@@ -10,6 +9,17 @@ var register = function(Handlebars) {
         // put all of your helpers inside this object
         static: function(name) {
           return require('./static.js').map(name);
+        },
+        debug: function(optionalValue) {
+          console.log("Current Context");
+          console.log("====================");
+          console.log(this);
+         
+          if (optionalValue) {
+            console.log("Value");
+            console.log("====================");
+            console.log(optionalValue);
+          }
         }
     };
 
@@ -46,7 +56,7 @@ var APIRouter       = require('./routes/APIRouter.js');
 var BlogRouter      = require('./routes/blogRouter.js');
 var TPRouter        = require('./routes/TPRouter.js');
 var ProjectsRouter  = require('./routes/ProjectsRouter.js');
-var path            = require('path');       
+var path            = require('path');
 //for production put in NODE_ENV=production node index.js
 // Set up Handlebars engine
 var hbs = exphbs.create({
@@ -55,6 +65,7 @@ var hbs = exphbs.create({
   partialsDir: path.join(__dirname + '/views/partials/'),
   layoutsDir: path.join(__dirname + '/views/layouts/')
 });
+
 // Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('handlebars', hbs.engine);
 app.enable('view cache');
@@ -66,7 +77,7 @@ app.set('case sensitive routing', false);
 
 //middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(morgan('dev',{
   // only log error responses 
   skip: function (req, res) { return res.statusCode < 400; }
@@ -91,6 +102,10 @@ app.get('/', function(req, res){
   res.render('home');
 });
 
+//RESUME PAGE ROUTING
+app.get('/resume', function(req, res) {
+  res.render('resume');
+});
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.use(function(err, req, res, next) {
     console.log('Error : ' + err.message);
@@ -123,13 +138,40 @@ module.exports = app;
 
 
 
+
+module.exports = {
+  
+  development: {
+    client: 'pg',
+    connection: {
+      host: '127.0.0.1',
+      port: 5432,
+      database: 'blogdb'
+    },
+    seeds: {
+      directory: './server/seeds'
+    },
+    debug: true
+  },
+  
+  production: {
+    client: 'pg',
+    connection: {
+      host: 'ec2-54-243-126-40.compute-1.amazonaws.com',
+      port: 5432,
+      user: 'qjiwhevwfexkza',
+      password: 'DyKIG3C7CNg-ZhW3qKuFU7zWTt',
+      database: 'd3ntj3cmv66vll',
+    }
+  }
+};
 'use strict';
 var knex = require('./db');
 
 knex.schema.createTableIfNotExists('blogs', function(table) {
   table.increments('id').primary();
   table.string('title');
-  table.text('category');
+  table.string('category');
   table.text('description');
   table.text('body');
   table.boolean('toy_problem_attached').defaultTo(false);
@@ -140,10 +182,10 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
 .createTableIfNotExists('toy_problems', function(table) {
   table.increments('id').primary();
   table.string('title');
+  table.string('difficulty').defaultTo('Beginner');
   table.text('description');
-  table.text('difficulty').defaultTo('Beginner');
   table.text('body');
-  table.text('url');
+  table.string('url');
   table.boolean('blog_attached').defaultTo(false);
   table.string('image').defaultTo('richardboothe.png');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
@@ -155,15 +197,10 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
   table.text('description');
   table.boolean('blog_attached').defaultTo(false);
   table.string('image').defaultTo('richardboothe.png');
-  table.text('url');
+  table.string('url');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
 })
-// .createTableIfNotExists('blog_toyprob', function(table){
-//   table.integer('blog_id').notNullable().references('id').inTable('blogs').onDelete('CASCADE');
-//   table.integer('toy_problem_id').notNullable().references('id').inTable('toy_problems').onDelete('CASCADE');
-//   table.primary(['blog_id', 'toy_problem_id']);
-// })
 .then(function() {
   console.log('Success Applying Schema');
   knex.destroy();
@@ -196,7 +233,6 @@ try {
 } catch(e) {
   envConfig = {};
 }
-
 module.exports = _.merge(config, envConfig);
 
 
@@ -211,58 +247,6 @@ module.exports = {
   seed: false
 };
 
-
-exports.up = function(knex, Promise) {
-  return knex.schema
-    .createTableIfNotExists('blogs', function(table){
-      table.increments('id').primary();
-      table.string('title');
-      table.string('category');
-      table.text('description');
-      table.text('body');
-      table.boolean('toy_problem_attached').defaultTo(false);
-      table.string('image').defaultTo('richardboothe.png');
-      table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
-      table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-    })
-    .createTableIfNotExists('toy_problems', function(table){
-      table.increments('id').primary();
-      table.string('title');
-      table.text('description');
-      table.string('difficulty').defaultTo('Beginner');
-      table.text('body');
-      table.string('url');
-      table.boolean('blog_attached').defaultTo(false);
-      table.string('image').defaultTo('richardboothe.png');
-      table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
-      table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-    })
-    .createTableIfNotExists('projects', function(table){
-      table.increments('id').primary();
-      table.string('title');
-      table.text('description');
-      table.boolean('blog_attached').defaultTo(false);
-      table.string('image').defaultTo('richardboothe.png');
-      table.string('url');
-      table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
-      table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
-    });
-    // .createTableIfNotExists('blog_toyprob', function(table){
-    //   table.integer('blog_id').notNullable().references('id').inTable('blogs').onDelete('CASCADE');
-    //   table.integer('toy_problem_id').notNullable().references('id').inTable('toy_problems').onDelete('CASCADE');
-    //   table.primary(['tag_id', 'movie_id']);
-    // });
-};
-
-exports.down = function(knex, Promise) {
-  return knex.schema
-    .dropTableIfExists("blogs")
-    .dropTableIfExists("toy_problems")
-    .dropTableIfExists("projects")
-    .dropTableIfExists("blog_toyprob");
-};
-
-
 var knex = require('./../db.js');
 var _ = require('lodash');
 var Promise = require('bluebird');
@@ -273,6 +257,7 @@ Posts.getAll = function() {
   return knex("blogs")
   .orderBy('id', 'desc');
 };
+
 /*************** GET SINGLE BLOG POST ***************/
 Posts.getPostByID = function(id) {
   return knex("blogs")
@@ -280,6 +265,7 @@ Posts.getPostByID = function(id) {
     'id' : id
   });
 };
+
 /*************** GET POST BY TITLE ***************/
 Posts.getPostByTitle = function(title) {
   return knex("blogs")
@@ -287,6 +273,7 @@ Posts.getPostByTitle = function(title) {
     'title' : title
   });
 };
+
 /*************** GET POST BY CATEGORY ***************/
 Posts.getPostByCategory = function(category) {
   return knex("blogs")
@@ -294,10 +281,12 @@ Posts.getPostByCategory = function(category) {
     'category' : category
   });
 };
+
 /*************** ADD POST  ***************/
 Posts.addNewBlogPost = function(data) {
   return knex("blogs").insert(data);
 };
+
 /*************** EDIT POST ***************/
 
 Posts.editBlogPost = function(id, data) {
@@ -314,7 +303,8 @@ Posts.editBlogPost = function(id, data) {
   });
 };
 
-//DELETE A POST
+/*************** DELETE A POST ***************/
+
 Posts.deletePost = function(id){ 
   return knex("blogs")
   .where({
@@ -328,26 +318,15 @@ Posts.deletePost = function(id){
   });
 };
 
+/*************** GET BOUND TOY PROBLEM ***************/
+Posts.getToyProblemMatches = function() {
+  return knex
+  .table('toy_problems')
+  .select('toy_problems.title', 'toy_problems.description')
+  .join('blogs', 'toy_problems.title', '=', 'blogs.title');
+};
   /*
   <-----------TODO: SET UP NEXT AND PREVIOUS QUERIES FOR BUTTONS--------------->
-  SELECT
-    DISTINCT i.id AS id,
-    i.userid AS userid,
-    i.itemname AS itemname,
-    COALESCE(LEAD(i.id)        OVER (ORDER BY i.created DESC)
-            ,FIRST_VALUE(i.id) OVER (ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS nextitemid,
-    COALESCE(LAG(i.id)         OVER (ORDER BY i.created DESC)
-            ,LAST_VALUE(i.id)  OVER (ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS previtemid,
-    COALESCE(LEAD(i.id)        OVER (PARTITION BY i.userid ORDER BY i.created DESC)
-            ,FIRST_VALUE(i.id) OVER (PARTITION BY i.userid ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS nextuseritemid,
-    COALESCE(LAG(i.id)         OVER (PARTITION BY i.userid ORDER BY i.created DESC)
-            ,LAST_VALUE(i.id)  OVER (PARTITION BY i.userid ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS prevuseritemid,
-    i.created AS created
-  FROM items i
-    LEFT JOIN users u
-    ON i.userid = u.id
-  ORDER BY i.created DESC;
-  
   Posts.getPreviousPost = function() {
     console.log(knex("blogs"));
     return knex("blogs")
@@ -360,21 +339,13 @@ Posts.deletePost = function(id){
     .where({ //id = id -1 OR 1 })
   }
   */
-
-
-/************* BLOG TODO ENDPOINTS *************/
-// Get bound toyproblems if present
-
 // min.min(column) 
 // Gets the minimum value for the specified column.
-
 // knex('users').min('age')
-
 
 // Outputs:
 // select min("age") from "users"
 // knex('users').min('age as a')
-
 
 // Outputs:
 // select min("age") as "a" from "users"
@@ -400,34 +371,35 @@ var Projects = module.exports;
 
 //GET ALL PROJECTS
 Projects.getAll = function() {
-  return knex("projects")
+  return knex('projects')
   .orderBy('id', 'desc');
 };
 
-
+//GET PROJECT BY ID
 Projects.getProjectByID = function(id) {
-  return knex("projects")
+  return knex('projects')
   .where({
     'id' : id
   });
 };
 
+//GET PROJECT BY TITLE
 Projects.getProjectByTitle = function(ProjectTitle) {
-  return knex("projects")
+  return knex('projects')
   .where({
     'title' : ProjectTitle
   });
 };
 
+//ADD A PROJECT
 Projects.addNewProject = function(data) {
-  console.log('{{{{{{{{[[[[[ DATA ]]]]]}}}}}}}}', data);
-  return knex("projects")
+  return knex('projects')
   .insert(data);
 };
 
+//EDIT A PROJECT
 Projects.editProject = function(id, data) {
-  console.log('{{{{{{{{[[[[[ID & DATA]]]]]}}}}}}}}', id, data);
-  return knex("projects")
+  return knex('projects')
   .where({
     'id' : id
   })
@@ -438,22 +410,31 @@ Projects.editProject = function(id, data) {
     return data;
   })
   .catch(function(err){
-    console.error(err.stack)
+    console.error(err.stack);
   });
 };
 
+//DELETE A PROJECT
 Projects.deleteProject = function(id) {
-  return knex("projects")
+  return knex('projects')
   .where({
     id: id
   })
   .del()
   .then(function(data) {
-    console.log('Deleted '+data+' blog post.')
+    console.log('Deleted '+data+' blog post.');
   });
 };
+
+//GET BOUND BLOG
+Projects.getBlogMatches = function() {
+  return knex
+  .table('projects')
+  .select('projects.title', 'projects.description')
+  .join('blogs', 'projects.title', '=', 'blogs.title');
+};
+
 /************* TODO ENDPOINTS *************/
-// Get bound blog if present
 // create mods/push/put
 
 
@@ -500,7 +481,6 @@ APIRouter.route('/posts')
     console.log("-------------------->POSTreqbody", req.body);
     Posts.addNewBlogPost(req.body)
     .then( function(resp) {
-      console.log("------------------>resp",resp)
       res.status(201).json(res.req.body);
     })
     .catch(function(err){
@@ -520,7 +500,6 @@ APIRouter.route('/posts/:id')
       });
   })
   .put( function(req, res, next) {
-    console.log("------------------>PUTreq.body", req.body); 
       Posts.editBlogPost(req.params.id, req.body)
       .then(function(resp) {
         console.log("Modified on blog number "+req.params.id+":", res.req.body);
@@ -545,25 +524,25 @@ APIRouter.route('/posts/:id')
 /***************** GET BLOG INFO BY TITLE *****************/
 APIRouter.get('/posts/title/:title', function(req, res, next) {
   Posts.getPostByTitle(req.params.title)
-    .then(function(data) {
-      res.status(200).json(data);
-    })
-    .catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
+  .then(function(data) {
+    res.status(200).json(data);
+  })
+  .catch(function(err) {
+    console.error(err.stack);
+    next();
+  });
 });
 
 /***************** GET BLOG INFO BY CATEGORY *****************/
 APIRouter.get('/posts/category/:category', function(req, res, next) {
   Posts.getPostByCategory(req.params.category)
-    .then(function(data) {
-      res.send(data);
-    })
-    .catch(function(err) {
-      console.error(err.stack);
-      next();
-    });
+  .then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    console.error(err.stack);
+    next();
+  });
 });
 
 /************* TOY PROBLEM ENDPOINTS *************/
@@ -590,7 +569,7 @@ APIRouter.route('/problems')
       console.error(err.stack);
       next();
      });
-  });
+});
 
 /***************** GET/PUT/DELETE SINGLE TP INFO BY ID *****************/
 APIRouter.route('/problems/:id') 
@@ -667,9 +646,7 @@ APIRouter.route('/projects')
   })
   .post(function(req, res, next) {
     Projects.addNewProject(req.body)
-    .then(function(resp) {
-      console.log("resp", resp);
-      console.log("res.req.body:",res.req.body);  
+    .then(function(resp) {  
       res.status(201).json(res.req.body);
     })
     .catch(function(err){
@@ -694,7 +671,6 @@ APIRouter.route('/projects/:id')
   .put(function(req, res, next){
     Projects.editProject(req.params.id, req.body)
     .then(function(resp) {
-      console.log('------------------>resp',resp);
       console.log("Modified on project number "+req.params.id+":", res.req.body);
       res.status(200).json(res.req.body);
     })
@@ -760,7 +736,6 @@ ProjectsRouter.get('/', function(req, res, next) {
       return context;
     })
     .then(function(context){
-      console.log('------------>C',context);
       res.render('portfolio', context);
     })
     .catch( function(err){
@@ -777,98 +752,105 @@ var ToyProbs = require('./../toy_problems/toy_problems_model');
 var Promise  = require('bluebird');
 
 /***************** TOY PROBLEM ROUTING *****************/
-
+  ToyProbs.getBlogMatches()
+  .then(function(data){
+    console.log(data);
+  });
 /***************** GET ALL TOY PROBLEMS *****************/
 
 TPRouter.get('/', function(req, res, next) {
-    var toy_problems; 
-    ToyProbs.getAll()
-    .then(function(data) {
-      toy_problems = data;
-      return toy_problems;
-    })
-    .then(function(data) {
-        var context = {
-          toy_problems: toy_problems.map(function(toy_problem) {
-            return {
-              id: toy_problem.id,
-              title: toy_problem.title,
-              description: toy_problem.description,
-              image: toy_problem.image
-            };
-          })
+  var toy_problems; 
+  ToyProbs.getAll()
+  .then(function(data) {
+    toy_problems = data;
+    return toy_problems;
+  })
+  .then(function(data) {
+    var context = {
+      toy_problems: toy_problems.map(function(toy_problem) {
+        return {
+          id: toy_problem.id,
+          title: toy_problem.title,
+          description: toy_problem.description,
+          image: toy_problem.image
         };
-        return context;
       })
-    .then(function(value){
-        res.render('toyProblems', value);
-      })
-    .catch( function(err){
-      console.error(err.stack);
-      next();
-    });
+    };
+    return context;
+  })
+  .then(function(value){
+      res.render('toyProblems', value);
+  })
+  .catch( function(err){
+    console.error(err.stack);
+    next();
   });
+});
 
 /***************** GET TOY PROBLEM BY TITLE *****************/
 
 TPRouter.get('/:title', function(req, res, next) {
-    var toy_problem;
-    ToyProbs.getToyProbByTitle(req.params.title)
-    .then(function(data) {
-      toy_problem = data;
-      return toy_problem;
-    })
-    .then(function(toy_problem) {
-      console.log('TOYPROBLEMS', toy_problem);
-      var context = {
-        id: toy_problem[0].id,
-        title: toy_problem[0].title,
-        description: toy_problem[0].description,
-        body: toy_problem[0].body,
-        blog_attached: toy_problem[0].blog_attached,
-        image: toy_problem[0].image,
-        created_at: toy_problem[0].created_at
-      };
-      return context;
-    })
-    .then(function(value){
-      res.render('singleToyProblem', value);
-    })
-    .catch(function(err){
-      console.error(err);
-      next();
-    });
+  var toy_problem;
+  ToyProbs.getBlogMatches()
+  .then(function(data){
+    console.log(data);
   });
+  ToyProbs.getToyProbByTitle(req.params.title)
+  .then(function(data) {
+    toy_problem = data;
+    return toy_problem;
+  })
+  .then(function(toy_problem) {
+    console.log('TOYPROBLEMS IN TITLE', toy_problem);
+    var context = {
+      id: toy_problem[0].id,
+      title: toy_problem[0].title,
+      description: toy_problem[0].description,
+      body: toy_problem[0].body,
+      blog_attached: toy_problem[0].blog_attached,
+      image: toy_problem[0].image,
+      created_at: toy_problem[0].created_at
+    };
+    return context;
+  })
+  .then(function(value){
+    res.render('singleToyProblem', value);
+  })
+  .catch(function(err){
+    console.error(err);
+    next();
+  });
+});
 /***************** GET TOY PROBLEM BY ID *****************/
 
 TPRouter.get('/id/:id', function(req, res, next) {
-    var toy_problem;
-    ToyProbs.getToyProbByID(req.params.id)
-    .then(function(data) {
-      toy_problem = data;
-      return toy_problem;
-    })
-    .then(function(toy_problem) {
-      console.log('TOYPROBLEMS', toy_problem);
-      var context = {
-        id: toy_problem[0].id,
-        title: toy_problem[0].title,
-        description: toy_problem[0].description,
-        body: toy_problem[0].body,
-        blog_attached: toy_problem[0].blog_attached,
-        image: toy_problem[0].image,
-        created_at: toy_problem[0].created_at
-      };
-      return context;
-    })
-    .then(function(value){
-      res.render('singleToyProblem', value);
-    })
-    .catch(function(err){
-      console.error(err);
-      next();
-    });
+  var toy_problem;
+  ToyProbs.getToyProbByID(req.params.id)
+  .then(function(data) {
+    toy_problem = data;
+    return toy_problem;
+  })
+  .then(function(toy_problem) {
+    console.log('TOYPROBLEMS IN ID', toy_problem);
+    var context = {
+      id: toy_problem[0].id,
+      title: toy_problem[0].title,
+      description: toy_problem[0].description,
+      body: toy_problem[0].body,
+      blog_attached: toy_problem[0].blog_attached,
+      image: toy_problem[0].image,
+      created_at: toy_problem[0].created_at
+    };
+    return context;
+  })
+  .then(function(value){
+    res.render('singleToyProblem', value);
+  })
+  .catch(function(err){
+    console.error(err);
+    next();
   });
+});
 
 module.exports = TPRouter;
 
@@ -883,61 +865,61 @@ var Promise    = require('bluebird');
 /***************** GET ALL BLOGS *****************/
 
 BlogRouter.get('/', function(req, res, next) {
-    var posts; 
-    Posts.getAll()
-    .then(function(data) {
-      console.log(data);
-      posts = data;
-      return posts; 
-    })
-    .then(function(data) {
-        var context = {
-          posts: posts.map(function(post) {
-            return {
-              id: post.id,
-              title: post.title,
-              description: post.description,
-              image: post.image
-            };
-          })
+  var posts; 
+  Posts.getAll()
+  .then(function(data) {
+    console.log(data);
+    posts = data;
+    return posts; 
+  })
+  .then(function(data) {
+    var context = {
+      posts: posts.map(function(post) {
+        return {
+          id: post.id,
+          title: post.title,
+          description: post.description,
+          image: post.image
         };
-        return context;
       })
-    .then(function(value){
-        res.render('blog', value);
-      })
-    .catch(function(err){
-      console.error(err.stack);
-      next();
-    });
+    };
+    return context;
+  })
+  .then(function(value){
+    res.render('blog', value);
+  })
+  .catch(function(err){
+    console.error(err.stack);
+    next();
   });
+});
 
 BlogRouter.get('/:title', function(req, res, next) {
-    var post;
-    Posts.getPostByTitle(req.params.title)
-    .then(function(data) {
-      post = data;
-      return post;
-    })
-    .then(function(post) {
-      var context = {
-        id: post[0].id,
-        title: post[0].title,
-        description: post[0].description,
-        body: post[0].body,
-        image: post[0].image,
-        created_at: post[0].created_at
-      };
-      return context;
-    })
-    .then(function(value){
-      res.render('singleBlog', value);
-    })
-    .catch(function(err){
-      console.error(err);
-      next();
-    });
+  var post;
+  Posts.getPostByTitle(req.params.title)
+  .then(function(data) {
+    post = data;
+    return post;
+  })
+  .then(function(post) {
+    var context = {
+      id: post[0].id,
+      title: post[0].title,
+      description: post[0].description,
+      body: post[0].body,
+      image: post[0].image,
+      created_at: post[0].created_at
+    };
+    return context;
+  })
+  .then(function(value){
+    res.render('singleBlog', value);
+  })
+  .catch(function(err){
+    console.error(err);
+    next();
   });
+});
 
 module.exports = BlogRouter;
 
@@ -1015,41 +997,45 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 var ToyProbs = module.exports;
 
-
+/*************** GET ALL TOY PROBLEMS ***************/
 ToyProbs.getAll = function() {
-  return knex("toy_problems")
+  return knex('toy_problems')
   .orderBy('id', 'desc');
   };
 
-
+/*************** GET TOY PROBLEM BY ID ***************/
 ToyProbs.getToyProbByID = function(id) {
-  return knex("toy_problems")
+  return knex('toy_problems')
   .where({
     'id' : id
   });
 };
 
+/*************** GET TOY PROBLEM BY TITLE***************/
 ToyProbs.getToyProbByTitle = function(title) {
-  return knex("toy_problems")
+  return knex('toy_problems')
   .where({
     'title' : title
   });
 };
 
+/*************** GET TOY PROBLEMS BY DIFFICULTY ***************/
 ToyProbs.getToyProbByDifficulty = function(level) {
-  return knex("toy_problems")
+  return knex('toy_problems')
   .where({
     'difficulty' : level
   });
 };
 
+/*************** ADD A SINGLE TOY PROBLEM ***************/
 ToyProbs.addNewToyProblem = function(data) {
-  return knex("toy_problems")
+  return knex('toy_problems')
   .insert(data);
 };
 
+/*************** EDIT SINGLE TOY PROBLEM ***************/
 ToyProbs.editToyProblem = function(id, data) {
-  return knex("toy_problems")
+  return knex('toy_problems')
   .where({
     'id': id
   })
@@ -1064,9 +1050,9 @@ ToyProbs.editToyProblem = function(id, data) {
   });
 };
 
-//DELETE A TOY PROBLEM
+/*************** DELETE A TOY PROBLEM ***************/
 ToyProbs.deleteToyProblem = function(id) {
-  return knex("toy_problems")
+  return knex('toy_problems')
   .where({
     'id': id
   })
@@ -1075,6 +1061,13 @@ ToyProbs.deleteToyProblem = function(id) {
     console.log('Deleted '+data+' blog post.');
   });
 };
+
+/*************** GET BOUND BLOG ***************/
+ToyProbs.getBlogMatches = function() {
+  return knex
+  .table('blogs')
+  .select('blogs.title', 'blogs.description')
+  .join('toy_problems', 'blogs.title', '=', 'toy_problems.title');
+};
 /************* TODO ENDPOINTS *************/
-// Get bound blog if present
 // Get next and previous toy problem

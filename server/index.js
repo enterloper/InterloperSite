@@ -9,7 +9,7 @@ var APIRouter       = require('./routes/APIRouter.js');
 var BlogRouter      = require('./routes/blogRouter.js');
 var TPRouter        = require('./routes/TPRouter.js');
 var ProjectsRouter  = require('./routes/ProjectsRouter.js');
-var path            = require('path');       
+var path            = require('path');
 //for production put in NODE_ENV=production node index.js
 // Set up Handlebars engine
 var hbs = exphbs.create({
@@ -18,6 +18,7 @@ var hbs = exphbs.create({
   partialsDir: path.join(__dirname + '/views/partials/'),
   layoutsDir: path.join(__dirname + '/views/layouts/')
 });
+
 // Register `hbs` as our view engine using its bound `engine()` function.
 app.engine('handlebars', hbs.engine);
 app.enable('view cache');
@@ -54,6 +55,10 @@ app.get('/', function(req, res){
   res.render('home');
 });
 
+//RESUME PAGE ROUTING
+app.get('/resume', function(req, res) {
+  res.render('resume');
+});
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.use(function(err, req, res, next) {
     console.log('Error : ' + err.message);
