@@ -4,7 +4,7 @@ var knex = require('./db');
 knex.schema.createTableIfNotExists('blogs', function(table) {
   table.increments('id').primary();
   table.string('title');
-  table.text('category');
+  table.string('category');
   table.text('description');
   table.text('body');
   table.boolean('toy_problem_attached').defaultTo(false);
@@ -15,10 +15,10 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
 .createTableIfNotExists('toy_problems', function(table) {
   table.increments('id').primary();
   table.string('title');
+  table.string('difficulty').defaultTo('Beginner');
   table.text('description');
-  table.text('difficulty').defaultTo('Beginner');
   table.text('body');
-  table.text('url');
+  table.string('url');
   table.boolean('blog_attached').defaultTo(false);
   table.string('image').defaultTo('richardboothe.png');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
@@ -30,15 +30,10 @@ knex.schema.createTableIfNotExists('blogs', function(table) {
   table.text('description');
   table.boolean('blog_attached').defaultTo(false);
   table.string('image').defaultTo('richardboothe.png');
-  table.text('url');
+  table.string('url');
   table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
   table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
 })
-// .createTableIfNotExists('blog_toyprob', function(table){
-//   table.integer('blog_id').notNullable().references('id').inTable('blogs').onDelete('CASCADE');
-//   table.integer('toy_problem_id').notNullable().references('id').inTable('toy_problems').onDelete('CASCADE');
-//   table.primary(['blog_id', 'toy_problem_id']);
-// })
 .then(function() {
   console.log('Success Applying Schema');
   knex.destroy();

@@ -8,6 +8,7 @@ Posts.getAll = function() {
   return knex("blogs")
   .orderBy('id', 'desc');
 };
+
 /*************** GET SINGLE BLOG POST ***************/
 Posts.getPostByID = function(id) {
   return knex("blogs")
@@ -15,6 +16,7 @@ Posts.getPostByID = function(id) {
     'id' : id
   });
 };
+
 /*************** GET POST BY TITLE ***************/
 Posts.getPostByTitle = function(title) {
   return knex("blogs")
@@ -22,6 +24,7 @@ Posts.getPostByTitle = function(title) {
     'title' : title
   });
 };
+
 /*************** GET POST BY CATEGORY ***************/
 Posts.getPostByCategory = function(category) {
   return knex("blogs")
@@ -29,10 +32,12 @@ Posts.getPostByCategory = function(category) {
     'category' : category
   });
 };
+
 /*************** ADD POST  ***************/
 Posts.addNewBlogPost = function(data) {
   return knex("blogs").insert(data);
 };
+
 /*************** EDIT POST ***************/
 
 Posts.editBlogPost = function(id, data) {
@@ -49,7 +54,8 @@ Posts.editBlogPost = function(id, data) {
   });
 };
 
-//DELETE A POST
+/*************** DELETE A POST ***************/
+
 Posts.deletePost = function(id){ 
   return knex("blogs")
   .where({
@@ -63,26 +69,15 @@ Posts.deletePost = function(id){
   });
 };
 
+/*************** GET BOUND TOY PROBLEM ***************/
+Posts.getToyProblemMatches = function() {
+  return knex
+  .table('toy_problems')
+  .select('toy_problems.title', 'toy_problems.description')
+  .join('blogs', 'toy_problems.title', '=', 'blogs.title');
+};
   /*
   <-----------TODO: SET UP NEXT AND PREVIOUS QUERIES FOR BUTTONS--------------->
-  SELECT
-    DISTINCT i.id AS id,
-    i.userid AS userid,
-    i.itemname AS itemname,
-    COALESCE(LEAD(i.id)        OVER (ORDER BY i.created DESC)
-            ,FIRST_VALUE(i.id) OVER (ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS nextitemid,
-    COALESCE(LAG(i.id)         OVER (ORDER BY i.created DESC)
-            ,LAST_VALUE(i.id)  OVER (ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS previtemid,
-    COALESCE(LEAD(i.id)        OVER (PARTITION BY i.userid ORDER BY i.created DESC)
-            ,FIRST_VALUE(i.id) OVER (PARTITION BY i.userid ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS nextuseritemid,
-    COALESCE(LAG(i.id)         OVER (PARTITION BY i.userid ORDER BY i.created DESC)
-            ,LAST_VALUE(i.id)  OVER (PARTITION BY i.userid ORDER BY i.created DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) AS prevuseritemid,
-    i.created AS created
-  FROM items i
-    LEFT JOIN users u
-    ON i.userid = u.id
-  ORDER BY i.created DESC;
-  
   Posts.getPreviousPost = function() {
     console.log(knex("blogs"));
     return knex("blogs")
@@ -95,21 +90,13 @@ Posts.deletePost = function(id){
     .where({ //id = id -1 OR 1 })
   }
   */
-
-
-/************* BLOG TODO ENDPOINTS *************/
-// Get bound toyproblems if present
-
 // min.min(column) 
 // Gets the minimum value for the specified column.
-
 // knex('users').min('age')
-
 
 // Outputs:
 // select min("age") from "users"
 // knex('users').min('age as a')
-
 
 // Outputs:
 // select min("age") as "a" from "users"

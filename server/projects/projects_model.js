@@ -5,32 +5,35 @@ var Projects = module.exports;
 
 //GET ALL PROJECTS
 Projects.getAll = function() {
-  return knex("projects")
+  return knex('projects')
   .orderBy('id', 'desc');
 };
 
-
+//GET PROJECT BY ID
 Projects.getProjectByID = function(id) {
-  return knex("projects")
+  return knex('projects')
   .where({
     'id' : id
   });
 };
 
+//GET PROJECT BY TITLE
 Projects.getProjectByTitle = function(ProjectTitle) {
-  return knex("projects")
+  return knex('projects')
   .where({
     'title' : ProjectTitle
   });
 };
 
+//ADD A PROJECT
 Projects.addNewProject = function(data) {
-  return knex("projects")
+  return knex('projects')
   .insert(data);
 };
 
+//EDIT A PROJECT
 Projects.editProject = function(id, data) {
-  return knex("projects")
+  return knex('projects')
   .where({
     'id' : id
   })
@@ -45,8 +48,9 @@ Projects.editProject = function(id, data) {
   });
 };
 
+//DELETE A PROJECT
 Projects.deleteProject = function(id) {
-  return knex("projects")
+  return knex('projects')
   .where({
     id: id
   })
@@ -55,8 +59,16 @@ Projects.deleteProject = function(id) {
     console.log('Deleted '+data+' blog post.');
   });
 };
+
+//GET BOUND BLOG
+Projects.getBlogMatches = function() {
+  return knex
+  .table('projects')
+  .select('projects.title', 'projects.description')
+  .join('blogs', 'projects.title', '=', 'blogs.title');
+};
+
 /************* TODO ENDPOINTS *************/
-// Get bound blog if present
 // create mods/push/put
 
 

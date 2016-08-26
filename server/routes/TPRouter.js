@@ -4,7 +4,10 @@ var ToyProbs = require('./../toy_problems/toy_problems_model');
 var Promise  = require('bluebird');
 
 /***************** TOY PROBLEM ROUTING *****************/
-
+  ToyProbs.getBlogMatches()
+  .then(function(data){
+    console.log(data);
+  });
 /***************** GET ALL TOY PROBLEMS *****************/
 
 TPRouter.get('/', function(req, res, next) {
@@ -40,13 +43,17 @@ TPRouter.get('/', function(req, res, next) {
 
 TPRouter.get('/:title', function(req, res, next) {
   var toy_problem;
+  ToyProbs.getBlogMatches()
+  .then(function(data){
+    console.log(data);
+  });
   ToyProbs.getToyProbByTitle(req.params.title)
   .then(function(data) {
     toy_problem = data;
     return toy_problem;
   })
   .then(function(toy_problem) {
-    console.log('TOYPROBLEMS', toy_problem);
+    console.log('TOYPROBLEMS IN TITLE', toy_problem);
     var context = {
       id: toy_problem[0].id,
       title: toy_problem[0].title,
@@ -76,7 +83,7 @@ TPRouter.get('/id/:id', function(req, res, next) {
     return toy_problem;
   })
   .then(function(toy_problem) {
-    console.log('TOYPROBLEMS', toy_problem);
+    console.log('TOYPROBLEMS IN ID', toy_problem);
     var context = {
       id: toy_problem[0].id,
       title: toy_problem[0].title,

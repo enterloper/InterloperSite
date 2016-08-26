@@ -17,6 +17,5 @@ try {
 } catch(e) {
   envConfig = {};
 }
-
 module.exports = _.merge(config, envConfig);
 
