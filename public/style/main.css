@@ -1,11 +1,11 @@
 /**********************************
 GENERAL
 ***********************************/
-
+@import 'https://fonts.googleapis.com/css?family=Nova+Flat|Open+Sans|Quicksand';
 /***********************************COLOR PALETTE ***********************************/
 /* FFFFFF(white), F5F1E3(alabaster), DDDBCB(bone), FF715B(bittersweet), 9AE19D(granny smith apple), 1B9AAA(light sea green), 686868(dim grey), 2C302E(Black leather jacket), 050505(rich black)*/
 body {
-  font-family: 'Avenir Next ', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background-color: #050505;
   color: #1B9AAA;
 }
@@ -33,7 +33,7 @@ li a img {
   border: 3px solid #f5f1e3;
 }
 h1 {
-  font-family: 'Changa One', sans-serif;
+  font-family: 'Quicksand', 'Open Sans' sans-serif;
   color:  #1B9AAA;
   margin: 0;
   font-size: 2em;
@@ -67,7 +67,7 @@ HEADING
 header {
   float: left;
   width: 100%;
-  /*border-bottom: 2px solid #F5F1E3;*/
+  border-bottom: 2px solid #1B9AAA;
   padding: 1.5em 0 1.5em 0;
   background: #F5F1E3;
   margin: 0 0 1em 0;
@@ -94,7 +94,7 @@ NAVIGATION
 nav {
   background: none;
   float: right;
-  font-family: 'Changa One', 'Avenir Next';
+  font-family: 'Quicksand', 'Open Sans';
   font-size: 1.5em;
   margin-right: 5%;
   text-align: right;
@@ -114,7 +114,7 @@ nav li {
 
 /* nav link */
 nav a, nav a:visited {
-  color: #1B9AAA;
+  /*color: #1B9AAA;*/
   font-weight: 800;
   font-size: 1em;
   padding: .5em;
@@ -257,31 +257,87 @@ COLORS
 
 
 .image-title {
-  font-family: 'Changa One', 'Avenir Next';
+  font-family: 'Quicksand', 'Open Sans';
   font-size: 2.25em;
   text-align: center;
 }
 
 
-  /**********************************
-  RESPONSIVE DESIGN 
-  ***********************************/
+/**********************************
+RESPONSIVE DESIGN 
+***********************************/
 
 
-@media screen and (min-width: 770px) {
-
-  /**********************************
-  HEADER
-  ***********************************/
-
+@media (max-width: 1359px) {
+  #logo {
+    width: 35%;
+  }
+  nav {
+    width: 55%;
+  }  
+}
+@media (max-width: 1166px) {
+  #logo {
+    width: 30%;
+    margin-left: 3%
+  }
+  nav {
+    width: 60%;
+    margin-right: 3%;
+  }
 }
 
+@media (max-width: 1021px) {
+  
+  #headerName {
+    font-size: 1.5em;
+    font-weight: 700;
+  }
+  nav a, nav a:visited {
+    font-size: .85em;
+  }
+}
 
+@media (max-width: 873px) {
+  
+  #logo {
+    width: 32%;
+    margin-left: 3%
+  }
 
+  nav {
+    width: 62%;
+    margin-right: 3%;
+  }
+  nav a, nav a:visited {
+    font-size: .75em;
+  }
+}
 
-
-
-
+@media (max-width: 748px) {
+  #logo {
+    text-align: center;
+    width: 100%;
+    margin: 0;
+  }
+  nav {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    background: linear-gradient( 0deg, #050505, #1B9AAA ); 
+ 
+  }
+  nav a {
+    font-weight: 400;
+    color: #F5F1E3;
+    font-family: 'Quicksand', 'Open Sans', sans-serif;
+  }
+  header {
+    border-bottom: none;
+    padding: 1.5em 0 0;
+    margin: 0 0 1em 0;
+  }
+}
 
 
 
