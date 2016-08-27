@@ -1,89 +1,90 @@
-<div class="form-group">
-  <h2>Add blog</h2>
-  <form class="blog-form" role="form" action="/posts?form=post" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrf}}">
-    <div class="form_group">
-      <label for="blog_title" class="small_column control-label">Blog Title</label>
-      <div class="small_column_4">
-        <input type="text" class="form-control" id="blog_title" name="blog_title" required/>
+<div id="wrapper">
+  <div class="form-group">
+    <h2>Add blog</h2>
+    <form class="blog-form" role="form" action="/posts?form=post" method="POST">
+      <input type="hidden" name="_csrf" value="{{csrf}}">
+      <div class="form_group">
+        <label for="blog_title" class="small_column control-label">Blog Title</label>
+        <div class="small_column_4">
+          <input type="text" class="form-control" id="blog_title" name="blog_title" required/>
+        </div>
       </div>
-    </div>
-    <section>
-      <p>
-        <label for="blog_category">
-          <span>Blog Category:</span>
-          </br>
-          <select id="blog_category" name="blog_category">
-            <option value="lifestyle">Lifestyle</option>
-            <option value="data_management">Data Management</option>
-            <option value="javaScript" selected>JavaScript</option>
-            <option value="toy_problems">Toy Problems</option>
-            <option value="js_frameworks">JS Frameworks</option>
-            <option value="off_topic">Off Topic</option>
-          </select>
-        </label>
-      </p>
-    </section>
-    <div class="form_group">
-      <label for="blog_description" class="small_column_2 control_label">Blog Description</label>
-      <div class="small_column_4">
-        <input type="text" class="form-control" id="blog_description" name="blog_description" required/>
+      <section>
+        <p>
+          <label for="blog_category">
+            <span>Blog Category:</span>
+            </br>
+            <select id="blog_category" name="blog_category">
+              <option value="lifestyle">Lifestyle</option>
+              <option value="data_management">Data Management</option>
+              <option value="javaScript" selected>JavaScript</option>
+              <option value="toy_problems">Toy Problems</option>
+              <option value="js_frameworks">JS Frameworks</option>
+              <option value="off_topic">Off Topic</option>
+            </select>
+          </label>
+        </p>
+      </section>
+      <div class="form_group">
+        <label for="blog_description" class="small_column_2 control_label">Blog Description</label>
+        <div class="small_column_4">
+          <input type="text" class="form-control" id="blog_description" name="blog_description" required/>
+        </div>
       </div>
-    </div>
-    <div class="form_group">
-      <label for="blog_body" class="small_column_2 control_label">Blog Body</label>
-      <div class="small_column_4">
-        <input type="text" class="form-control" id="blog_body" name="blog_body" required/>
+      <div class="form_group">
+        <label for="blog_body" class="small_column_2 control_label">Blog Body</label>
+        <div class="small_column_4">
+          <input type="text" class="form-control" id="blog_body" name="blog_body" required/>
+        </div>
       </div>
-    </div>
-    <div class="form_group">
-      <div class="small_column_4">
-        <button type="submit" class="button">Submit Post</button>
+      <div class="form_group">
+        <div class="small_column_4">
+          <button type="submit" class="button">Submit Post</button>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 
-<div class="form-group">
-  <h2>Add Toy Problem</h2>
-  <form class="toy_problems_form" role="form" action="/problems?form=post" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrf}}">
-    <div class="form_group">
-      <label for="toy_problem_title" class="small_column control-label">Toy Problem Title</label>
-      <div class="small_column_4">
-        <input type="text" class="form-control" id="toy_problem_title" name="toy_problem_title" required/>
+  <div class="form-group">
+    <h2>Add Toy Problem</h2>
+    <form class="toy_problems_form" role="form" action="/problems?form=post" method="POST">
+      <input type="hidden" name="_csrf" value="{{csrf}}">
+      <div class="form_group">
+        <label for="toy_problem_title" class="small_column control-label">Toy Problem Title</label>
+        <div class="small_column_4">
+          <input type="text" class="form-control" id="toy_problem_title" name="toy_problem_title" required/>
+        </div>
       </div>
-    </div>
-    <section>
-      <p>
-        <label for="toy_problem_category">
-          <span>Toy Problem Difficulty:</span>
-          </br>
-          <select id="toy_problem_category" name="toy_problem_category">
-            <option value="easy">Easy</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="difficult">Difficult</option>
-          </select>
-        </label>
-      </p>
-    </section>
-    <div class="form_group">
-      <label for="toy_problem_description" class="small_column_2 control_label">Toy Problem Description</label>
-      <div class="small_column_4">
-        <input type="text" class="form-control" id="toy_problem_description" name="toy_problem_description" required />
+      <section>
+        <p>
+          <label for="toy_problem_category">
+            <span>Toy Problem Difficulty:</span>
+            </br>
+            <select id="toy_problem_category" name="toy_problem_category">
+              <option value="easy">Easy</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="difficult">Difficult</option>
+            </select>
+          </label>
+        </p>
+      </section>
+      <div class="form_group">
+        <label for="toy_problem_description" class="small_column_2 control_label">Toy Problem Description</label>
+        <div class="small_column_4">
+          <input type="text" class="form-control" id="toy_problem_description" name="toy_problem_description" required />
+        </div>
       </div>
-    </div>
-    <div class="form_group">
-      <label for="toy_problem_body" class="small_column_2 control_label">Toy Problem Body</label>
-      <div class="small_column_4">
-        <input type="text" class="form-control" id="toy_problem_body" name="toy_problem_body" required/>
+      <div class="form_group">
+        <label for="toy_problem_body" class="small_column_2 control_label">Toy Problem Body</label>
+        <div class="small_column_4">
+          <input type="text" class="form-control" id="toy_problem_body" name="toy_problem_body" required/>
+        </div>
       </div>
-    </div>
-    <div class="form_group">
-      <div class="small_column_4">
-        <button type="submit" class="button">Submit Toy Problem</button>
+      <div class="form_group">
+        <div class="small_column_4">
+          <button type="submit" class="button">Submit Toy Problem</button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
-

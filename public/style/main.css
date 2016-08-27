@@ -10,7 +10,7 @@ body {
   color: #1B9AAA;
 }
 
-.wrapper {
+#wrapper {
   max-width: 80%;
   margin: 0 auto;
   padding: 6% 5%;
@@ -32,6 +32,7 @@ li a img {
   border-radius: 10px;
   border: 3px solid #f5f1e3;
 }
+
 h1 {
   font-family: 'Quicksand', 'Open Sans' sans-serif;
   color:  #1B9AAA;
@@ -162,8 +163,14 @@ HOME PAGE CONTENT
   float: left;
   width: 28.333%;
   height: 23.6%;
-  margin: 10% 2.5% 10%;
+  margin: 8% 2.5% 8%;
   color: #1B9AAA;
+}
+
+.image-title {
+  font-family: 'Quicksand', 'Open Sans';
+  font-size: 2.25em;
+  text-align: center;
 }
 
 /**********************************
@@ -256,17 +263,11 @@ COLORS
 
 
 
-.image-title {
-  font-family: 'Quicksand', 'Open Sans';
-  font-size: 2.25em;
-  text-align: center;
-}
 
 
 /**********************************
 RESPONSIVE DESIGN 
 ***********************************/
-
 
 @media (max-width: 1359px) {
   #logo {
@@ -276,6 +277,7 @@ RESPONSIVE DESIGN
     width: 55%;
   }  
 }
+
 @media (max-width: 1166px) {
   #logo {
     width: 30%;
@@ -287,6 +289,29 @@ RESPONSIVE DESIGN
   }
 }
 
+@media (max-width: 1077px) {
+  .image-title {
+    font-size: 2em;
+  }
+  #wrapper {
+    padding: 6% 3%;
+    max-width: 85%;
+  }
+}
+
+/*#options li {
+  float: left;
+  width: 28.333%;
+  height: 23.6%;
+  margin: 8% 2.5% 8%;
+  color: #1B9AAA;
+}
+*/
+/*.image-title {
+  font-family: 'Quicksand', 'Open Sans';
+  font-size: 2.25em;
+  text-align: center;
+}*/
 @media (max-width: 1021px) {
   
   #headerName {
@@ -295,6 +320,9 @@ RESPONSIVE DESIGN
   }
   nav a, nav a:visited {
     font-size: .85em;
+  }
+  #wrapper {
+    max-width: 85%;
   }
 }
 
