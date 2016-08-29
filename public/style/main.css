@@ -190,12 +190,11 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 }
 
 .contentContainer {
-    padding: 1em 2em;
     border: 3px solid #1B9AAA;
     border-radius: 10px;
     background-color: #F5F1E3;
-    margin: 0 auto 2em;
-    width: 78%;
+    margin: 0 auto;
+    font-size: 12px;
     color: #2C302E;
 }
 
@@ -211,21 +210,26 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 
 .contentPhoto {
     display: inline-block;
-    margin: auto .7em auto auto;
+    margin: 1em;
     background-color: #050505;
+    float: left;
     /*border-radius: 10px;  */
 }
 
 .contentInnerContainer {
-    display: inline-block;
+    display: block;
     width: inherit;
-    margin: auto auto auto 1em;
+    margin: 1em;
     color: #2C302E;
+    float: inherit;
 }
 
 .contentTitle {
   text-align: center;
-  margin:0;
+}
+
+.contentTitle h3 {
+  margin: 1em;
 }
 
 /**********************************
