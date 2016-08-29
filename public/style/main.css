@@ -5,7 +5,7 @@ GENERAL
 /***********************************COLOR PALETTE ***********************************/
 /* FFFFFF(white), F5F1E3(alabaster), DDDBCB(bone), FF715B(bittersweet), 9AE19D(granny smith apple), 1B9AAA(light sea green), 686868(dim grey), 2C302E(Black leather jacket), 050505(rich black)*/
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Nova Flat', 'Open Sans', sans-serif;
   background-color: #050505;
   color: #1B9AAA;
   max-width: 100%
@@ -128,21 +128,22 @@ nav a.selected, nav a:hover {
   color: #694c85;
 }
 
-#menu-icon {
+/*#menu-icon {
   display: none;
   width: 40px;
   height: 40px;
   background: #F5F1E3 url(../img/menu-icon.png) center;
 }
-
-a:hover#menu-icon {
+*/
+/*a:hover#menu-icon {
   background-color: #444;
   border-radius: 4px 4px 0 0;
-}
+}*/
 /**********************************
 FOOTER
 ***********************************/
 .main-footer{
+  font-family: 'Quicksand', 'Open Sans', sans-serif;
   font-size: 0.75em;
   text-align: center;
   clear: both;
@@ -154,7 +155,7 @@ FOOTER
   width: 20px;
   height: 20px;
   padding:3px;
-  margin: 0 7px;
+  margin: 0 .5em;
 }
 
 .copywrite {
@@ -180,7 +181,7 @@ HOME PAGE CONTENT
 }
 
 .image-title {
-  font-family: 'Quicksand', 'Open Sans';
+  font-family: 'Nova FLat', 'Quicksand', 'Open Sans';
   font-size: 2.25em;
   text-align: center;
 }
@@ -285,6 +286,7 @@ RESPONSIVE DESIGN
   #logo {
     width: 35%;
   }
+
   nav {
     width: 55%;
   }  
@@ -295,6 +297,7 @@ RESPONSIVE DESIGN
     width: 30%;
     margin-left: 3%
   }
+
   nav {
     width: 60%;
     margin-right: 3%;
@@ -305,25 +308,13 @@ RESPONSIVE DESIGN
   .image-title {
     font-size: 2em;
   }
+
   #wrapper {
-    padding: 6% 3%;
     max-width: 85%;
+    padding: 6% 3%;
   }
 }
 
-/*#options li {
-  float: left;
-  width: 28.333%;
-  height: 23.6%;
-  margin: 8% 2.5% 8%;
-  color: #1B9AAA;
-}
-*/
-/*.image-title {
-  font-family: 'Quicksand', 'Open Sans';
-  font-size: 2.25em;
-  text-align: center;
-}*/
 @media screen and (max-width: 1021px) {
   
   #headerName {
@@ -333,11 +324,19 @@ RESPONSIVE DESIGN
   nav a, nav a:visited {
     font-size: .85em;
   }
+
   #wrapper {
-    max-width: 85%;
+    padding: 6% 0;
+  }
+
+  #options {
+    margin: 0 auto;
+  }
+
+  .image-title {
+    font-size: 1.5em;
   }
 }
-
 @media screen and (max-width: 873px) {
   
   #logo {
@@ -349,103 +348,63 @@ RESPONSIVE DESIGN
     width: 62%;
     margin-right: 3%;
   }
+
   nav a, nav a:visited {
     font-size: .75em;
+  }
+
+  #options li {
+    width: 45%;
+    margin-top: 6%;
+  }
+
+  #options li:last-child {
+    margin: 0 27% 6%; 
   }
 }
 
 @media screen and (max-width: 748px) {
+  
   #logo {
     text-align: center;
     width: 100%;
     margin: 0;
   }
+
   nav {
     margin: 0;
     text-align: center;
     width: 100%;
     background: linear-gradient( 0deg, #050505, #1B9AAA ); 
   }
+
   nav a {
+    font-size: .6em;
     font-weight: 400;
     color: #F5F1E3;
     font-family: 'Quicksand', 'Open Sans', sans-serif;
     padding: .25em;
   }
+
   header {
     border-bottom: none;
     padding: 1.5em 0 0;
     margin: 0 0 1em 0;
   }
+
 }
-/*
-ORIGINAL
-#wrapper {
-  max-width: 80%;
-  margin: 0 auto;
-  padding: 6% 5%;
-}
-ORIGINAL
-header {
-  float: left;
-  width: 100%;
-  border-bottom: 2px solid #1B9AAA;
-  padding: 1.5em 0 1.5em 0;
-  background: #F5F1E3;
-  margin: 0 0 1em 0;
-}*/
-/*MEDIA QUERY*/
-@media only screen and (max-width : 640px) {
 
-  header {
-
-    position: absolute;
-
-  }
-
-  #menu-icon {
-
-    display:inline-block;
-
-  }
-
-  nav ul, nav:active ul { 
-
-    display: none;
-    position: absolute;
-    padding: 20px;
-    background: #fff;
-    border: 5px solid #444;
-    right: 20px;
-    top: 60px;
-    width: 50%;
-    border-radius: 4px 0 4px 4px;
-
-  }
-
-  nav li {
-
-    text-align: center;
-    width: 100%;
-    padding: 10px 0;
-    margin: 0;
-
-  }
-
-  nav:hover ul {
-
-    display: block;
-
-  }
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 414px) {
+  
   #wrapper {
     width: 100%;
-    padding: 0;
+    height: 100%; 
   }
-  /*nav a {
-    font-size: .6em;
-  }*/
+  
+  #options li, #options li:last-child {
+    width: 75%;
+    margin:2% 12.5%;
+  }
 }
-
 
 
