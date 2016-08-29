@@ -179,7 +179,7 @@ HOME PAGE CONTENT
 BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 ***********************************/
 .contentMainContainer {
-  width: 80%;
+  width: 70%;
   margin: 0 auto;
 }
 
@@ -194,7 +194,7 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
     border-radius: 10px;
     background-color: #F5F1E3;
     margin: 0 auto;
-    font-size: 12px;
+    font-size: 16px;
     color: #2C302E;
 }
 
@@ -281,6 +281,9 @@ RESPONSIVE DESIGN
   nav {
     width: 55%;
   }  
+  .contentMainContainer {
+    width: 80%;
+  }
 }
 
 @media (max-width: 1166px) {

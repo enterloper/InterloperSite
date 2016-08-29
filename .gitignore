@@ -27,7 +27,7 @@
 *.sql
 *.sqlite
 DS_Store
-
+*.env
 # OS generated files #
 ######################
 .DS_Store
