@@ -17,11 +17,12 @@ module.exports = {
   production: {
     client: 'pg',
     connection: {
-      host: 'ec2-54-243-126-40.compute-1.amazonaws.com',
+      host: 'ec2-54-243-50-185.compute-1.amazonaws.com',
+      database: 'd3n5fug4v6ma91',
+      user: 'ayjjsarvjcjdkp',
       port: 5432,
-      user: 'qjiwhevwfexkza',
-      password: 'DyKIG3C7CNg-ZhW3qKuFU7zWTt',
-      database: 'd3ntj3cmv66vll',
+      password: 'MMfNru6VCecq27poEMN1Le97-k',
+      url: 'postgres://ayjjsarvjcjdkp:MMfNru6VCecq27poEMN1Le97-k@ec2-54-243-50-185.compute-1.amazonaws.com:5432/d3n5fug4v6ma91'
     }
   }
 };
