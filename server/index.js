@@ -10,6 +10,7 @@ var BlogRouter      = require('./routes/blogRouter.js');
 var TPRouter        = require('./routes/TPRouter.js');
 var ProjectsRouter  = require('./routes/ProjectsRouter.js');
 var path            = require('path');
+var fs              = require('fs');
 //for production put in NODE_ENV=production node index.js
 // Set up Handlebars engine
 var hbs = exphbs.create({
@@ -57,8 +58,14 @@ app.get('/', function(req, res){
 
 //RESUME PAGE ROUTING
 app.get('/resume', function(req, res) {
+  // var filePath = "/pdf/Resume.pdf";
+  // fs.readFile(__dirname+filePath , function (err, data) {
+  //   res.contentType('application/pdf');
+  //   res.send(filePath);
+  // });
   res.render('resume');
 });
+
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
 app.use(function(err, req, res, next) {
     console.log('Error : ' + err.message);
