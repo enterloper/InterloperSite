@@ -1,3 +1,3 @@
 server_dependencies: npm install
-web: nodemon server/index.js
+web: npm start
 schema: node server/schema.js
