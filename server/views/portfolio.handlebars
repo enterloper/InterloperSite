@@ -2,13 +2,14 @@
   <div id="contentMainContainer">
     <h1 class="contentHeader">Portfolio</h1>
       {{#each projects}}  
-          <a href="{{url}}" target="blank">
             <div class="contentContainer">
               <div class="contentPhoto">
                 <img src="/img/{{image}}" alt="{{title}} photo" height="96" width="96"/> 
               </div>
               <span class="contentTitle">
-                  <h3>{{title}}</h3>
+                <a href="{{url}}" target="blank">
+                  <h2>{{title}}</h2>
+                </a>
               </span>
               <div class="contentInnerContainer">
                 <span class="contentDescription"> 
@@ -16,7 +17,6 @@
                 </span>
               </div>
             </div>
-          </a>
       {{/each}}
   </div>
 </div>
