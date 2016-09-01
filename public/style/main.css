@@ -34,6 +34,10 @@ li a img {
   border: 3px solid #f5f1e3;
 }
 
+#rjb_mail {
+  margin-top: -5px;
+}
+
 h1 {
   font-family: 'Quicksand', 'Open Sans' sans-serif;
   color:  #1B9AAA;
