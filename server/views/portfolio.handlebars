@@ -4,17 +4,17 @@
       {{#each projects}}  
             <div class="contentContainer">
               <div class="contentPhoto">
-                <img src="/img/{{image}}" alt="{{title}} photo" height="96" width="96"/> 
+                <span class="foto">
+                  <img src="/img/{{image}}" alt="{{title}} photo" height="96" width="96"/> 
+                </span>
               </div>
               <span class="contentTitle">
-                <a href="{{url}}" target="blank">
+                <a href="{{url}}" target="_blank">
                   <h2>{{title}}</h2>
                 </a>
               </span>
               <div class="contentInnerContainer">
-                {{!-- <span class="contentDescription">  --}}
-                  <p>{{{description}}}</p>
-                </span>
+                <p>{{{description}}}</p>
               </div>
             </div>
       {{/each}}

@@ -402,6 +402,14 @@ RESPONSIVE DESIGN
     width: 75%;
     margin:2% 12.5%;
   }
+
+  .contentPhoto {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+  }
+
+
 }
 
 
