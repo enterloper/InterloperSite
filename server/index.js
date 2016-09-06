@@ -9,6 +9,7 @@ var APIRouter       = require('./routes/APIRouter.js');
 var BlogRouter      = require('./routes/blogRouter.js');
 var TPRouter        = require('./routes/TPRouter.js');
 var ProjectsRouter  = require('./routes/ProjectsRouter.js');
+var AboutRouter     = require('./routes/AboutRouter.js');
 var path            = require('path');
 
 //for production put in NODE_ENV=production node index.js
@@ -50,15 +51,10 @@ app.use("/api", APIRouter);
 app.use("/toy-problems", TPRouter);
 app.use("/blog", BlogRouter);
 app.use("/portfolio", ProjectsRouter);
-
+app.use("/about", AboutRouter);
 //HOME PAGE ROUTING
 app.get('/', function(req, res){
   res.render('home');
-});
-
-//RESUME PAGE ROUTING
-app.get('/resume', function(req, res) {
-  res.render('resume');
 });
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200

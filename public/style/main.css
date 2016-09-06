@@ -257,13 +257,14 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 PAGE: ABOUT
 ***********************************/
 
-/*.profile-photo {
+.profile-photo {
+  opacity: 0;
   display: block;
   max-width: 150px;
   margin: 0 auto 30px;
   border-radius: 100%;
 }
-*/
+
 /**********************************
 ADD CONTENT FORM VALIDATION 
 ***********************************/

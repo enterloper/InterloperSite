@@ -8,6 +8,8 @@ $(document).ready(function () {
           $(this).addClass('hide');
       });
   });
+
+  $('.profile-photo').animate({opacity: 1}, 2000);
 });
 var environment = process.env.NODE_ENV || 'development';
 var config      = require('./knexfile.js')[environment];
@@ -66,6 +68,7 @@ var APIRouter       = require('./routes/APIRouter.js');
 var BlogRouter      = require('./routes/blogRouter.js');
 var TPRouter        = require('./routes/TPRouter.js');
 var ProjectsRouter  = require('./routes/ProjectsRouter.js');
+var AboutRouter     = require('./routes/AboutRouter.js');
 var path            = require('path');
 
 //for production put in NODE_ENV=production node index.js
@@ -107,15 +110,10 @@ app.use("/api", APIRouter);
 app.use("/toy-problems", TPRouter);
 app.use("/blog", BlogRouter);
 app.use("/portfolio", ProjectsRouter);
-
+app.use("/about", AboutRouter);
 //HOME PAGE ROUTING
 app.get('/', function(req, res){
   res.render('home');
-});
-
-//RESUME PAGE ROUTING
-app.get('/resume', function(req, res) {
-  res.render('resume');
 });
 
 //ERROR HANDLING FOR RESPONSE CODES OTHER THAN 200
@@ -715,6 +713,21 @@ APIRouter.get('/projects/title/:title', function(req, res, next) {
 });
 
 module.exports = APIRouter;
+
+
+var express      = require('express');
+var AboutRouter  = express.Router();
+
+AboutRouter.get('/', function(req, res) {
+    res.render('about');
+});
+
+//RESUME PAGE ROUTING
+AboutRouter.get('/resume', function(req, res) {
+    res.render('resume');
+});
+
+module.exports = AboutRouter;
 
 
 var express           = require('express');

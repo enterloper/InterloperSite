@@ -8,4 +8,6 @@ $(document).ready(function () {
           $(this).addClass('hide');
       });
   });
+
+  $('.profile-photo').animate({opacity: 1}, 2000);
 });
