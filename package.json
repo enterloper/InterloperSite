@@ -22,7 +22,6 @@
   "dependencies": {
     "bluebird": "^3.3.5",
     "body-parser": "^1.13.2",
-    "colors": "^1.1.2",
     "express": "4.14.0",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.13.0",
@@ -37,7 +36,6 @@
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-contrib-uglify": "~0.5.0",
     "grunt-contrib-watch": "^1.0.0",
-    "handlebars": "^4.0.5",
     "jquery": "^3.1.0",
     "knex": "^0.10.0",
     "lodash": "^3.10.0",
@@ -48,7 +46,6 @@
     "path": "^0.12.7",
     "pg": "^4.5.6",
     "pg-promise": "^5.0.5",
-    "request": "^2.72.0",
-    "uuid": "^2.0.1"
+    "request": "^2.72.0"
   }
 }

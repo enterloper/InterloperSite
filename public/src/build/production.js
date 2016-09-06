@@ -261,7 +261,6 @@ module.exports = {
 };
 
 var knex = require('./../db.js');
-var _ = require('lodash');
 var Promise = require('bluebird');
 var Posts = module.exports;
 
@@ -378,7 +377,6 @@ Posts.getToyProblemMatches = function() {
 
 
 var knex = require('./../db.js');
-var _ = require('lodash');
 var Promise = require('bluebird');
 var Projects = module.exports;
 
@@ -1006,7 +1004,6 @@ exports.seed = function(knex, Promise) {
 
 
 var knex = require('./../db.js');
-var _ = require('lodash');
 var Promise = require('bluebird');
 var ToyProbs = module.exports;
 
