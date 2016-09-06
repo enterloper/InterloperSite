@@ -34,11 +34,12 @@ img {
 }
 
 .foto_text {
-  z-index: 1;
   position: absolute;
-  text-align: center;
-  top: 50%;
+  text-align: left;
+  padding: 0 1em;
+  top: 20%;
   opacity:.05;
+  font-family: 'Quicksand';
 }
 
 .home_image {
