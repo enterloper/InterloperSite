@@ -39,7 +39,7 @@ img {
   padding: 0 1em;
   top: 20%;
   opacity:.05;
-  font-family: 'Quicksand';
+  font-family: 'Quicksand', 'Open Sans', sans-serif;
 }
 
 .home_image {
@@ -57,7 +57,7 @@ img {
 }
 
 h1 {
-  font-family: 'Quicksand', 'Open Sans' sans-serif;
+  font-family: 'Quicksand', 'Open Sans', sans-serif;
   color:  #1B9AAA;
   margin: 0;
   font-size: 2em;
@@ -98,6 +98,7 @@ header {
 }
 
 #logo {
+  font-family: 'Nova Flat';
   float: left;
   margin-left: 5%;
   text-align: left;
@@ -118,7 +119,7 @@ NAVIGATION
 nav {
   background: none;
   float: right;
-  font-family: 'Quicksand', 'Open Sans';
+  font-family: 'Quicksand', 'Open Sans', sans-serif;
   font-size: 1.5em;
   margin-right: 5%;
   text-align: right;

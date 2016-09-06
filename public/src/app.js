@@ -3,7 +3,7 @@ $(document).ready(function () {
       $(this).stop().animate({opacity: .2}, 300);
       $(this).siblings('.foto_text').removeClass('hide').animate({opacity:1}, 500);
   }, function () {
-      $(this).stop().animate({ opacity: 1}, 500);
+      $(this).stop().animate({ opacity: .95}, 500);
       $(this).siblings('.foto_text').animate({opacity:0}, 300, function(){
           $(this).addClass('hide');
       });
