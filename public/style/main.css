@@ -209,6 +209,7 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 .contentHeader {
   text-align: center;
   padding: .4em 0 .4em;
+  font-family: 'Nova Flat';
   font-size: 3em;
 }
 
@@ -238,9 +239,10 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 }
 
 .contentInnerContainer {
+    font-family: 'Quicksand', 'Open Sans', sans-serif;
     display: block;
-    width: inherit;
-    margin: 1em;
+    width: 90%;
+    margin: 1em auto;
     color: #2C302E;
     float: inherit;
 }
@@ -257,7 +259,7 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 PAGE: ABOUT
 ***********************************/
 
-.profile-photo {
+.profile_photo {
   opacity: 0;
   display: block;
   max-width: 150px;
@@ -265,6 +267,12 @@ PAGE: ABOUT
   border-radius: 100%;
 }
 
+.resume_link {
+  text-align: center;
+  padding: .4em 0 .4em;
+  font-family: 'Nova Flat';
+  font-size: 1.75em;
+}
 /**********************************
 ADD CONTENT FORM VALIDATION 
 ***********************************/

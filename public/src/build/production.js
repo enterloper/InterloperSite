@@ -9,7 +9,7 @@ $(document).ready(function () {
       });
   });
 
-  $('.profile-photo').animate({opacity: 1}, 2000);
+  $('.profile_photo').animate({opacity: 1}, 2000);
 });
 var environment = process.env.NODE_ENV || 'development';
 var config      = require('./knexfile.js')[environment];

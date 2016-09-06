@@ -9,5 +9,5 @@ $(document).ready(function () {
       });
   });
 
-  $('.profile-photo').animate({opacity: 1}, 2000);
+  $('.profile_photo').animate({opacity: 1}, 2000);
 });
