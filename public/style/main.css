@@ -28,10 +28,28 @@ img {
   max-height: 100%;
 }
 
-li a img {
+.foto_frame{
+  position: relative;
+  display: inline-block;
+}
+
+.foto_text {
+  position: absolute;
+  text-align: left;
+  padding: 0 1em;
+  top: 20%;
+  opacity:.05;
+  font-family: 'Quicksand';
+}
+
+.home_image {
   opacity: .95;
   border-radius: 10px;
   border: 3px solid #f5f1e3;
+}
+
+.hide {
+  display: none;
 }
 
 #rjb_mail {
@@ -173,7 +191,7 @@ HOME PAGE CONTENT
   color: #1B9AAA;
 }
 
-.image-title {
+.image_title {
   font-family: 'Nova FLat', 'Quicksand', 'Open Sans';
   font-size: 2.25em;
   text-align: center;
@@ -303,7 +321,7 @@ RESPONSIVE DESIGN
 }
 
 @media (max-width: 1077px) {
-  .image-title {
+  .image_title {
     font-size: 2em;
   }
 
@@ -331,7 +349,7 @@ RESPONSIVE DESIGN
     margin: 0 auto;
   }
 
-  .image-title {
+  .image_title {
     font-size: 1.5em;
   }
 }
