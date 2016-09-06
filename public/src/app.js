@@ -7,3 +7,5 @@ $(document).ready(function () {
       $('.foto_text').addClass('hide');
   });
 });
+
+
