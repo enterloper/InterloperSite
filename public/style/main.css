@@ -213,6 +213,12 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
   font-size: 3em;
 }
 
+.blog_header {
+  text-align: center;
+  padding: .4em 0 .4em;
+  font-family: 'Nova Flat';
+  font-size: 1.55em;
+}
 .contentContainer {
     border: 3px solid #1B9AAA;
     border-radius: 10px;
