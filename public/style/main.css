@@ -244,6 +244,13 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
     float: left;
 }
 
+.post_Photo_large {
+  display: inline-block;
+  float: left;
+  margin: 1em 1em 0 0;
+}
+
+
 .contentInnerContainer {
     font-family: 'Quicksand', 'Open Sans', sans-serif;
     display: block;
@@ -260,7 +267,19 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
 .contentTitle h3 {
   margin: 1em;
 }
-
+.post_title_description {
+  display: block;
+  float:left;
+  width: 80%;
+}
+.post_InnerContainer {
+  font-family: 'Quicksand', 'Open Sans', sans-serif;
+  display: block;
+  width: 90%;
+  margin: 1em auto;
+  color: #2C302E;
+  float: inherit;
+}
 /**********************************
 PAGE: ABOUT
 ***********************************/
