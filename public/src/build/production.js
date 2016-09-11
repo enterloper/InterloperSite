@@ -122,17 +122,18 @@ app.use(function(err, req, res, next) {
     next();
 });
 
-app.use(function(req, res) {
-  res.type('text/html');
+app.use(function(err, req, res, next) {
+  var E = err.stack;
   res.status(404);
-  res.render('404');
+  res.type('text/html');
+  res.render('404', E);
 });
 
 app.use(function(err, req, res, next) {
   //set status to 500 and render error page
   console.error(err.stack);
-  res.status(500);
-  res.render('500');
+  var ERROR = err.stack;
+  res.status(err.status || 500).render('500', E);
 });
 
 
