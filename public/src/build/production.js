@@ -111,6 +111,7 @@ app.use("/toy-problems", TPRouter);
 app.use("/blog", BlogRouter);
 app.use("/portfolio", ProjectsRouter);
 app.use("/about", AboutRouter);
+
 //HOME PAGE ROUTING
 app.get('/', function(req, res){
   res.render('home');
@@ -122,20 +123,15 @@ app.use(function(err, req, res, next) {
     next();
 });
 
-app.use(function(err, req, res, next) {
-  var E = err.stack;
-  res.status(404);
-  res.type('text/html');
-  res.render('404', E);
+app.use(function(req, res) {
+  res.status(404).render('404');
 });
 
 app.use(function(err, req, res, next) {
   //set status to 500 and render error page
   console.error(err.stack);
-  var ERROR = err.stack;
-  res.status(err.status || 500).render('500', E);
+  res.status(500).render('500');
 });
-
 
 //ESTABLISH CONNECTION WITH LISTEN
 app.set( 'port', (process.env.PORT || 8000) );
