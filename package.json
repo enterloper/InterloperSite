@@ -19,6 +19,9 @@
   "engines": {
     "node": "6.2.1"
   },
+  "bugs": {
+    "url": "https://github.com/richardjboothe/InterloperSite/issues"
+  },
   "dependencies": {
     "bluebird": "^3.3.5",
     "body-parser": "^1.13.2",
