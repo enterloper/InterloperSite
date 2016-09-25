@@ -221,6 +221,7 @@ BLOGS/TOY PROBLEMS/PORTFOLIO LISTING CONTENT
   font-size: 1.55em;
 }
 .contentContainer {
+    width: 80%;
     border: 3px solid #1B9AAA;
     border-radius: 10px;
     background-color: #F5F1E3;
