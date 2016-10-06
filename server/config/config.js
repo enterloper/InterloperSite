@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 var config = {
   dev: 'development',
   prod: 'production',
@@ -17,5 +15,7 @@ try {
 } catch(e) {
   envConfig = {};
 }
-module.exports = _.merge(config, envConfig);
+
+module.exports = Object.assign(config, envConfig);
+
 

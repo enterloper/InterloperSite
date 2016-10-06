@@ -41,7 +41,6 @@
     "grunt-contrib-watch": "^1.0.0",
     "jquery": "^3.1.0",
     "knex": "^0.10.0",
-    "lodash": "^3.10.0",
     "morgan": "^1.6.1",
     "nodemon": "^1.9.1",
     "passport": "^0.3.2",
